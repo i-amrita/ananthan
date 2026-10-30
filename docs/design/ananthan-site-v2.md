@@ -185,7 +185,10 @@ A fixed circular camera-shutter button, bottom-right, restyling the existing
   `shadow-key`, exactly like `Key.tsx` keycaps.
 - **Behavior**: opens the locale popover (Radix Popover, existing logic).
   Selecting a locale plays the commit click and runs a blade close/open
-  transition on the popover.
+  transition on the popover. The shutter is a *second* locale control, not the
+  only one: the nav chip keeps its locale button, and both reflect and set the
+  same `?locale=` value. Selecting in one closes the other (single open popover
+  at a time).
 - **Placement**: `fixed bottom-4 right-4 z-40`, clear of the safe-area inset;
   dimmed + `pointer-events-none` while a panel is open
   (`html[data-overlay-open]`).
@@ -307,7 +310,7 @@ critical/serious, no layout collapse at 375/768/1280).
 | P2 | Slider panel visuals (rare-squash target) + activation wiring | P1 | full-bleed panels, index, progress bar, tap-to-open, flick still advances | click-after-drag false positives |
 | P2.5 | Sound engine + extended sprite + shutter locale button | P2 | slider ticks on snap, shutter fire on panel open, shutter button swaps locale with commit click; `?mute=1` kills all; NOTICE + audio docs updated | sprite decode failure; iOS silent switch |
 | P3 | Panel teaser content + 3 panels | P2 | each panel shows <=5 real collection items | teaser/page drift |
-| P4 | Nav chip + inline expansion | P1 | 3-icon pill, expands inline, Escape collapses, no-JS shows links | hydration mismatch |
+| P4 | Nav chip + inline expansion + shutter locale parity | P1, P2.5 | 3-icon pill (locale, theme, expand), expands inline, Escape collapses, no-JS shows links; shutter and chip locale stay in sync | hydration mismatch; two popovers fighting for open state |
 | P5 | Photography: real photos, virtualized grid, lightbox, IG CTA | P2 | grid renders real images at 375/768/1280, lightbox opens | large images, layout shift |
 | P6 | Footer + QR page | P1 | footer has exactly two links, `/qr` renders | link checker expectations |
 | P7 | Scroll persistence + deep links | P3 | `/?overlay=research&scroll=400&panel=1` restores exactly | restore race vs drawer layout |
@@ -329,9 +332,12 @@ critical/serious, no layout collapse at 375/768/1280).
 - Sound must never gate interaction: all sound calls swallow errors, the
   slider and shutter work fully silent before decode, on failure, and when
   muted (amrita engine rules, carried over verbatim).
-- Locale moves out of the nav chip to the shutter button; the chip becomes
-  `[theme] [‹›]` (2 icons) + expansion unless the owner prefers the locale
-  icon kept in both places. Decision needed at P4.
+- Locale lives in two places by design (owner decision, 2026-10-30): the nav
+  chip keeps its locale icon AND the shutter button is a second, camera-styled
+  locale control. Both drive the same `?locale=` state and the same popover
+  logic, so they must stay in sync: the chip icon shows the current code, and
+  the shutter's iris reflects the current locale too (blade count or a subtle
+  per-locale tint is enough; no per-locale artwork).
 - The v1 figure system (5 YAML motifs) stays, but its visual weight must drop:
   on full-bleed image panels the figures become an overlay layer, not the
   backdrop of empty paper.
