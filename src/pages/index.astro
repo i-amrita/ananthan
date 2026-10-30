@@ -21,6 +21,13 @@ import Base from '@/layouts/Base.astro';
   <FigureField route="home" depth={1} />
 
 <style>
+  /* Home is a viewport-height slider: the page must not scroll vertically. The header is sticky
+     (48px in flow) and the footer would follow the track, so clip the overflow on the home body. */
+  :global(html:has([data-focus-track])),
+  :global(body:has([data-focus-track])) {
+    height: 100dvh;
+    overflow: clip;
+  }
   /* On the home route the ink figures float over the full-bleed photographs. The photo layer is
      z-index 0 and the panel text z-index 2, so a fixed field at z-index 1 sits between them.
      Lighter weight so the strokes read as an overlay against a photograph, not against paper. */

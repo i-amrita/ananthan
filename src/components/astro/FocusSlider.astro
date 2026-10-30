@@ -303,7 +303,9 @@ const panels: Panel[] = [
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
-    height: 100dvh;
+    /* The sticky header above takes 48px; the track fills the rest of the viewport exactly so the
+       home route never scrolls vertically. */
+    height: calc(100dvh - 48px);
   }
   .focus-track::-webkit-scrollbar {
     display: none;
