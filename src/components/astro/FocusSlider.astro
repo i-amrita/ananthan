@@ -20,43 +20,43 @@ interface Panel {
 }
 
 /* Full-bleed panel photographs, owner-supplied. Neutral alt text; nothing is claimed about
-   the owner. Object position is per panel so `cover` keeps the subject in frame. */
+   the owner. The scans are trimmed to the film area (no letterbox), so the stated dimensions
+   are the real image dimensions. Object position is per panel so `cover` keeps the subject
+   in frame at phone, tablet and desktop crops. */
 const panelPhotos: Record<string, Panel['photo']> = {
   home: {
     src: '/photos/2024-09-15-1.jpg',
     webp: '/photos/2024-09-15-1.webp',
     width: 1000,
-    height: 1000,
+    height: 664,
     alt: 'Colour photograph of a row of houses beside railway tracks under a cloudy sky.',
-    /* The scan is letterboxed inside a square: photo rows end near y 831/1000, so weight cover
-       toward the subject band to keep the railway scene edge to edge with no flat bars. */
-    position: 'center 45%',
+    position: 'center 50%',
   },
   research: {
     src: '/photos/2024-10-16-1.jpg',
     webp: '/photos/2024-10-16-1.webp',
     width: 1080,
-    height: 1080,
+    height: 720,
     alt: 'Black-and-white photograph of a laboratory bench with a benchtop centrifuge and glassware by a window.',
-    position: 'center 45%',
+    position: 'center 50%',
   },
   life: {
     src: '/photos/2024-10-16-2.jpg',
     webp: '/photos/2024-10-16-2.webp',
     width: 1080,
-    height: 1080,
+    height: 720,
     alt: 'Black-and-white photograph of a seated person holding an ear of corn.',
-    /* Face sits just under the letterbox seam at y ~180/1080; bias cover upward so the eyes
-       stay in frame at phone, tablet and desktop crops. */
-    position: 'center 30%',
+    /* The face sits in the top-right (head around y 40-110 of 720); a high anchor keeps the
+       eyes and forehead in frame at every crop instead of sliding them off the top. */
+    position: '50% 15%',
   },
   photography: {
     src: '/photos/2024-10-10-1.jpg',
     webp: '/photos/2024-10-10-1.webp',
     width: 1080,
-    height: 1080,
+    height: 720,
     alt: 'Black-and-white photograph of a bearded person sitting on a chair in a glass-walled lobby.',
-    position: 'center 24%',
+    position: 'center 40%',
   },
 };
 
@@ -307,9 +307,9 @@ const panels: Panel[] = [
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
-    /* The sticky header above takes 48px; the track fills the rest of the viewport exactly so the
-       home route never scrolls vertically. */
-    height: calc(100dvh - 48px);
+    /* The header is fixed on the home route, so the track fills the viewport exactly and the
+       footer sits entirely below the fold with no vertical page scroll. */
+    height: 100dvh;
   }
   .focus-track::-webkit-scrollbar {
     display: none;
@@ -487,13 +487,16 @@ const panels: Panel[] = [
   .focus-progress-track {
     height: 2px;
     width: 100%;
-    background: rgb(255 255 255 / 0.28);
+    /* Theme independent: the bar sits over the photograph, not over the paper, so the track
+       is a faint light veil and the fill is light ink at high alpha. Reads on photo and scrim
+       in both themes. */
+    background: rgb(247 245 240 / 0.25);
   }
   .focus-progress-fill {
     display: block;
     height: 100%;
     width: calc(var(--progress, 0.25) * 100%);
-    background: #f7f5f0;
+    background: rgb(247 245 240 / 0.9);
     transition: width 400ms var(--ease-spring);
   }
   /* The hint floats over the photo scrim in both themes, so it is always light-on-photo. */

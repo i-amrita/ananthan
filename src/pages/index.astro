@@ -21,8 +21,9 @@ import Base from '@/layouts/Base.astro';
   <FigureField route="home" depth={1} />
 
 <style>
-  /* Home is a viewport-height slider: the page must not scroll vertically. The header is sticky
-     (48px in flow) and the footer would follow the track, so clip the overflow on the home body. */
+  /* Home is a viewport-height slider: the page must not scroll vertically. The header is fixed
+     over the track and the footer sits below the fold entirely (the track is 100dvh), so clip
+     the body overflow: no vertical scroll, no footer sliver at the viewport edge. */
   :global(html:has([data-focus-track])),
   :global(body:has([data-focus-track])) {
     height: 100dvh;
@@ -46,6 +47,6 @@ import Base from '@/layouts/Base.astro';
     stroke-width: 3;
   }
   :global([data-figure-field][data-route='home'] [data-stroke]) {
-    opacity: 0.32 !important;
+    opacity: 0.3 !important;
   }
 </style>
