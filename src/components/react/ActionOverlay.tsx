@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import { Dialog } from 'radix-ui';
 import * as React from 'react';
 
@@ -62,14 +63,12 @@ export function ActionOverlay({
         data-overlay-close
         onClick={() => onOpenChange(false)}
         className={cn(
-          'mt-0.5 grid size-9 shrink-0 place-items-center rounded-full',
+          'mt-0.5 grid size-11 shrink-0 place-items-center rounded-full',
           'border border-border bg-surface text-fg',
           'hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg',
         )}
       >
-        <span aria-hidden="true" className="text-lg leading-none">
-          ×
-        </span>
+        <X aria-hidden="true" className="size-5" strokeWidth={2.25} />
       </button>
     </header>
   );
@@ -78,7 +77,7 @@ export function ActionOverlay({
     return (
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-40 bg-black/45" data-overlay-scrim />
+          <Dialog.Overlay className="fixed inset-0 z-40 bg-black/60" data-overlay-scrim />
           <Dialog.Content
             className="fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col overflow-y-auto bg-surface text-fg shadow-lift outline-none"
             data-overlay-panel
