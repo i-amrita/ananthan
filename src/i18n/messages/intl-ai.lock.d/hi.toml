@@ -1,891 +1,631 @@
 version = 1
 
-[entries.about_links_heading]
-value = "अन्यत्र"
-source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
-
-[entries.action_about]
-value = "परिचय"
-source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_close]
-value = "बंद करें"
-source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_cmdk]
-value = "कमांड पैलेट"
-source_hash = "7b6b539e73d9d03f40764fe99b8ec0e594a69d8f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_copy_email]
-value = "ईमेल कॉपी करें"
-source_hash = "e89e8c5e42169491392a376ac6516e3fcac04dc0"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_locale]
-value = "भाषा बदलें"
-source_hash = "b307cb57ba08af0dbe386cd4d3e88c63d1d39d00"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_log]
-value = "लॉग"
-source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_mute]
-value = "कुंजी क्लिक्स म्यूट करें"
-source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_projects]
-value = "काम"
-source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
-
-[entries.action_search]
-value = "खोज"
-source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.action_side_projects]
-value = "प्रोजेक्ट"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:09Z"
-
-[entries.action_theme]
-value = "थीम बदलें"
-source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_description]
-value = "कोई कमांड चलाएँ, किसी पेज पर जाएँ, या साइट में खोजें।"
-source_hash = "6cf856769c6a0d8db0ab779c60906dd1e036605f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_empty]
-value = "कोई परिणाम नहीं मिले।"
-source_hash = "e9cc6d0e9a61da7cff0e049a68c0ecfd422d901c"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_go_about]
-value = "परिचय पर जाएँ"
-source_hash = "cc605c707215e936b5123dedc8e83d55013aedf8"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_go_log]
-value = "लॉग पर जाएँ"
-source_hash = "2e3b89a4a6332e55c152cf707a9df9851b2fd220"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_go_projects]
-value = "काम पर जाएँ"
-source_hash = "1c0e4a14f832574bee832d70b2246ab2128dfadc"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
-
-[entries.cmdk_go_side_projects]
-value = "प्रोजेक्ट पर जाएँ"
-source_hash = "19ac0c7e580f8e696729f76bad4c7771b870e222"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:09Z"
-
-[entries.cmdk_open_search]
-value = "खोज खोलें"
-source_hash = "5b003aff8e463bd2c5a66113841743e124263afb"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_placeholder]
-value = "एक कमांड लिखें या खोजें..."
-source_hash = "af381432b21075e75b09489c2cb92f9c20cba274"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_search_all]
-value = '"{query}" के लिए पूरी खोज खोलें'
-source_hash = "636f240a0bc3aeddb2d303b209d97436c887bab6"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_section_actions]
-value = "कार्य"
-source_hash = "c3cd636a585b20c40ac2df5ffb403e83cb2eef51"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_section_commands]
-value = "कमांड"
-source_hash = "45e5f3f72e961cb70134ba35f7a27a9620e515f7"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_section_navigation]
-value = "नेविगेशन"
-source_hash = "cf03cf2e9cdf95a20af09137dfb9071db0c31bf2"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_section_projects]
-value = "प्रोजेक्ट्स"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_section_results]
-value = "परिणाम"
-source_hash = "612e12d29278b5519294bc25cdaddffec6d0f1c6"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.cmdk_toggle_clicks]
-value = "कुंजी क्लिक चालू/बंद करें"
-source_hash = "555f83d18927ffb0e855673e16bcd77d3347a8ff"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.error_back_home]
-value = "होम पर वापस जाएँ"
-source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.error_not_found]
-value = "पेज नहीं मिला"
-source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.footer_license]
-value = "स्रोत PolyForm Noncommercial 1.0.0 के तहत उपलब्ध"
-source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.footer_qr]
-value = "QR"
-source_hash = "45e7a1c379c71e4da5ab94440dd4aa11f6965d70"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T13:30:00Z"
-
-[entries.hero_greeting]
-value = "मैं हूँ"
-source_hash = "e3683d0554cb0566d1ea09e88f1975e3362becec"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.hero_hint]
-value = "एक कुंजी दबाएं, या एक क्लिक करें।"
-source_hash = "3802f301460737b1f00e4dee668a685f83a4839f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.hero_name]
-value = "अमृत"
-source_hash = "4a4d78b1fd2fdfd2005f286a74946f7bbeef3c00"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.hero_subtitle]
-value = "मैं एआई, समुदाय और मानव-केंद्रित डिज़ाइन के सहारे तकनीकी जटिलता और वास्तविक प्रभाव के बीच पुल बनाता हूँ।"
-source_hash = "dc4825482d89f724b14c1cca650ffd6a4f58926b"
-origin = "human"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T12:14:10Z"
-
-[entries.key_about]
-value = "परिचय"
-source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_build]
-value = "बनाएँ"
-source_hash = "732ee62de9b3194d43e3e267ec9637b791231580"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_esc]
-value = "Esc"
-source_hash = "abb761d9af1c9fd2af06a695bd4b727fac141af8"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_find]
-value = "ढूँढें"
-source_hash = "df251b06eefdaa932e97b54fbe9a74d3e606fa61"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_log]
-value = "लॉग"
-source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_projects]
-value = "प्रोजेक्ट"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:09Z"
-
-[entries.key_research]
-value = "शोध"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T11:56:51Z"
-
-[entries.key_sound]
-value = "आवाज़"
-source_hash = "b4e3efeba10e84f7148da9f7efe85e07057d7c7a"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.key_work]
-value = "काम"
-source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:29:44Z"
-
-[entries.keyboard_hint]
-value = "किसी कुंजी पर टैप करें या कमांड मेनू खोलने के लिए ⌘K दबाएँ"
-source_hash = "d7f0b71301a8766ed460e32cf16c16757cd479ae"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:35:03Z"
-
-[entries.keyboard_hint_touch]
-value = "खोजने के लिए किसी कुंजी पर टैप करें, या कमांड मेनू खोलें"
-source_hash = "12407600125e68f8419e5e0be0e24ba8ebc8bdf0"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T11:35:03Z"
-
-[entries.keyboard_label]
-value = "कीबोर्ड"
-source_hash = "6662c40bac78a8fe5e23219b77087fbe7647cb15"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.keyboard_loading]
-value = "ध्वनियाँ लोड हो रही हैं"
-source_hash = "0ffa6b2c6e082cf9f28bfcc6393b9eb1ca98f424"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:00:00Z"
-
-[entries.keyboard_sound_blocked]
-value = "इस डिवाइस पर ध्वनि बंद है। कुंजियाँ फिर भी काम करती हैं।"
-source_hash = "07ac82f7c46a94c2cfba6db882eb4b82eb02d403"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:19:10Z"
-
-[entries.kind_aria]
-value = "प्रकार से फ़िल्टर करें"
-source_hash = "e55aa1d9ecaa45f22295276bfb55666f846c4c3a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:10Z"
-
-[entries.kind_empty]
-value = "यहाँ अभी कुछ नहीं है।"
-source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:11Z"
-
-[entries.kind_projects]
-value = "प्रोजेक्ट"
-source_hash = "53e890d5f0fffe09587c55dce74e9a6febf59b5c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:11Z"
-
-[entries.kind_research]
-value = "शोध"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:11Z"
-
-[entries.kind_work]
-value = "काम"
-source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T14:06:11Z"
-
-[entries.locale_switch_label]
-value = "भाषा चुनें"
-source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.log_empty]
-value = "अभी यहाँ कुछ नहीं है। जल्द ही वापस जाँचें।"
-source_hash = "e883e714c4db2a64048d91bb8c72a06fd95f3037"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.log_intro]
-value = "नोट्स और लेखन, सबसे नया पहले।"
-source_hash = "fa8d2bda912c947b20a8fa09fc566b450344fc7b"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
-
-[entries.log_read_more]
-value = "अधिक पढ़ें"
-source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.nav_about]
-value = "परिचय"
-source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
 [entries.nav_home]
 value = "होम"
 source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
-origin = "ai"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.nav_locale]
-value = "भाषा"
-source_hash = "89b86ab0e66f527166d98df92ddbcf5416ed58f6"
-origin = "ai"
+[entries.nav_research]
+value = "अनुसंधान"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.nav_log]
-value = "लॉग"
-source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
-origin = "ai"
+[entries.nav_life]
+value = "जीवन"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.nav_mute]
-value = "कुंजी क्लिक्स म्यूट करें"
-source_hash = "6d48c7545b4453df440bed5b6820459cf73642a6"
-origin = "ai"
+[entries.nav_photography]
+value = "फोटोग्राफी"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
 [entries.nav_primary]
 value = "मुख्य"
 source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.nav_projects]
-value = "काम"
-source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
 [entries.nav_search]
 value = "खोज"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.nav_theme]
-value = "थीम बदलें"
-source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_about_description]
-value = "एक संक्षिप्त परिचय और संपर्क लिंक।"
-source_hash = "4af6495af1ed4d04b7f4fa0251e02592a8234ca3"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_about_read_more]
-value = "पूरा पेज देखें"
-source_hash = "ef80a403560522e5043511bbf95190d8f2b6f88f"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.overlay_about_title]
+[entries.hero_name]
+value = "अनंतन नंबियार"
+source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_subtitle]
+value = "कंप्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग। लैब के बाहर: फिल्म फोटोग्राफी, नृत्य, रोइंग, पाक-कला और पर्यावरणवाद।"
+source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_intro_label]
 value = "परिचय"
-source_hash = "6b21fb791ac05170893860c248401cd24a59b732"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_close]
-value = "ओवरले बंद करें"
-source_hash = "113040593472f11aef44085d6bcd1d2bf6c1e981"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_log_description]
-value = "हाल के नोट्स और पोस्ट।"
-source_hash = "21d0f64695e4943141d6fd8f6012937bada02f99"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_log_see_all]
-value = "सभी लॉग प्रविष्टियाँ देखें"
-source_hash = "2ac42acc2d747ad0809eb52628b633920e7e4c56"
+source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.overlay_log_title]
-value = "लॉग"
-source_hash = "8bf95ea372568c7a254ba9fada5f6f1701ebc5b5"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_projects_description]
-value = "काम, प्रोजेक्ट और शोध। प्रकार या टैग से फ़िल्टर करें, या पूरी कहानी के लिए कोई एक खोलें।"
-source_hash = "f3970a37d1f8e96cfc83878977bb26009f1819ef"
+[entries.hero_research_label]
+value = "अनुसंधान"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T14:10:00Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.overlay_projects_see_all]
-value = "सभी देखें"
-source_hash = "2941c5ce61f1c507853bc78ba080278269a62f77"
+[entries.hero_life_label]
+value = "जीवन"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T14:10:00Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.overlay_projects_title]
-value = "काम"
-source_hash = "00040bab8a787438c2c0cf5248ac025642115fad"
+[entries.hero_photography_label]
+value = "फोटोग्राफी"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.overlay_search_title]
-value = "खोज"
-source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.overlay_title_all]
-value = "पोर्टफ़ोलियो"
-source_hash = "036b18f02ab5c3dc322621ba575f646d19332e8f"
+[entries.hero_intro_body]
+value = "मैं जैविक तंत्रों के लिए व्याख्या-योग्य मशीन लर्निंग मॉडल बनाता हूँ, और अपने बैग में कैमरा रखता हूँ।"
+source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T14:06:09Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.projects_empty]
-value = "अभी तक कोई काम नहीं है।"
-source_hash = "158f978309cf1b6976269485c60e6c8d700b14ba"
+[entries.hero_research_body]
+value = "प्रकाशनें, व्याख्यान और पाठ्यक्रम। प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।"
+source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.projects_empty_filter]
-value = "इस फ़िल्टर से कोई प्रोजेक्ट मेल नहीं खाता।"
-source_hash = "809d12ff2eb37370859aa3d36f01cf5299312f8f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.projects_filter_all]
-value = "सभी"
-source_hash = "6a72085653e4c5be8c7640c868ef787cbcf063d1"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.projects_filter_aria]
-value = "टैग से काम फ़िल्टर करें"
-source_hash = "8e1c06173eb75a229d71a1f2b0d6e12bddbc2b3e"
+[entries.hero_life_body]
+value = "लैब के बाहर मैं क्या करता हूँ: फोटोग्राफी, नृत्य, रोइंग, पाक-कला और पर्यावरणवाद।"
+source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.projects_read_more]
-value = "और पढ़ें"
-source_hash = "ad086cf55b834c375e209972840f1342401d8c41"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.qr_aria]
-value = "amrita.nambiar.my के लिए QR कोड"
-source_hash = "afe5e1555c304bb8bd432bfbd8bcd1a64c74d8f7"
+[entries.hero_photography_body]
+value = "कैमरे से ली गई कुछ तस्वीरें। पूरा पोर्टफोलियो, और हर फोटो का कॉपीराइट, मेरी पोर्टफोलियो साइट पर है।"
+source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T13:30:00Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.qr_hint]
-value = "मेरा पेज खोलने के लिए स्कैन करें"
-source_hash = "ae683dfcccbb93b735517e87aa66eddead494767"
+[entries.hero_hint]
+value = "फोकस बदलने के लिए स्क्रॉल करें, खींचें, या तीर कुंजियाँ इस्तेमाल करें।"
+source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T13:30:00Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_read]
-value = "शोध-पत्र पढ़ें"
-source_hash = "59be48508de503881b8f8a6e84f64f4036de530f"
+[entries.hero_next]
+value = "अगला पैनल"
+source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T14:06:12Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_description]
-value = "प्रोजेक्ट्स, पोस्ट और पेज खोजें।"
-source_hash = "6e4aa3aa2bb250af9a9cbe4440570d94c23c629b"
-origin = "ai"
+[entries.hero_previous]
+value = "पिछला पैनल"
+source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_empty]
-value = '"{query}" से कुछ मेल नहीं खाया। कम या अलग शब्द आज़माएँ।'
-source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
-origin = "ai"
+[entries.hero_panels]
+value = "फोकस पैनल"
+source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_found]
-value = "मैंने यह पाया"
-source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
-origin = "ai"
+[entries.hero_enter]
+value = "प्रवेश"
+source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
+origin = "human"
 reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_hint]
-value = "प्रोजेक्ट्स, पोस्ट और पेज खोजने के लिए कम से कम 2 अक्षर लिखें।"
-source_hash = "a0b6f40a9c204d3d2c46ee14dfee79a728726310"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_loading]
-value = "खोज मॉडल लोड हो रहा है..."
-source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_mode_ai]
-value = "AI"
-source_hash = "560040c54a3bfeaf24c4a4096cee1de719cd87cd"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_mode_keyword]
-value = "कीवर्ड"
-source_hash = "a3926e039fd753c472f6e172496fda0574369261"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_no_index]
-value = "खोज इंडेक्स pnpm build से बनता है। इसे चलाएँ, फिर pnpm dev दोबारा शुरू करें या pnpm preview इस्तेमाल करें।"
-source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_pill_ai]
-value = "AI खोज"
-source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_pill_keyword]
-value = "कीवर्ड खोज"
-source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_pill_warming]
-value = "AI खोज (मॉडल लोड हो रहा है...)"
-source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_placeholder]
-value = "प्रोजेक्ट्स, पोस्ट्स, पेजेस खोजें"
-source_hash = "a2b8d59ad47990502dc5598e35aa7b99c3428e7f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_results]
-value = "{query} के लिए {count} परिणाम"
-source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_type_page]
-value = "पेज"
-source_hash = "fb06270f7c212baabc8749ffc36e49dc8f321548"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_type_post]
-value = "पोस्ट"
-source_hash = "7858ac3ff63354f37161bd349efe11edd13b89cb"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.search_type_project]
-value = "प्रोजेक्ट"
-source_hash = "f6f4da8d93e88a08220e03b7810451d3ba540a34"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.settings_highlight]
-value = "एक्शन कीज़ को हाइलाइट करें"
-source_hash = "4307fce29a0b5f6f626e0fc85662940c9c324fb2"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.socials_aria]
-value = "सोशल लिंक्स"
-source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.socials_cv]
-value = "सीवी / रिज़्यूमे"
-source_hash = "b2112b102caf5a665cb2a17ab5c902e6ef44ebf7"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
+updated_at = "2026-10-30T03:18:25Z"
 
 [entries.socials_email]
 value = "ईमेल"
 source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T11:56:51Z"
+updated_at = "2026-10-30T03:18:25Z"
 
-[entries.socials_linkedin]
-value = "लिंक्डइन"
-source_hash = "6b6390a4416131f82b6ffb509f6e779e5dd9630f"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.socials_research]
-value = "शोध"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.toast_email_copied]
-value = "ईमेल कॉपी किया गया"
-source_hash = "47a1583c3d749d63ab4b950d434fe8290d897645"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.toast_email_failed]
-value = "ईमेल कॉपी नहीं हो सका"
-source_hash = "2842e750ce2697dd0ccc23d908a75374c288ef1d"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.toast_locale]
-value = "भाषा: {language}"
-source_hash = "a99ac5e0e1be53c4f8fa9ffb7574d016dea5aeca"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.toast_muted]
-value = "कुंजी क्लिक्स म्यूट हो गए"
-source_hash = "e5bb3031b9d5b969636b4a0da4c106d6be22ec59"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.toast_unmuted]
-value = "कुंजी क्लिक्स पर"
-source_hash = "f1c0eb5895662df78a72b61f87c09d207c92d2e4"
-origin = "ai"
-reviewed = true
-model = "openrouter/free"
-updated_at = "2026-10-18T01:24:57Z"
-
-[entries.work_intro]
-value = "AI, समुदाय और डिज़ाइन में चुना हुआ काम।"
-source_hash = "d385cba519d81f94830f756632e398b5bb79c9a2"
+[entries.socials_scholar]
+value = "Google Scholar"
+source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
 origin = "human"
 reviewed = true
-updated_at = "2026-10-18T12:44:35Z"
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_orcid]
+value = "ORCID"
+source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_github]
+value = "GitHub"
+source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_instagram]
+value = "Instagram"
+source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_portfolio]
+value = "फोटोग्राफी पोर्टफोलियो"
+source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_aria]
+value = "सोशल लिंक्स"
+source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.action_theme]
+value = "थीम बदलें"
+source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.action_close]
+value = "बंद करें"
+source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.locale_switch_label]
+value = "भाषा चुनें"
+source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.footer_license]
+value = "स्रोत PolyForm Noncommercial 1.0.0 के तहत उपलब्ध"
+source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.error_not_found]
+value = "पेज नहीं मिला"
+source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.error_back_home]
+value = "होम पर वापस जाएँ"
+source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_intro]
+value = "प्रकाशनें, व्याख्यान और पाठ्यक्रम। काम प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण पर केंद्रित है।"
+source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_publications]
+value = "प्रकाशनें"
+source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_talks]
+value = "व्याख्यान"
+source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_courses]
+value = "पाठ्यक्रम"
+source_hash = "a16536d78dc34897436003938234d72482a1d526"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_empty]
+value = "यहाँ अभी कुछ नहीं है।"
+source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_read]
+value = "खोलें"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_kind_paper]
+value = "शोध-पत्र"
+source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_kind_preprint]
+value = "प्रीप्रिंट"
+source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_kind_book]
+value = "पुस्तक"
+source_hash = "f69f233005f15802770fd26fbf7ead52ec13d9e6"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_kind_editorial]
+value = "संपादकीय"
+source_hash = "a58b1ef1f0bf8cc5474e1e5464f7098c37c9e16e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_talk_kind_talk]
+value = "व्याख्यान"
+source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_talk_kind_poster]
+value = "पोस्टर"
+source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_talk_kind_invited]
+value = "आमंत्रित"
+source_hash = "53469df1c48ff6abdcf1b528fd8c8ac2baf05099"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_course_kind_course]
+value = "पाठ्यक्रम"
+source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_course_kind_workshop]
+value = "कार्यशाला"
+source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_course_kind_tutorial]
+value = "ट्यूटोरियल"
+source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_intro]
+value = "लैब के बाहर का जीवन।"
+source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_hobbies_heading]
+value = "शौक"
+source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_photography]
+value = "फोटोग्राफी"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_photography_body]
+value = "फिल्म। पोर्टफोलियो nambiar4.myportfolio.com पर है।"
+source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_dance]
+value = "नृत्य"
+source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_dance_body]
+value = "TODO(स्वामी): नृत्य के प्रकार और आवृत्ति पर एक पंक्ति।"
+source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_rowing]
+value = "रोइंग"
+source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_rowing_body]
+value = "TODO(स्वामी): रोइंग पर एक पंक्ति: स्कलिंग या स्वीप, कहाँ, और कितने समय से।"
+source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_cooking]
+value = "पाक-कला"
+source_hash = "adc0752adbfda6b3ef82749db7442cd223b6747a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_cooking_body]
+value = "TODO(स्वामी): पाक-कला पर एक पंक्ति: क्या पकाते हैं, और किसके लिए।"
+source_hash = "e6b4d8c487bbe0a535a1de24054603a45138fcb7"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_environment]
+value = "पर्यावरणवाद"
+source_hash = "e7e68b8a22930883f6263b11d6e6f8d1007e0e7f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_environment_body]
+value = "TODO(स्वामी): पर्यावरणवाद पर एक पंक्ति: किस पर काम करते हैं, और कहाँ।"
+source_hash = "031c51257414a9f6e08d6b9c3e6f0856e8f38a18"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_bio_heading]
+value = "परिचय"
+source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_bio]
+value = "मैं यूनिवर्सिटी ऑफ़ वॉशिंगटन में कंप्यूटेशनल बायोलॉजिस्ट हूँ, और कंप्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग पर काम करता हूँ। मेरा काम एक ऐसे विचार पर टिका है जो मेरे शोध-पत्रों, व्याख्यानों और थीसिस में बार-बार लौटता है: जीवन की भाषा।"
+source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_career_heading]
+value = "करियर"
+source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_career]
+value = "मलेशिया, फिर रीड कॉलेज, फिर यूनिवर्सिटी ऑफ़ इलिनॉय अर्बाना-शैम्पेन, फिर मेयो क्लिनिक, फिर यूनिवर्सिटी ऑफ़ वॉशिंगटन।"
+source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_intro]
+value = "कैमरे से ली गई कुछ तस्वीरें। पूरा पोर्टफोलियो, और इस पेज की हर फोटो का कॉपीराइट, nambiar4.myportfolio.com पर है।"
+source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_cta]
+value = "पूरा पोर्टफोलियो देखें"
+source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_placeholder]
+value = "प्लेसहोल्डर फ्रेम। उनकी अपनी तस्वीरें इसे बदल देंगी।"
+source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_open]
+value = "खोलें"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_lightbox_label]
+value = "फोटो व्यूअर"
+source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_prev]
+value = "पिछली फोटो"
+source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_next]
+value = "अगली फोटो"
+source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.photography_counter]
+value = "{total} में से {index}"
+source_hash = "ef7e316e05fa6cd771be6c5b773559b84ae0b2f1"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_description]
+value = "प्रकाशनें, व्याख्यान और पेज खोजें।"
+source_hash = "59fbebea55c698c4659f813880533e77a553f43e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_placeholder]
+value = "प्रकाशनें, व्याख्यान, पेज खोजें"
+source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_pill_ai]
+value = "AI खोज"
+source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_pill_warming]
+value = "AI खोज (मॉडल लोड हो रहा है...)"
+source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_pill_keyword]
+value = "कीवर्ड खोज"
+source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_mode_ai]
+value = "AI"
+source_hash = "560040c54a3bfeaf24c4a4096cee1de719cd87cd"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_mode_keyword]
+value = "कीवर्ड"
+source_hash = "a3926e039fd753c472f6e172496fda0574369261"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_found]
+value = "मैंने यह पाया"
+source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_results]
+value = "{query} के लिए {count} परिणाम"
+source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_empty]
+value = "\"{query}\" से कुछ मेल नहीं खाया। कम या अलग शब्द आज़माएँ।"
+source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_no_index]
+value = "खोज इंडेक्स pnpm build से बनता है। इसे चलाएँ, फिर pnpm dev दोबारा शुरू करें या pnpm preview इस्तेमाल करें।"
+source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_hint]
+value = "खोजने के लिए कम से कम 2 अक्षर लिखें।"
+source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_loading]
+value = "खोज मॉडल लोड हो रहा है..."
+source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_type_page]
+value = "पेज"
+source_hash = "fb06270f7c212baabc8749ffc36e49dc8f321548"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_type_publication]
+value = "प्रकाशन"
+source_hash = "e00441c49bf6cb62a4a537860a47c6b85de694f6"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_type_talk]
+value = "व्याख्यान"
+source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
