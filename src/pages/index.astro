@@ -28,16 +28,24 @@ import Base from '@/layouts/Base.astro';
     height: 100dvh;
     overflow: clip;
   }
+  /* The fixed navbar pill floats over the full-bleed photo: let the header stack above the track
+     so no paper-coloured strip shows behind it. Panel text keeps clear via panel padding. */
+  :global([data-site-nav]:has(~ * [data-focus-track])) {
+    position: fixed;
+    inset-inline: 0;
+  }
   /* On the home route the ink figures float over the full-bleed photographs. The photo layer is
      z-index 0 and the panel text z-index 2, so a fixed field at z-index 1 sits between them.
-     Lighter weight so the strokes read as an overlay against a photograph, not against paper. */
+     Light ink over the photograph, one tone for both themes; strokes are thin and low-opacity
+     so the figure reads as an overlay, not as body copy. */
   :global([data-figure-field][data-route='home']) {
     z-index: 1;
   }
   :global([data-figure-field][data-route='home'] g) {
+    stroke: #f7f5f0;
     stroke-width: 3;
   }
   :global([data-figure-field][data-route='home'] [data-stroke]) {
-    opacity: 0.4 !important;
+    opacity: 0.32 !important;
   }
 </style>
