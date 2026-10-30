@@ -32,6 +32,11 @@ that the slider **is** the navigation. Three concrete divergences drove the miss
 - Photography: use the real images from `~/Pictures/filmi.nambi`, with a
   "See more" link to `https://www.instagram.com/filmi.nambi`.
 - On mobile, photography layout is a virtualized masonry/bento grid, vertical.
+- Sound feedback on both the shutter button and the focus slider. Sourcing must
+  be license-clean: the two YouTube links the owner cited are claims, not
+  licenses (see `## Sound design`), so equivalent CC0 sounds are used instead.
+- A shutter-styled button (bottom-right, camera iris/keycap style from
+  amrita-site) triggers the locale switch.
 - UILOOP (`~/UILOOP.md`) applies to every pixel-rendering change.
 
 ## Navigation model
@@ -98,6 +103,96 @@ collapses the chip first.
 No-JS: the links are rendered collapsed but `html:not([data-nav-ready])` reveals
 them statically, where `data-nav-ready` is set by an inline pre-paint script.
 No-JS users get the full nav pill; JS users get the 3-icon chip.
+
+## Sound design
+
+### Sourcing decision
+
+The owner cited two YouTube videos: `NtAH58jKEyQ` ("Lens Focus SOUND Effect",
+channel claims "Public Domain") and `R24UqkKj90w` ("5 Camera Shutter Sound
+Effects (No Copyright)"). Both are rejected. "No copyright" in a title is a
+claim, not a license; sound recordings are copyrighted works, ripping the
+stream violates YouTube ToS, and shipping extracted audio means
+redistributing a recording of untraceable provenance. The project rule in
+`.agents/docs/audio.md` already settles this: "Only use files with a verified
+license (CC0, Apache, etc.)."
+
+License-clean equivalents (all verified CC0):
+
+| Purpose | Sound | Source |
+|---|---|---|
+| Shutter A (wind + fire) | Nikon FM10 mechanical SLR | freesound.org/people/Clagnar/sounds/554268 |
+| Shutter B (~0.67s, pre-sized) | 35mm SLR single shot | freesound.org/people/cabled_mess/sounds/338220 |
+| Shutter C (alternate voice) | Minolta XE-7 various speeds | freesound.org/people/Snapper4298 (soundspool mirror) |
+| Slider detent ticks | Kenney UI Audio `switch*.ogg` (30+ unused variants) | kenney.nl/assets/ui-audio (CC0; pack already used for the current dial ticks) |
+| Locale commit click | Kenney UI Audio `click*.ogg`, different pitch | same pack |
+
+On Freesound, always check the per-sound license badge (the site mixes CC0,
+CC-BY and CC-BY-NC); the ones listed show CC0.
+
+### Sprite extension
+
+Extend the existing sprite (11.5KB mono AAC-LC 32kbps m4a), do not replace:
+
+1. Current layout: key clicks 0-2.0s, dial ticks 2.12s+.
+2. Append: 3 slider detent ticks (~2.28s, cut with the existing dial recipe:
+   ~22ms, -3 semitones, HPF 180Hz, presence boost, loudnorm), 1 commit click
+   (~2.32s), 2 shutter slices (~2.36s, 0.35-0.45s each, trimmed from the CC0
+   SLR sources, DC-removed, fade in/out, RMS-normalized like the key clicks).
+3. Est. +25-30KB, total ~40KB. Still one file, one format, no
+   `canPlayType` branch. Fine to preload.
+4. New manifest offsets. Since the keyboard machinery was stripped, the
+   keyboard's `key-sprite.ts`/`audio-preloader.ts`/`audio.ts` pattern is
+   revived as `src/lib/sound/` (`sprite.ts` with `SHUTTER_SPRITE`,
+   `SLIDER_SPRITE`, `COMMIT_SPRITE` + the shared context and `play()`
+   helpers), so the shutter and slider share one engine and `?mute=1`.
+5. Update `NOTICE` (three Freesound CC0 sources + Kenney), bump
+   `SPRITE_HASH`, update `public/sounds/readme.txt` with the new tail layout,
+   update `.agents/docs/audio.md`.
+
+Playback rules carry over from the amrita engine: lazy `AudioContext` on
+first gesture, OfflineAudioContext pre-decode, silent-until-decoded (never
+queued), synthesized fallback on fetch/decode failure, `?mute=1` respected,
+iOS `audioSession = 'playback'` best-effort.
+
+### Where each sound fires
+
+- **Focus slider**: on each focused-panel change during drag/flick/keys
+  (i.e. crossing a snap breakpoint), one detent tick <100ms, throttled 30ms,
+  playbackRate jitter. Same recipe as the old dial tick.
+- **Panel open** (tap focused panel): shutter-fire slice. The mechanical act
+  of taking the picture doubles as the transition into the panel.
+- **Panel close**: a softer shutter-release tail or a plain detent tick.
+- **Shutter button open**: shutter fire. **Locale commit**: the distinct
+  commit click (different pitch from the slider ticks so it reads as commit,
+  not another detent).
+- All gated by `prefers-reduced-motion`? No: sound is not motion, but gate on
+  `?mute=1` only. `aria-hidden` region, no ARIA live announcements for sounds.
+
+## Shutter button (locale switch)
+
+A fixed circular camera-shutter button, bottom-right, restyling the existing
+`LocaleSwitchButton` popover trigger. Built from the amrita keycap recipe
+(NOTICE-permitted styling):
+
+- **Barrel**: outer `rounded-full` ring, `bg-linear-to-b from-chassis to-chassis-lo`
+  (chassis tokens are restored for it), `ring-1 ring-white/15`, `shadow-key`.
+- **Cap**: inner 44px circle rendered as a 6-blade iris: six overlapping wedge
+  `clip-path` spans over a `bg-linear-to-b from-surface to-surface-muted` disc,
+  `inset-shadow` highlight, `ring-1 ring-black/15`.
+- **Press**: `active:` rotates the blades ~30deg open and translates the cap
+  down 1px with the keycap travel (60ms, `--ease-key`), collapsing
+  `shadow-key`, exactly like `Key.tsx` keycaps.
+- **Behavior**: opens the locale popover (Radix Popover, existing logic).
+  Selecting a locale plays the commit click and runs a blade close/open
+  transition on the popover.
+- **Placement**: `fixed bottom-4 right-4 z-40`, clear of the safe-area inset;
+  dimmed + `pointer-events-none` while a panel is open
+  (`html[data-overlay-open]`).
+- **A11y**: `aria-label` = locale switch label, `aria-expanded` on the
+  trigger, visible focus ring, `motion-reduce` disables blade rotation and
+  the press translate.
+- **Sound**: shutter fire on open, commit click on locale selection.
 
 ## Slider visual target (rare-squash reference)
 
@@ -168,14 +263,19 @@ Modified:
 ```
 package.json                                  # + vaul
 src/lib/url-state.ts                          # + overlay, scroll, nav (history: push/replace)
-src/components/astro/FocusSlider.astro        # new panel visuals, activation wiring, inert handling
-src/components/astro/Navbar.astro             # shell around NavChip
+src/lib/sound/*                               # revived audio engine: sprite manifest, context, play helpers
+src/components/astro/FocusSlider.astro        # new panel visuals, activation wiring, inert handling, sound hooks
+src/components/astro/ShutterLocale.astro      # fixed shutter button + popover (locale switch)
+src/components/astro/Navbar.astro             # shell around NavChip; locale moves out to the shutter
 src/components/astro/Footer.astro             # llms.txt + QR only
-src/layouts/Base.astro                        # mount FocusOverlays island
+src/layouts/Base.astro                        # mount FocusOverlays island; sprite preload link
 src/pages/index.astro                         # pass teaser data
 src/pages/photography.astro                   # full grid + lightbox + IG CTA
 src/content/photos/*.json                     # real photos replace placeholders
+src/styles/tokens.css                         # restore chassis/keycap tokens for the shutter
+public/sounds/sprite-<newhash>.m4a            # extended sprite
 src/i18n/messages/*.json                      # new keys (en, then intl-ai fill)
+NOTICE, public/sounds/readme.txt, .agents/docs/audio.md   # attribution + pipeline updates
 .agents/docs/url-state.md                     # contract update
 ```
 
@@ -205,6 +305,7 @@ critical/serious, no layout collapse at 375/768/1280).
 |---|---|---|---|---|
 | P1 | URL schema + drawer primitives + one stub panel | — | `/?overlay=research` opens a drawer on phone width, docked panel on desktop; Escape/Back/scrim close | nuqs adapter double-mount |
 | P2 | Slider panel visuals (rare-squash target) + activation wiring | P1 | full-bleed panels, index, progress bar, tap-to-open, flick still advances | click-after-drag false positives |
+| P2.5 | Sound engine + extended sprite + shutter locale button | P2 | slider ticks on snap, shutter fire on panel open, shutter button swaps locale with commit click; `?mute=1` kills all; NOTICE + audio docs updated | sprite decode failure; iOS silent switch |
 | P3 | Panel teaser content + 3 panels | P2 | each panel shows <=5 real collection items | teaser/page drift |
 | P4 | Nav chip + inline expansion | P1 | 3-icon pill, expands inline, Escape collapses, no-JS shows links | hydration mismatch |
 | P5 | Photography: real photos, virtualized grid, lightbox, IG CTA | P2 | grid renders real images at 375/768/1280, lightbox opens | large images, layout shift |
@@ -221,6 +322,16 @@ critical/serious, no layout collapse at 375/768/1280).
 - iOS `100dvh` + drawer body-lock: guard with `html[data-overlay-open]`.
 - Photo file sizes (~50-140KB each) are fine as-is; serve WebP copies and keep
   the originals out of the repo if needed.
+- The two cited YouTube sound sources are rejected (claims, not licenses);
+  CC0 Freesound/Kenney equivalents are used instead. If the owner specifically
+  wants those exact recordings, the only clean path is written permission from
+  the original recordist, which YouTube re-upload channels cannot grant.
+- Sound must never gate interaction: all sound calls swallow errors, the
+  slider and shutter work fully silent before decode, on failure, and when
+  muted (amrita engine rules, carried over verbatim).
+- Locale moves out of the nav chip to the shutter button; the chip becomes
+  `[theme] [‹›]` (2 icons) + expansion unless the owner prefers the locale
+  icon kept in both places. Decision needed at P4.
 - The v1 figure system (5 YAML motifs) stays, but its visual weight must drop:
   on full-bleed image panels the figures become an overlay layer, not the
   backdrop of empty paper.
