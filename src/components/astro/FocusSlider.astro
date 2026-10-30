@@ -71,6 +71,7 @@ const panels: Panel[] = [
           <p class="focus-index font-mono text-xs tracking-widest text-muted-foreground uppercase">
             {String(i + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
           </p>
+          {i === 0 ? <h1 class="sr-only">{m.hero_name()}</h1> : null}
           <h2 class="focus-title font-display">{p.label}</h2>
           <p class="focus-body">{p.body}</p>
           <a class="focus-cta" href={p.href}>
