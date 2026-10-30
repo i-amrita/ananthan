@@ -12,8 +12,10 @@ interface Props {
   back?: { href: string; label: string };
   /** Open Graph image path. */
   ogImage?: string;
+  /** Route key, used to pick the per-route accent colour. */
+  route?: 'research' | 'life' | 'photography';
 }
-const { title, description, mdHref, jsonLd, eyebrow, back, ogImage } = Astro.props;
+const { title, description, mdHref, jsonLd, eyebrow, back, ogImage, route = 'research' } = Astro.props;
 ---
 
 <Base
@@ -22,6 +24,7 @@ const { title, description, mdHref, jsonLd, eyebrow, back, ogImage } = Astro.pro
   {...ogImage && { ogImage }}
   {...description && { description }}
   {...jsonLd && { jsonLd }}
+  route={route}
 >
   <main id="main" class="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-12" data-pagefind-body>
     {back && <a data-pagefind-ignore href={back.href} class="w-fit text-sm text-muted-foreground transition-[color,transform] duration-300 ease-(--ease-spring) hover:-translate-x-0.5 hover:text-brand active:scale-95 motion-reduce:transition-colors">&larr; {back.label}</a>}

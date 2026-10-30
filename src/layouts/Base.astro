@@ -19,6 +19,8 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Set false for pages that have no canonical URL (404). */
   canonical?: boolean;
+  /** Route key, used to pick the per-route accent colour. */
+  route?: 'home' | 'research' | 'life' | 'photography' | 'other';
 }
 const {
   title,
@@ -28,6 +30,7 @@ const {
   ogImage = '/og/default.png',
   ogType = 'website',
   canonical: withCanonical = true,
+  route = 'home',
 } = Astro.props;
 // Search engines cut descriptions near 160 chars; trim at a word boundary.
 const description =
@@ -37,7 +40,7 @@ const ogUrl = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-route={route}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

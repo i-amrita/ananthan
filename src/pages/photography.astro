@@ -5,15 +5,18 @@ import { getPhotos } from '@/lib/content';
 import { m } from '@/lib/i18n';
 import { SOCIALS } from '@/lib/site';
 
-const photos: PhotoItem[] = (await getPhotos()).map((p) => ({
-  id: p.id,
-  caption: p.data.caption,
-  alt: p.data.alt,
-  image: p.data.image,
-  width: p.data.width,
-  height: p.data.height,
-  ...(p.data.camera ? { camera: p.data.camera } : {}),
-}));
+const photos: PhotoItem[] = (await getPhotos()).map((p) => {
+  const item: PhotoItem = {
+    id: p.id,
+    caption: p.data.caption,
+    alt: p.data.alt,
+    image: p.data.image,
+    width: p.data.width,
+    height: p.data.height,
+  };
+  if (p.data.camera) item.camera = p.data.camera;
+  return item;
+});
 ---
 
 <ProseLayout
@@ -21,6 +24,7 @@ const photos: PhotoItem[] = (await getPhotos()).map((p) => ({
   eyebrow="Frames"
   description={m.photography_intro()}
   mdHref="/photography.md"
+  route="photography"
 >
   <p data-i18n="photography_intro">{m.photography_intro()}</p>
   <PhotoLightbox photos={photos} client:visible />
