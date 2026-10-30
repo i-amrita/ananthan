@@ -1,0 +1,9 @@
+{
+  "title": "TODO(owner): publication 4",
+  "venue": "TODO(owner): venue",
+  "date": "2025-01-01",
+  "summary": "TODO(owner): one or two sentences on what this paper did. This entry is a placeholder and never ships; it stays draft until the owner fills it in.",
+  "href": "https://example.org/placeholder",
+  "kind": "paper",
+  "draft": true
+}

@@ -1,0 +1,127 @@
+---
+/**
+ * Ink-brush background field: static SVGs queried from the `figures` collection, drawn with a
+ * stroke-dashoffset animation. No JS, no build-time image processing.
+ * Reduced motion freezes every figure at ~60% of the stroke and disables the cycle.
+ */
+import { getFigures } from '@/lib/content';
+
+interface Props {
+  route: 'home' | 'research' | 'life' | 'photography';
+  /** Parallax depth. 0 sits still, 1 drifts furthest behind the content. */
+  depth?: number;
+}
+
+const { route, depth = 0 } = Astro.props;
+const figures = await getFigures(route);
+
+/**
+ * Rough stroke length of a path, from the control points. Only needs to be in the right ballpark:
+ * the draw-in is a dashoffset animation, so an over-estimate just means a slightly slower lead-in.
+ */
+const pathLength = (d: string) => {
+  const nums = d.match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
+  let total = 0;
+  for (let i = 2; i < nums.length; i += 2) {
+    total += Math.hypot((nums[i] ?? 0) - (nums[i - 2] ?? 0), (nums[i + 1] ?? 0) - (nums[i - 1] ?? 0));
+  }
+  return Math.max(200, Math.round(total * 1.3));
+};
+---
+
+{
+  figures.length > 0 && (
+    <div
+      class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      aria-hidden="true"
+      data-figure-field
+      data-route={route}
+      data-depth={depth}
+    >
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="ink-wobble">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02 0.04" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+      {figures.map((f) => {
+        const [w, h] = f.data.size;
+        return (
+          <svg
+            viewBox={`0 0 ${w} ${h}`}
+            class="figure absolute h-auto"
+            style={`left:${f.data.position.x}%; top:${f.data.position.y}%; width:clamp(160px, ${Math.round(w * 1.6)}px, 30vw);`}
+            data-figure
+            data-motif={f.data.motif}
+          >
+            <g
+              filter="url(#ink-wobble)"
+              fill="none"
+              stroke="var(--c-ink)"
+              stroke-width="5"
+              stroke-linecap="round"
+              opacity={f.data.weight}
+            >
+              {f.data.paths.map((d) => {
+                const len = pathLength(d);
+                return (
+                  <path
+                    d={d}
+                    style={`--len:${len}; --delay:${f.data.delay}s;`}
+                    data-stroke
+                  />
+                );
+              })}
+            </g>
+          </svg>
+        );
+      })}
+    </div>
+  )
+}
+
+<style>
+  /* One 14s cycle per figure: draw in, hold at ~85% opacity, fade out, restart. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-stroke] {
+      stroke-dasharray: var(--len);
+      stroke-dashoffset: var(--len);
+      animation: draw-in 14s var(--ease-spring) infinite both;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes draw-in {
+      0% {
+        stroke-dashoffset: var(--len);
+        opacity: 0.9;
+      }
+      28% {
+        stroke-dashoffset: 0;
+        opacity: 0.85;
+      }
+      80% {
+        stroke-dashoffset: 0;
+        opacity: 0.85;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 0;
+      }
+    }
+    /* Two-depth parallax: the far layer drifts a little slower than the near one. Pure CSS transform, no JS. */
+    [data-figure-field][data-depth='1'] .figure {
+      transform: translateY(calc(var(--scroll-y, 0px) * 0.08));
+    }
+    [data-figure-field][data-depth='2'] .figure {
+      transform: translateY(calc(var(--scroll-y, 0px) * 0.16));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* Frozen mid-draw at ~60% of the stroke, no cycling. */
+    [data-stroke] {
+      stroke-dasharray: var(--len) !important;
+      stroke-dashoffset: calc(var(--len) * 0.4) !important;
+      opacity: 0.6 !important;
+      animation: none !important;
+    }
+  }
+</style>

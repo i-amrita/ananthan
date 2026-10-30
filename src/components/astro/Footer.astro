@@ -1,11 +1,13 @@
 ---
 import { m } from '@/lib/i18n';
+import { EMAIL } from '@/lib/site';
 
 const link =
   'inline-flex min-h-11 items-center px-3 transition-colors duration-300 ease-(--ease-spring) hover:text-brand';
 ---
 
-<footer class="flex items-center justify-center py-2 text-xs text-muted-foreground">
-  <a class={link} href="/qr" data-i18n="footer_qr">{m.footer_qr()}</a>
+<footer class="flex flex-wrap items-center justify-center gap-1 py-6 text-xs text-muted-foreground">
+  <a class={link} href={`mailto:${EMAIL}`} data-i18n="socials_email">{m.socials_email()}</a>
   <a class={link} href="/llms.txt">llms.txt</a>
+  <span class="px-3" data-i18n="footer_license">{m.footer_license()}</span>
 </footer>

@@ -32,31 +32,12 @@
     inset: 0;
     z-index: 40;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: 0.05;
     background-image: url('/grain.svg');
   }
   ::selection {
     @apply bg-brand-soft text-fg;
   }
-}
-
-/* `?highlight=0..100`: the dial sets `--glow` (0..1) on the pad group. 0 draws nothing, 1 is a strong steady brand glow. */
-/* Non-action keys recede as the dial turns up, so the lit action keys read much stronger. */
-@utility key-dim {
-  opacity: calc(1 - var(--glow, 0) * 0.55);
-  filter: saturate(calc(1 - var(--glow, 0) * 0.6));
-  transition:
-    opacity 300ms var(--ease-spring),
-    filter 300ms var(--ease-spring);
-}
-
-@utility key-glow {
-  box-shadow:
-    0 0 0 calc(var(--glow, 0) * 2px)
-      color-mix(in oklab, var(--c-brand-soft) calc(var(--glow, 0) * 100%), transparent),
-    0 0 calc(var(--glow, 0) * 22px) calc(var(--glow, 0) * 4px)
-      color-mix(in oklab, var(--c-brand) calc(var(--glow, 0) * 70%), transparent);
-  filter: brightness(calc(1 + var(--glow, 0) * 0.08));
 }
 
 /* Entry choreography: transform/opacity/filter only, so the layout box never changes. Stagger with style="--i: n". */
@@ -82,180 +63,25 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-key] * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
-
-/* Keypad startup skeleton: a soft light sweep over the plate while sounds load. Never intercepts input. */
-@theme {
-  --animate-sheen: sheen 1600ms ease-in-out infinite;
-  @keyframes sheen {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(100%);
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-startup-sheen] {
-    animation: none !important;
-  }
-}
-
-/* Search pill: fades and lifts in when its label changes. */
-@theme {
-  --animate-pill-in: pill-in 300ms var(--ease-spring) both;
-  @keyframes pill-in {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-search-pill] {
-    animation: none !important;
-  }
-}
-
-/* Work/Log/About panels are non-modal and docked right from 640px. From `lg` there is room to shift the page so the pad stays uncovered. */
-@media (min-width: 1024px) {
-  html[data-overlay-open] body {
-    padding-right: 27rem;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  body {
-    transition: padding-right 0.2s ease;
-  }
-}
-
-/* ---------- Page transitions (cross-document, static; no router, no JS) ---------- */
-/* Root crossfades, the navbar pill keeps its own layer so it never blinks. `.rise` on the new page supplies the movement. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-  header:has(> nav) {
-    view-transition-name: site-nav;
-  }
-  ::view-transition-group(root) {
-    animation-duration: 320ms;
-    animation-timing-function: var(--ease-spring);
-  }
-  ::view-transition-old(root) {
-    animation: vt-out 180ms var(--ease-spring) both;
-  }
-  ::view-transition-new(root) {
-    animation: vt-in 320ms var(--ease-spring) both;
-  }
-  ::view-transition-group(site-nav) {
-    animation-duration: 0s;
-  }
-}
-@keyframes vt-out {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes vt-in {
+/* Lighter entrance for list items that arrive asynchronously (search results). Stagger with style="--i: n", cap at 6. */
+@keyframes item-in {
   from {
     opacity: 0;
+    transform: translateY(6px);
   }
 }
-
-/* ---------- Overlays: dialog, drawer scrim, cmdk, popover, tooltip ---------- */
-/* Overrides the vendored tw-animate classes by slot. Exit animations must exist so Radix waits for them before unmounting. */
-@keyframes scrim-in {
-  from {
-    opacity: 0;
-  }
-}
-@keyframes scrim-out {
-  to {
-    opacity: 0;
-  }
-}
-@keyframes pop-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.97);
-  }
-}
-@keyframes pop-out {
-  to {
-    opacity: 0;
-    transform: translateY(-4px) scale(0.98);
-  }
-}
-@keyframes dock-in {
-  from {
-    opacity: 0;
-    transform: translateX(1.5rem);
-  }
-}
-@keyframes dock-out {
-  to {
-    opacity: 0;
-    transform: translateX(1rem);
-  }
-}
-[data-slot='dialog-overlay'][data-state='open'],
-[data-slot='drawer-overlay'][data-state='open'] {
-  animation: scrim-in 300ms var(--ease-spring) both;
-}
-[data-slot='dialog-overlay'][data-state='closed'],
-[data-slot='drawer-overlay'][data-state='closed'] {
-  animation: scrim-out 200ms var(--ease-spring) both;
-}
-[data-slot='dialog-content'][data-state='open'],
-[data-slot='popover-content'][data-state='open'],
-[data-slot='tooltip-content'][data-state='open'] {
-  animation: pop-in 320ms var(--ease-spring) both;
-}
-[data-slot='dialog-content'][data-state='closed'],
-[data-slot='popover-content'][data-state='closed'],
-[data-slot='tooltip-content'][data-state='closed'] {
-  animation: pop-out 180ms var(--ease-spring) both;
-}
-[data-overlay-panel][data-state='open'] {
-  animation: dock-in 420ms var(--ease-spring) both;
-}
-[data-overlay-panel][data-state='closed'] {
-  animation: dock-out 220ms var(--ease-spring) both;
+@utility item-in {
+  animation: item-in 360ms var(--ease-spring) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-slot='dialog-overlay'][data-state='open'],
-  [data-slot='drawer-overlay'][data-state='open'],
-  [data-slot='dialog-content'][data-state='open'],
-  [data-slot='popover-content'][data-state='open'],
-  [data-slot='tooltip-content'][data-state='open'],
-  [data-overlay-panel][data-state='open'] {
-    animation: scrim-in 120ms var(--ease-spring) both;
-  }
-  [data-slot='dialog-overlay'][data-state='closed'],
-  [data-slot='drawer-overlay'][data-state='closed'],
-  [data-slot='dialog-content'][data-state='closed'],
-  [data-slot='popover-content'][data-state='closed'],
-  [data-slot='tooltip-content'][data-state='closed'],
-  [data-overlay-panel][data-state='closed'] {
-    animation: scrim-out 100ms var(--ease-spring) both;
+  .item-in {
+    animation: none;
   }
 }
 
 /* ---------- Loading ---------- */
-/* Indeterminate progress sliver (CmdK while the embedding model downloads). Moves with transform only. */
+/* Indeterminate progress sliver (search while the embedding model downloads). Moves with transform only. */
 @keyframes sweep {
   from {
     transform: translateX(-100%);
@@ -289,19 +115,66 @@
   }
 }
 
-/* Lighter entrance for list items that arrive asynchronously (search results). Stagger with style="--i: n", cap at 6. */
-@keyframes item-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
+/* ---------- Page transitions: cross-document aperture iris (no router, no JS) ---------- */
+/* The new page is revealed through an 8-blade iris: a clip-path polygon that opens from a small
+   aperture to full frame. Reduced motion falls back to the plain crossfade. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  header:has(> nav) {
+    view-transition-name: site-nav;
+  }
+  ::view-transition-group(root) {
+    animation-duration: 480ms;
+    animation-timing-function: var(--ease-spring);
+  }
+  ::view-transition-old(root) {
+    animation: iris-out 260ms var(--ease-spring) both;
+  }
+  ::view-transition-new(root) {
+    animation: iris-in 480ms var(--ease-spring) both;
+  }
+  ::view-transition-group(site-nav) {
+    animation-duration: 0s;
   }
 }
-@utility item-in {
-  animation: item-in 360ms var(--ease-spring) both;
-  animation-delay: calc(var(--i, 0) * 40ms);
+/* 8-blade aperture. Each frame interpolates the polygon vertices between a small regular
+   octagon and the full frame, which reads as blades opening. */
+@keyframes iris-in {
+  from {
+    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
+  }
+  40% {
+    clip-path: polygon(38% 12%, 88% 38%, 62% 88%, 12% 62%, 38% 12%, 88% 38%, 62% 88%, 12% 62%);
+  }
+  to {
+    clip-path: polygon(
+      -20% -20%,
+      120% -20%,
+      120% 120%,
+      -20% 120%,
+      -20% -20%,
+      120% -20%,
+      120% 120%,
+      -20% 120%
+    );
+  }
 }
-@media (prefers-reduced-motion: reduce) {
-  .item-in {
-    animation: none;
+@keyframes iris-out {
+  from {
+    clip-path: polygon(
+      -20% -20%,
+      120% -20%,
+      120% 120%,
+      -20% 120%,
+      -20% -20%,
+      120% -20%,
+      120% 120%,
+      -20% 120%
+    );
+  }
+  to {
+    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
   }
 }

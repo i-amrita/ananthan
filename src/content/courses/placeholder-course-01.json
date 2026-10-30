@@ -1,0 +1,8 @@
+{
+  "title": "TODO(owner): course or workshop 1",
+  "institution": "TODO(owner): where it was taught",
+  "date": "2025-01-01",
+  "summary": "TODO(owner): what the course covered and who it was for. Placeholder entry, stays draft until the owner fills it in.",
+  "kind": "course",
+  "draft": true
+}

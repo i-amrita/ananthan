@@ -1,4 +1,4 @@
-import { FileText, FolderKanban, NotebookPen, Sparkles } from 'lucide-react';
+import { FileText, Microscope, Presentation, Sparkles } from 'lucide-react';
 
 import { m, useLocale } from '@/lib/i18n';
 import type { SearchResult, SearchStatus, SearchType } from '@/lib/search';
@@ -6,15 +6,15 @@ import { cn } from '@/lib/utils';
 
 const TYPE_ICON: Record<SearchType, typeof FileText> = {
   page: FileText,
-  project: FolderKanban,
-  post: NotebookPen,
+  publication: Microscope,
+  talk: Presentation,
 };
 const typeLabel = (type: SearchType) =>
   type === 'page'
     ? m.search_type_page()
-    : type === 'project'
-      ? m.search_type_project()
-      : m.search_type_post();
+    : type === 'publication'
+      ? m.search_type_publication()
+      : m.search_type_talk();
 
 /** Header pill. Changes label once the model is warm; `key` re-triggers the entrance animation. */
 export function SearchPill({

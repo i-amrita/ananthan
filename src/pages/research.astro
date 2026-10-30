@@ -1,0 +1,134 @@
+---
+import ProseLayout from '@/components/astro/ProseLayout.astro';
+import { m } from '@/lib/i18n';
+import { getCourses, getPublications, getTalks } from '@/lib/content';
+
+const [publications, talks, courses] = await Promise.all([
+  getPublications(),
+  getTalks(),
+  getCourses(),
+]);
+
+const formatDate = (d: Date) =>
+  d.toISOString().slice(0, 7);
+const kindLabel = (kind: string) =>
+  ({
+    paper: m.research_kind_paper(),
+    preprint: m.research_kind_preprint(),
+    book: m.research_kind_book(),
+    editorial: m.research_kind_editorial(),
+  })[kind] ?? kind;
+const talkKindLabel = (kind: string) =>
+  ({
+    talk: m.research_talk_kind_talk(),
+    poster: m.research_talk_kind_poster(),
+    invited: m.research_talk_kind_invited(),
+  })[kind] ?? kind;
+const courseKindLabel = (kind: string) =>
+  ({
+    course: m.research_course_kind_course(),
+    workshop: m.research_course_kind_workshop(),
+    tutorial: m.research_course_kind_tutorial(),
+  })[kind] ?? kind;
+---
+
+<ProseLayout
+  title="Research"
+  eyebrow="Work"
+  description={m.research_intro()}
+  mdHref="/research.md"
+>
+  <p data-i18n="research_intro">{m.research_intro()}</p>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="font-display text-2xl" id="publications" data-i18n="research_publications">
+      {m.research_publications()}
+    </h2>
+    {
+      publications.length === 0 ? (
+        <p class="text-muted-foreground">{m.research_empty()}</p>
+      ) : (
+        <ul class="flex flex-col gap-3">
+          {publications.map((p) => (
+            <li id={p.id} class="flex flex-col gap-1 scroll-mt-24">
+              <a
+                href={p.data.href}
+                class="font-display text-lg leading-snug text-fg underline decoration-border underline-offset-4 transition-colors duration-300 ease-(--ease-spring) hover:text-brand hover:decoration-brand"
+              >
+                {p.data.title}
+              </a>
+              <p class="text-sm text-muted-foreground">
+                {p.data.venue} · {formatDate(p.data.date)} · {kindLabel(p.data.kind)}
+              </p>
+              <p class="text-sm leading-relaxed">{p.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="font-display text-2xl" id="talks" data-i18n="research_talks">{m.research_talks()}</h2>
+    {
+      talks.length === 0 ? (
+        <p class="text-muted-foreground">{m.research_empty()}</p>
+      ) : (
+        <ul class="flex flex-col gap-3">
+          {talks.map((t) => (
+            <li id={t.id} class="flex flex-col gap-1 scroll-mt-24">
+              <p class="font-medium">
+                {t.data.href ? (
+                  <a
+                    href={t.data.href}
+                    class="underline decoration-border underline-offset-4 transition-colors duration-300 ease-(--ease-spring) hover:text-brand hover:decoration-brand"
+                  >
+                    {t.data.title}
+                  </a>
+                ) : (
+                  t.data.title
+                )}
+              </p>
+              <p class="text-sm text-muted-foreground">
+                {t.data.event} · {formatDate(t.data.date)} · {talkKindLabel(t.data.kind)}
+              </p>
+              <p class="text-sm leading-relaxed">{t.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="font-display text-2xl" id="courses" data-i18n="research_courses">{m.research_courses()}</h2>
+    {
+      courses.length === 0 ? (
+        <p class="text-muted-foreground">{m.research_empty()}</p>
+      ) : (
+        <ul class="flex flex-col gap-3">
+          {courses.map((c) => (
+            <li id={c.id} class="flex flex-col gap-1 scroll-mt-24">
+              <p class="font-medium">
+                {c.data.href ? (
+                  <a
+                    href={c.data.href}
+                    class="underline decoration-border underline-offset-4 transition-colors duration-300 ease-(--ease-spring) hover:text-brand hover:decoration-brand"
+                  >
+                    {c.data.title}
+                  </a>
+                ) : (
+                  c.data.title
+                )}
+              </p>
+              <p class="text-sm text-muted-foreground">
+                {c.data.institution} · {formatDate(c.data.date)} · {courseKindLabel(c.data.kind)}
+              </p>
+              <p class="text-sm leading-relaxed">{c.data.summary}</p>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+</ProseLayout>

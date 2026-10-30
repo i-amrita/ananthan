@@ -1,69 +1,61 @@
 @import 'tailwindcss';
 
-/* Semantic tokens. Components use `bg-page`, `text-fg`, `text-brand`, `bg-brand`; never raw var() in markup. */
+/* Semantic tokens. Components use `bg-page`, `text-fg`, `text-brand`, `bg-accent-route`; never raw var() in markup. */
 @theme inline {
   --color-page: var(--c-page);
   --color-fg: var(--c-fg);
   --color-surface: var(--c-surface);
   --color-surface-muted: var(--c-surface-muted);
   --color-border: var(--c-border);
+  --color-muted-foreground: var(--c-muted-fg);
 
-  --color-brand: var(--c-brand);
-  --color-brand-fg: var(--c-brand-fg);
-  --color-brand-soft: var(--c-brand-soft);
-  --color-brand-strong: var(--c-brand-strong);
-  --color-brand-hover: var(--c-brand-strong);
+  --color-ink: var(--c-ink);
+  --color-ink-soft: var(--c-ink-soft);
 
-  /* Macropad keycaps: physical objects, identical in both themes. `-lo` is the bottom of the cap gradient. */
-  --color-key-cream: var(--c-key-cream);
-  --color-key-cream-lo: var(--c-key-cream-lo);
-  --color-key-cream-side: var(--c-key-cream-side);
-  --color-key-cream-fg: var(--c-key-cream-fg);
-  --color-key-rose: var(--c-key-rose);
-  --color-key-rose-lo: var(--c-key-rose-lo);
-  --color-key-rose-side: var(--c-key-rose-side);
-  --color-key-rose-fg: var(--c-key-rose-fg);
-  --color-key-sage: var(--c-key-sage);
-  --color-key-sage-lo: var(--c-key-sage-lo);
-  --color-key-sage-side: var(--c-key-sage-side);
-  --color-key-sage-fg: var(--c-key-sage-fg);
-
-  /* Pad hardware: dark in both themes so it reads as an object on cream. */
-  --color-chassis: var(--c-chassis);
-  --color-chassis-lo: var(--c-chassis-lo);
-  --color-plate: var(--c-plate);
-  --color-dot-grid: var(--c-dot-grid);
+  /* Per-route accents: research indigo, life terracotta, photography sepia. Home uses ink. */
+  --color-accent-research: var(--c-accent-research);
+  --color-accent-research-fg: var(--c-accent-research-fg);
+  --color-accent-research-soft: var(--c-accent-research-soft);
+  --color-accent-life: var(--c-accent-life);
+  --color-accent-life-fg: var(--c-accent-life-fg);
+  --color-accent-life-soft: var(--c-accent-life-soft);
+  --color-accent-photography: var(--c-accent-photography);
+  --color-accent-photography-fg: var(--c-accent-photography-fg);
+  --color-accent-photography-soft: var(--c-accent-photography-soft);
 
   /* shadcn/ui compat: vendored primitives resolve to our semantic tokens */
   --color-background: var(--c-page);
   --color-foreground: var(--c-fg);
   --color-popover: var(--c-surface);
   --color-popover-foreground: var(--c-fg);
-  --color-primary: var(--c-brand);
-  --color-primary-foreground: var(--c-brand-fg);
+  --color-primary: var(--c-fg);
+  --color-primary-foreground: var(--c-page);
   --color-secondary: var(--c-surface-muted);
   --color-secondary-foreground: var(--c-fg);
   --color-muted: var(--c-surface-muted);
-  --color-muted-foreground: var(--c-muted-fg);
   --color-accent: var(--c-surface-muted);
   --color-accent-foreground: var(--c-fg);
   --color-destructive: #b3261e;
   --color-input: var(--c-border);
-  --color-ring: var(--c-brand);
+  --color-ring: var(--c-fg);
+
+  /* `brand` stays as an alias so shared components and vendored files keep working. It resolves to the
+     route accent when a route sets `data-route`, else to ink. */
+  --color-brand: var(--c-brand);
+  --color-brand-fg: var(--c-brand-fg);
+  --color-brand-soft: var(--c-brand-soft);
+  --color-brand-strong: var(--c-brand-strong);
+  --color-brand-hover: var(--c-brand-strong);
 
   --radius-key: 6px;
   --radius-card: 14px;
-  --shadow-key: 0 1px 0 rgb(0 0 0 / 0.06), 0 0 0 1px var(--c-border);
 
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
-  /* Berkeley Mono is paid and never shipped: visitors get their system mono. */
-  --font-mono: 'Berkeley Mono', ui-monospace, 'SF Mono', monospace;
-  --font-key: 'Berkeley Mono', ui-monospace, 'SF Mono', monospace;
+  --font-mono: ui-monospace, 'SF Mono', monospace;
 
-  /* Motion: key press 60ms on ease-key, everything else 300-700ms on ease-spring. */
+  /* Motion: everything 300-700ms on the spring curve. */
   --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
-  --ease-key: cubic-bezier(0.2, 0, 0.38, 0.9);
 
   /* Tinted, diffused lift. Never shadow-md or pure black. */
   --shadow-lift: 0 24px 60px -12px rgb(28 16 18 / 0.35);
@@ -74,57 +66,97 @@
    whole site renders unstyled on iOS. */
 :root {
   color-scheme: light dark;
-  --c-page: #fcf9f4;
-  --c-fg: #1c1c19;
-  --c-surface: #ffffff;
-  --c-surface-muted: #f0ede9;
-  --c-border: #dac1c1;
-  --c-muted-fg: #544243;
+  /* Warm paper and near-black ink, per the spec. */
+  --c-page: #f5f1e8;
+  --c-fg: #2b2b2b;
+  --c-surface: #fdfbf5;
+  --c-surface-muted: #ece6d8;
+  --c-border: #d8d0be;
+  --c-muted-fg: #5c574c;
 
-  /* One rose hue (~15 OKLCH), lightness mirrored between themes. */
-  --c-brand: #8b3a42;
-  --c-brand-strong: #6d232c;
-  --c-brand-soft: #ffdada;
-  --c-brand-fg: #ffffff;
+  --c-ink: #2b2b2b;
+  --c-ink-soft: #6d6a63;
 
-  --c-key-cream: #f7f3ed;
-  --c-key-cream-lo: #eae4dc;
-  --c-key-cream-side: #beaba0;
-  --c-key-cream-fg: #3c262a;
-  --c-key-rose: #b9646d;
-  --c-key-rose-lo: #a85a63;
-  --c-key-rose-side: #7e434a;
-  --c-key-rose-fg: #fffaf6;
-  --c-key-sage: #e3ece6;
-  --c-key-sage-lo: #d4ded7;
-  --c-key-sage-side: #9fae9d;
-  --c-key-sage-fg: #36443c;
+  /* Research indigo. */
+  --c-accent-research: #3f4d9e;
+  --c-accent-research-fg: #ffffff;
+  --c-accent-research-soft: #dfe2f5;
+  /* Life terracotta. */
+  --c-accent-life: #b45f42;
+  --c-accent-life-fg: #ffffff;
+  --c-accent-life-soft: #f4e0d7;
+  /* Photography sepia. */
+  --c-accent-photography: #8a6f47;
+  --c-accent-photography-fg: #ffffff;
+  --c-accent-photography-soft: #eee3cf;
 
-  --c-chassis: #2a2627;
-  --c-chassis-lo: #1d1a1b;
-  --c-plate: #141213;
   --c-dot-grid: rgb(0 0 0 / 0.05);
+
+  /* Route accent, resolved by `data-route` on <html>. Defaults to ink. */
+  --c-brand: var(--c-ink);
+  --c-brand-fg: var(--c-page);
+  --c-brand-soft: #e4ddcd;
+  --c-brand-strong: #111111;
 }
 
-/* Dark follows the OS preference unless the URL pins ?theme=light. */
+:root[data-route='research'] {
+  --c-brand: var(--c-accent-research);
+  --c-brand-fg: var(--c-accent-research-fg);
+  --c-brand-soft: var(--c-accent-research-soft);
+  --c-brand-strong: #2e3a7c;
+}
+:root[data-route='life'] {
+  --c-brand: var(--c-accent-life);
+  --c-brand-fg: var(--c-accent-life-fg);
+  --c-brand-soft: var(--c-accent-life-soft);
+  --c-brand-strong: #92472f;
+}
+:root[data-route='photography'] {
+  --c-brand: var(--c-accent-photography);
+  --c-brand-fg: var(--c-accent-photography-fg);
+  --c-brand-soft: var(--c-accent-photography-soft);
+  --c-brand-strong: #6e573a;
+}
+
+/* Dark follows the OS preference unless the URL pins ?theme=light. Deep charcoal paper, bone-white ink. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --c-page: oklch(0.16 0.008 15);
-    --c-fg: #f1ede8;
-    --c-surface: #1a1718;
-    --c-surface-muted: #232021;
-    --c-border: #3a3335;
-    --c-muted-fg: #b4a6a3;
+    --c-page: #1d1c1a;
+    --c-fg: #f1ede4;
+    --c-surface: #262422;
+    --c-surface-muted: #322f2c;
+    --c-border: #3f3b36;
+    --c-muted-fg: #b3ada1;
 
-    --c-brand: #c4767e;
-    --c-brand-strong: #e3a3a9;
-    --c-brand-soft: #4a2a2e;
-    --c-brand-fg: #1c1012;
+    --c-ink: #f1ede4;
+    --c-ink-soft: #b3ada1;
 
-    --c-chassis: #2a2c31;
-    --c-chassis-lo: #151619;
-    --c-plate: #121316;
+    --c-accent-research: #8b97d8;
+    --c-accent-research-fg: #16182c;
+    --c-accent-research-soft: #2c3050;
+    --c-accent-life: #d98a6c;
+    --c-accent-life-fg: #2c1a12;
+    --c-accent-life-soft: #4a2c1f;
+    --c-accent-photography: #c2a378;
+    --c-accent-photography-fg: #291f12;
+    --c-accent-photography-soft: #423523;
+
     --c-dot-grid: rgb(255 255 255 / 0.05);
+
+    --c-brand-soft: #34302a;
+    --c-brand-strong: #ffffff;
+  }
+  :root:not([data-theme='light'])[data-route='research'] {
+    --c-brand-soft: var(--c-accent-research-soft);
+    --c-brand-strong: #aab4e4;
+  }
+  :root:not([data-theme='light'])[data-route='life'] {
+    --c-brand-soft: var(--c-accent-life-soft);
+    --c-brand-strong: #e5a288;
+  }
+  :root:not([data-theme='light'])[data-route='photography'] {
+    --c-brand-soft: var(--c-accent-photography-soft);
+    --c-brand-strong: #d6bb92;
   }
 }
 
@@ -135,20 +167,40 @@
 }
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --c-page: oklch(0.16 0.008 15);
-  --c-fg: #f1ede8;
-  --c-surface: #1a1718;
-  --c-surface-muted: #232021;
-  --c-border: #3a3335;
-  --c-muted-fg: #b4a6a3;
+  --c-page: #1d1c1a;
+  --c-fg: #f1ede4;
+  --c-surface: #262422;
+  --c-surface-muted: #322f2c;
+  --c-border: #3f3b36;
+  --c-muted-fg: #b3ada1;
 
-  --c-brand: #c4767e;
-  --c-brand-strong: #e3a3a9;
-  --c-brand-soft: #4a2a2e;
-  --c-brand-fg: #1c1012;
+  --c-ink: #f1ede4;
+  --c-ink-soft: #b3ada1;
 
-  --c-chassis: #2a2c31;
-  --c-chassis-lo: #151619;
-  --c-plate: #121316;
+  --c-accent-research: #8b97d8;
+  --c-accent-research-fg: #16182c;
+  --c-accent-research-soft: #2c3050;
+  --c-accent-life: #d98a6c;
+  --c-accent-life-fg: #2c1a12;
+  --c-accent-life-soft: #4a2c1f;
+  --c-accent-photography: #c2a378;
+  --c-accent-photography-fg: #291f12;
+  --c-accent-photography-soft: #423523;
+
   --c-dot-grid: rgb(255 255 255 / 0.05);
+
+  --c-brand-soft: #34302a;
+  --c-brand-strong: #ffffff;
+}
+:root[data-theme='dark'][data-route='research'] {
+  --c-brand-soft: var(--c-accent-research-soft);
+  --c-brand-strong: #aab4e4;
+}
+:root[data-theme='dark'][data-route='life'] {
+  --c-brand-soft: var(--c-accent-life-soft);
+  --c-brand-strong: #e5a288;
+}
+:root[data-theme='dark'][data-route='photography'] {
+  --c-brand-soft: var(--c-accent-photography-soft);
+  --c-brand-strong: #d6bb92;
 }

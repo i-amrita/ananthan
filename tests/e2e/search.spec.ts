@@ -5,14 +5,14 @@ test('pagefind index is built', async ({ request }) => {
   expect(res.status()).toBe(200);
 });
 
-test('/?cmdk=open&q=gdg lists search results under the actions', async ({ page }) => {
-  await page.goto('/?cmdk=open&q=gdg&mode=keyword');
-  await expect(page.getByRole('combobox')).toHaveValue('gdg');
-  await expect(page.getByRole('option').first()).toBeVisible();
+test('/search?q=protein lists results in keyword mode', async ({ page }) => {
+  await page.goto('/search?q=protein&mode=keyword');
+  await expect(page.getByRole('textbox').first()).toHaveValue('protein');
+  await expect(page.locator('[data-search-results] li').first()).toBeVisible();
 });
 
-test('the palette toggles between AI and keyword mode via ?mode=', async ({ page }) => {
-  await page.goto('/?cmdk=open&q=gdg');
+test('the search page toggles between AI and keyword mode via ?mode=', async ({ page }) => {
+  await page.goto('/search?q=protein');
   const ai = page.getByRole('button', { name: 'AI', exact: true });
   const keyword = page.getByRole('button', { name: 'Keyword', exact: true });
   await expect(ai).toHaveAttribute('aria-pressed', 'true');
@@ -23,14 +23,7 @@ test('the palette toggles between AI and keyword mode via ?mode=', async ({ page
   await expect(page).toHaveURL(/mode=ai/);
 });
 
-test('old /?overlay=search&q=gdg links open the palette', async ({ page }) => {
-  await page.goto('/?overlay=search&q=gdg');
-  await expect(page).toHaveURL(/cmdk=open/);
-  await expect(page).not.toHaveURL(/overlay=/);
-  await expect(page.getByRole('combobox')).toHaveValue('gdg');
-});
-
-test('/search?q=gdg keeps working as a page', async ({ page }) => {
-  await page.goto('/search?q=gdg');
-  await expect(page.getByRole('textbox').first()).toHaveValue('gdg');
+test('an empty query shows the hint, not results', async ({ page }) => {
+  await page.goto('/search');
+  await expect(page.locator('[data-search-results]')).toHaveCount(0);
 });

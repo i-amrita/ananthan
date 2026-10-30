@@ -1,0 +1,38 @@
+---
+import { PhotoLightbox, type PhotoItem } from '@/components/react/PhotoLightbox';
+import ProseLayout from '@/components/astro/ProseLayout.astro';
+import { getPhotos } from '@/lib/content';
+import { m } from '@/lib/i18n';
+import { SOCIALS } from '@/lib/site';
+
+const photos: PhotoItem[] = (await getPhotos()).map((p) => ({
+  id: p.id,
+  caption: p.data.caption,
+  alt: p.data.alt,
+  image: p.data.image,
+  width: p.data.width,
+  height: p.data.height,
+  ...(p.data.camera ? { camera: p.data.camera } : {}),
+}));
+---
+
+<ProseLayout
+  title="Photography"
+  eyebrow="Frames"
+  description={m.photography_intro()}
+  mdHref="/photography.md"
+>
+  <p data-i18n="photography_intro">{m.photography_intro()}</p>
+  <PhotoLightbox photos={photos} client:visible />
+  <p class="text-xs text-muted-foreground" data-i18n="photography_placeholder">
+    {m.photography_placeholder()}
+  </p>
+  <a
+    href={SOCIALS.portfolio}
+    rel="noopener"
+    class="inline-flex min-h-11 w-fit items-center gap-2 rounded-key bg-brand px-4 py-2 text-sm text-brand-fg transition-[background-color,transform] duration-300 ease-(--ease-spring) hover:bg-brand-hover active:scale-95 motion-reduce:transition-colors motion-reduce:active:scale-100"
+    data-i18n="photography_cta"
+  >
+    {m.photography_cta()}
+  </a>
+</ProseLayout>

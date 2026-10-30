@@ -1,5 +1,5 @@
 {
-  "name": "i-amrita",
+  "name": "ananthan-site",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
     "format:check": "oxfmt --check .",
     "test:e2e": "playwright test -c tests/playwright.config.ts",
     "audit:site": "astro build --config astro.audit.config.mjs",
-    "audit:links": "static-link-sentinel dist --site-url https://amrita.nambiar.my",
+    "audit:links": "static-link-sentinel dist --site-url https://annambiar.github.io",
     "deploy": "pnpm build && wrangler deploy",
     "intl-ai:fill": "intl-ai fill",
     "intl-ai:check": "intl-ai check",
@@ -31,17 +31,14 @@
     "astro": "7.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cmdk": "^1.1.1",
     "cn": "^0.5.0",
     "lucide-react": "^1.58.0",
     "nuqs": "^2.10.2",
     "radix-ui": "^1.8.1",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "sonner": "^2.0.8",
     "tailwind-merge": "^3.7.0",
-    "tailwindcss": "^4.3.3",
-    "vaul": "^1.1.2"
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
@@ -54,7 +51,6 @@
     "@inlang/plugin-message-format": "^4.5.4",
     "@playwright/test": "^1.64.1",
     "@resvg/resvg-js": "^2.6.2",
-    "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",

@@ -7,14 +7,18 @@ import { getSitePages } from '@/lib/content';
 export interface CorpusChunk {
   url: string;
   title: string;
-  type: 'page' | 'project' | 'post';
+  type: 'page' | 'publication' | 'talk';
   text: string;
 }
 
 const MAX_CHARS = 900;
 
 const typeOf = (section: string): CorpusChunk['type'] =>
-  section === 'Work' ? 'project' : section === 'Log' ? 'post' : 'page';
+  section === 'Research'
+    ? 'publication'
+    : section === 'Life' || section === 'Photography'
+      ? 'talk'
+      : 'page';
 
 /** One head chunk (title + description) plus one chunk per `##` section, capped in length. */
 function chunk(title: string, description: string, markdown: string) {

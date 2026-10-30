@@ -2,248 +2,225 @@
  * Single content source for HTML pages, `.md` companions, `llms.txt` and `llms-full.txt`.
  * Everything agent-facing is derived from these helpers; never hand-write markdown copies.
  */
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
-import type { PostItem, ProjectItem, ResearchItem } from '@/components/react/overlay-types';
-
-export const SITE_URL = 'https://amrita.nambiar.my';
-export const SITE_NAME = 'Amrita Nambiar';
+export const SITE_URL = 'https://annambiar.github.io';
+export const SITE_NAME = 'Ananthan Nambiar';
 export const SITE_SUMMARY =
-  'Personal portfolio of Amrita Nambiar: AI, community and human-centered design. MIMS 2027 at UC Berkeley.';
+  'Ananthan Nambiar: computational biologist working on machine learning for biological systems, and a film photographer, dancer, rower, cook and environmentalist.';
 
-export type ProjectEntry = CollectionEntry<'project'>;
-export type ResearchEntry = CollectionEntry<'research'>;
-export type PostEntry = CollectionEntry<'post'>;
-export type SingletonEntry = CollectionEntry<'singletons'>;
+export type PublicationEntry = CollectionEntry<'publications'>;
+export type TalkEntry = CollectionEntry<'talks'>;
+export type CourseEntry = CollectionEntry<'courses'>;
+export type FigureEntry = CollectionEntry<'figures'>;
+export type PhotoEntry = CollectionEntry<'photos'>;
 
 export const abs = (path: string) => new URL(path, SITE_URL).href;
 
-/** Non-draft projects ordered by `order`, then newest start first. */
-export async function getProjects(): Promise<ProjectEntry[]> {
-  const all = await getCollection('project', (p) => !p.data.draft);
-  return all.toSorted(
-    (a, b) => a.data.order - b.data.order || b.data.period.start.localeCompare(a.data.period.start),
-  );
-}
-
 /** Non-draft publications, newest first. */
-export async function getResearch(): Promise<ResearchEntry[]> {
-  const all = await getCollection('research', (r) => !r.data.draft);
+export async function getPublications(): Promise<PublicationEntry[]> {
+  const all = await getCollection('publications', (p) => !p.data.draft);
   return all.toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-/** Non-draft posts, newest first. */
-export async function getPosts(): Promise<PostEntry[]> {
-  const all = await getCollection('post', (p) => !p.data.draft);
-  return all.toSorted((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+/** Non-draft talks, newest first. */
+export async function getTalks(): Promise<TalkEntry[]> {
+  const all = await getCollection('talks', (t) => !t.data.draft);
+  return all.toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-export const getSingleton = (id: 'about' | 'now') => getEntry('singletons', id);
-
-export async function getAllTags(): Promise<string[]> {
-  const projects = await getProjects();
-  return [...new Set(projects.flatMap((p) => p.data.tags))].toSorted((a, b) => a.localeCompare(b));
+/** Non-draft courses, newest first. */
+export async function getCourses(): Promise<CourseEntry[]> {
+  const all = await getCollection('courses', (c) => !c.data.draft);
+  return all.toSorted((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-export const formatPeriod = (p: { start: string; end?: string | undefined }) =>
-  `${p.start} to ${p.end ?? 'present'}`;
+/** Non-draft photos, in the order the owner placed them. */
+export async function getPhotos(): Promise<PhotoEntry[]> {
+  const all = await getCollection('photos', (p) => !p.data.draft);
+  return all.toSorted((a, b) => a.data.order - b.data.order);
+}
+
+/** Figures for one route (`home`, `research`, `life`, `photography`). */
+export async function getFigures(route: string): Promise<FigureEntry[]> {
+  const all = await getCollection('figures', (f) => !f.data.draft && f.data.route === route);
+  return all.toSorted((a, b) => a.data.order - b.data.order);
+}
 
 export const formatDate = (d: Date) => d.toISOString().slice(0, 10);
 
-/** Strip MDX-only syntax so the body reads as plain markdown. */
-export function mdxToMarkdown(body: string | undefined): string {
-  if (!body) return '';
-  let inFence = false;
-  const lines: string[] = [];
-  for (const line of body.split('\n')) {
-    if (/^\s*(```|~~~)/.test(line)) inFence = !inFence;
-    if (inFence || /^\s*(```|~~~)/.test(line)) {
-      lines.push(line);
-      continue;
-    }
-    if (/^\s*(import|export)\s.+$/.test(line)) continue;
-    if (/^\s*\{\/\*.*\*\/\}\s*$/.test(line)) continue;
-    // Self-closing or standalone JSX component lines: <Foo ... />, <Foo>, </Foo>
-    if (/^\s*<\/?[A-Z][\w.]*(\s[^>]*)?\/?>\s*$/.test(line)) continue;
-    lines.push(line.replace(/<\/?[A-Z][\w.]*(\s[^>]*)?\/?>/g, ''));
-  }
-  return lines
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
+export const markdownResponse = (body: string) =>
+  new Response(`${body}\n`, { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } });
 
 const bullets = (items: string[]) => items.map((i) => `- ${i}`).join('\n');
 
-export function projectMarkdown(p: ProjectEntry): string {
+/** One publication as a markdown list entry. Stable anchor: `/research#<id>`. */
+export function publicationMarkdown(p: PublicationEntry): string {
   const d = p.data;
   const meta = [
-    ...(d.role ? [`Role: ${d.role}`] : []),
-    ...(d.org ? [`Organization: ${d.org}`] : []),
-    `Period: ${formatPeriod(d.period)}`,
+    `Venue: ${d.venue}`,
+    `Date: ${formatDate(d.date)}`,
+    ...(d.authors ? [`Authors: ${d.authors}`] : []),
+    ...(d.kind ? [`Kind: ${d.kind}`] : []),
+    d.href,
+  ];
+  return [`### ${d.title}`, d.summary, bullets(meta)].filter(Boolean).join('\n\n');
+}
+
+export function talkMarkdown(t: TalkEntry): string {
+  const d = t.data;
+  const meta = [
+    `Event: ${d.event}`,
+    `Date: ${formatDate(d.date)}`,
+    ...(d.kind ? [`Kind: ${d.kind}`] : []),
     ...(d.location ? [`Location: ${d.location}`] : []),
-    ...(d.tags.length ? [`Tags: ${d.tags.join(', ')}`] : []),
-    ...d.links.map((l) => `[${l.label}](${l.href})`),
+    ...(d.href ? [d.href] : []),
   ];
-  return [`# ${d.title}`, d.summary, bullets(meta), mdxToMarkdown(p.body)]
-    .filter(Boolean)
-    .join('\n\n');
+  return [`### ${d.title}`, d.summary, bullets(meta)].filter(Boolean).join('\n\n');
 }
 
-export function postMarkdown(p: PostEntry): string {
-  const d = p.data;
+export function courseMarkdown(c: CourseEntry): string {
+  const d = c.data;
   const meta = [
-    `Published: ${formatDate(d.pubDate)}`,
-    ...(d.updatedDate ? [`Updated: ${formatDate(d.updatedDate)}`] : []),
-    ...(d.tags.length ? [`Tags: ${d.tags.join(', ')}`] : []),
+    `Institution: ${d.institution}`,
+    `Date: ${formatDate(d.date)}`,
+    ...(d.kind ? [`Kind: ${d.kind}`] : []),
+    ...(d.href ? [d.href] : []),
   ];
-  return [`# ${d.title}`, d.description, bullets(meta), mdxToMarkdown(p.body)]
-    .filter(Boolean)
-    .join('\n\n');
+  return [`### ${d.title}`, d.summary, bullets(meta)].filter(Boolean).join('\n\n');
 }
 
-export function singletonMarkdown(s: SingletonEntry): string {
-  return [`# ${s.data.title}`, mdxToMarkdown(s.body)].filter(Boolean).join('\n\n');
+export function photoMarkdown(p: PhotoEntry): string {
+  const d = p.data;
+  const meta = [`Image: ${d.image}`, `Alt: ${d.alt}`, ...(d.camera ? [`Camera: ${d.camera}`] : [])];
+  return [`### ${d.caption}`, bullets(meta)].filter(Boolean).join('\n\n');
 }
 
-const projectLine = (p: ProjectEntry) => {
-  const who = [p.data.role, p.data.org].filter(Boolean).join(', ');
-  return `- [${p.data.title}](${abs(`/work/${p.id}.md`)}): ${who ? `${who} ` : ''}(${formatPeriod(p.data.period)}). ${p.data.summary}`;
-};
-
+/** The `/research` companion: publications, then talks, then courses. */
 const section = (heading: string, items: string[], empty: string) =>
-  [`## ${heading}`, items.length ? items.join('\n') : empty].join('\n\n');
+  [`## ${heading}`, items.length ? items.join('\n\n') : empty].join('\n\n');
 
-export async function workIndexMarkdown(): Promise<string> {
-  const [projects, research] = await Promise.all([getProjects(), getResearch()]);
+export async function researchMarkdown(): Promise<string> {
+  const [publications, talks, courses] = await Promise.all([
+    getPublications(),
+    getTalks(),
+    getCourses(),
+  ]);
   return [
-    '# Work',
+    '# Research',
     section(
-      'Work',
-      projects.filter((p) => p.data.kind === 'work').map(projectLine),
-      'No work yet.',
+      'Publications',
+      publications.map((p) => publicationMarkdown(p)),
+      'No publications yet.',
     ),
     section(
-      'Projects',
-      projects.filter((p) => p.data.kind === 'project').map(projectLine),
-      'No projects yet.',
+      'Talks',
+      talks.map((t) => talkMarkdown(t)),
+      'No talks yet.',
     ),
     section(
-      'Research',
-      research.map(
-        (r) =>
-          `- [${r.data.title}](${r.data.href}): ${r.data.venue} (${formatDate(r.data.date)}). ${r.data.description}`,
-      ),
-      'No research yet.',
+      'Courses',
+      courses.map((c) => courseMarkdown(c)),
+      'No courses yet.',
     ),
   ].join('\n\n');
 }
 
-export async function logIndexMarkdown(): Promise<string> {
-  const posts = await getPosts();
-  const items = posts.map(
-    (p) =>
-      `- [${p.data.title}](${abs(`/posts/${p.id}.md`)}) (${formatDate(p.data.pubDate)}): ${p.data.description}`,
-  );
-  return ['# Log', items.length ? items.join('\n') : 'Nothing here yet.'].join('\n\n');
+/** The `/life` companion. */
+export async function lifeMarkdown(): Promise<string> {
+  return [
+    '# Life',
+    'Ananthan Nambiar is a computational biologist. Outside the lab he is a film photographer, a dancer, a rower, a cook and an environmentalist.',
+    '## Hobbies',
+    bullets([
+      'Photography: film, mostly street and travel. The portfolio lives at https://nambiar4.myportfolio.com.',
+      'Dance.',
+      'Rowing.',
+      'Cooking.',
+      'Environmentalism.',
+    ]),
+  ].join('\n\n');
+}
+
+/** The `/photography` companion. */
+export async function photographyMarkdown(): Promise<string> {
+  const photos = await getPhotos();
+  return [
+    '# Photography',
+    'A few frames from the camera. The full portfolio, and the copyright for every photo here, lives at https://nambiar4.myportfolio.com.',
+    section(
+      'Frames',
+      photos.map((p) => photoMarkdown(p)),
+      'No photos yet.',
+    ),
+  ].join('\n\n');
+}
+
+/** The `/` companion: who he is and where each route leads. */
+export async function homeMarkdown(): Promise<string> {
+  return [
+    '# Ananthan Nambiar',
+    SITE_SUMMARY,
+    '## Routes',
+    bullets([
+      `- [Research](${abs('/research')}): publications, talks and courses.`,
+      `- [Life](${abs('/life')}): the hobbies outside the lab.`,
+      `- [Photography](${abs('/photography')}): a few frames, plus the full portfolio.`,
+    ]),
+  ].join('\n\n');
 }
 
 export interface SitePage {
   title: string;
   description: string;
-  /** Canonical HTML path, e.g. `/work/foo`. */
+  /** Canonical HTML path, e.g. `/research`. */
   path: string;
-  /** Markdown companion path, e.g. `/work/foo.md`. */
+  /** Markdown companion path, e.g. `/research.md`. */
   mdPath: string;
-  section: 'Pages' | 'Work' | 'Log';
+  section: 'Pages' | 'Research' | 'Life' | 'Photography';
   markdown: string;
 }
 
 /** Every page on the site in llms order. Feeds `llms.txt` and `llms-full.txt`. */
 export async function getSitePages(): Promise<SitePage[]> {
-  const [about, now, projects, posts] = await Promise.all([
-    getSingleton('about'),
-    getSingleton('now'),
-    getProjects(),
-    getPosts(),
+  const [research, life, photography, home] = await Promise.all([
+    researchMarkdown(),
+    lifeMarkdown(),
+    photographyMarkdown(),
+    homeMarkdown(),
   ]);
-  const pages: SitePage[] = [];
-  if (about)
-    pages.push({
-      title: about.data.title,
-      description: about.data.description ?? `About ${SITE_NAME}`,
-      path: '/about',
-      mdPath: '/about.md',
+  return [
+    {
+      title: 'Home',
+      description: SITE_SUMMARY,
+      path: '/',
+      mdPath: '/index.md',
       section: 'Pages',
-      markdown: singletonMarkdown(about),
-    });
-  if (now)
-    pages.push({
-      title: now.data.title,
-      description: now.data.description ?? 'What I am focused on right now',
-      path: '/now',
-      mdPath: '/now.md',
-      section: 'Pages',
-      markdown: singletonMarkdown(now),
-    });
-  for (const p of projects)
-    pages.push({
-      title: p.data.title,
-      description: p.data.summary,
-      path: `/work/${p.id}`,
-      mdPath: `/work/${p.id}.md`,
-      section: 'Work',
-      markdown: projectMarkdown(p),
-    });
-  for (const p of posts)
-    pages.push({
-      title: p.data.title,
-      description: p.data.description,
-      path: `/posts/${p.id}`,
-      mdPath: `/posts/${p.id}.md`,
-      section: 'Log',
-      markdown: postMarkdown(p),
-    });
-  return pages;
+      markdown: home,
+    },
+    {
+      title: 'Research',
+      description: 'Publications, talks and courses on machine learning for computational biology.',
+      path: '/research',
+      mdPath: '/research.md',
+      section: 'Research',
+      markdown: research,
+    },
+    {
+      title: 'Life',
+      description: 'Photography, dance, rowing, cooking and environmentalism.',
+      path: '/life',
+      mdPath: '/life.md',
+      section: 'Life',
+      markdown: life,
+    },
+    {
+      title: 'Photography',
+      description: 'A few frames from the camera, and the full portfolio.',
+      path: '/photography',
+      mdPath: '/photography.md',
+      section: 'Photography',
+      markdown: photography,
+    },
+  ];
 }
-
-const truncate = (s: string, max = 200) =>
-  s.length <= max ? s : `${s.slice(0, max).replace(/\s+\S*$/, '')}…`;
-
-/** JSON-serializable list item shared by the full pages and the drawer overlays. */
-export function toProjectItem(p: ProjectEntry): ProjectItem {
-  return {
-    id: p.id,
-    kind: p.data.kind,
-    title: p.data.title,
-    ...(p.data.role && { role: p.data.role }),
-    ...(p.data.org && { org: p.data.org }),
-    period: formatPeriod(p.data.period),
-    summary: truncate(p.data.summary),
-    tags: p.data.tags,
-  };
-}
-
-export function toResearchItem(r: ResearchEntry): ResearchItem {
-  return {
-    id: r.id,
-    title: r.data.title,
-    venue: r.data.venue,
-    date: formatDate(r.data.date),
-    description: truncate(r.data.description),
-    href: r.data.href,
-  };
-}
-
-export function toPostItem(p: PostEntry): PostItem {
-  return {
-    id: p.id,
-    title: p.data.title,
-    description: truncate(p.data.description),
-    date: formatDate(p.data.pubDate),
-    tags: p.data.tags,
-  };
-}
-
-export const markdownResponse = (body: string) =>
-  new Response(`${body}\n`, { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } });

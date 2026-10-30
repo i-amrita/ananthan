@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1200" viewBox="0 0 800 1200" role="img" aria-label="Placeholder frame">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e1c1a" />
+      <stop offset="100%" stop-color="#3a3835" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1200" fill="url(#g)" />
+  <rect x="12" y="12" width="776" height="1176" fill="none" stroke="#b2a696" stroke-width="3" opacity="0.7" />
+  <g fill="#b2a696" opacity="0.85" font-family="Georgia, serif" font-size="56" text-anchor="middle">
+    <text x="400" y="586">FRAME 03</text>
+  </g>
+  <g fill="#b2a696" opacity="0.55" font-family="Georgia, serif" font-size="28" text-anchor="middle">
+    <text x="400" y="628">PLACEHOLDER</text>
+  </g>
+</svg>

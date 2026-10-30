@@ -1,0 +1,9 @@
+{
+  "title": "Unified imputation of missing data modalities and features in multi-omic data via shared representation learning",
+  "venue": "bioRxiv",
+  "date": "2026-02-04",
+  "summary": "Preprint: one shared representation for several omic layers, so a missing modality or feature can be imputed from the others instead of being dropped.",
+  "href": "https://doi.org/10.64898/2026.02.04.703630",
+  "authors": "Ananthan Nambiar; C. Melendez; W. Noble",
+  "kind": "preprint"
+}

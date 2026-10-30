@@ -1,0 +1,9 @@
+{
+  "title": "Transforming the Language of Life: Transformer Neural Networks for Protein Prediction Tasks",
+  "venue": "ACM-BCB 2020",
+  "date": "2020-09-21",
+  "summary": "Conference paper: a small transformer pretrained on protein sequence representations, fine-tuned to state-of-the-art performance on protein family classification and interaction prediction. The first paper in the language-of-life line.",
+  "href": "https://doi.org/10.1145/3388440.3412467",
+  "authors": "Ananthan Nambiar; Maeve Heflin; Simon Liu; Sergei Maslov; Mark Hopkins; Anna M. Ritz",
+  "kind": "paper"
+}

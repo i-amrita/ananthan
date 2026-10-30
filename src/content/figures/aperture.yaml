@@ -1,0 +1,20 @@
+motif: aperture
+label: 'Camera aperture'
+route: photography
+weight: 0.8
+paths:
+  # Aperture ring.
+  - 'M100,10 A90,90 0 1,1 99.9,10'
+  # 8 blades, each a straight chord toward the centre.
+  - 'M100,100 L100,20'
+  - 'M100,100 L163,37'
+  - 'M100,100 L180,100'
+  - 'M100,100 L163,163'
+  - 'M100,100 L100,180'
+  - 'M100,100 L37,163'
+  - 'M100,100 L20,100'
+  - 'M100,100 L37,37'
+size: [200, 200]
+position: { x: 60, y: 20 }
+delay: 0
+order: 0

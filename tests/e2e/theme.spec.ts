@@ -20,10 +20,10 @@ test('invalid theme value is ignored', async ({ page }) => {
   await expect(page.locator('html')).not.toHaveAttribute('data-theme', /.+/);
 });
 
-// TODO(keyboard): the `t` hotkey is wired by the keyboard island branch.
-test.fixme('pressing t toggles theme and updates the URL', async ({ page }) => {
+test('the theme toggle writes theme to the URL', async ({ page }) => {
   await page.goto('/?theme=light');
-  await page.keyboard.press('t');
-  await expect(page).toHaveURL(/theme=dark/);
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  await page.getByRole('button', { name: 'Toggle theme' }).click();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page).toHaveURL(/theme=dark/);
 });

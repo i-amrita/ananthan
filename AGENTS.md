@@ -1,6 +1,6 @@
 # AGENTS.md
 
-> Personal portfolio. Astro 6 + React 19 islands. Static output to Cloudflare Pages.
+> Personal portfolio for Ananthan Nambiar. Astro 7 + React 19 islands. Static output to Cloudflare Pages.
 > Canonical agent index — kept under 200 lines. Read once per session, drill in on demand.
 
 ## Commands
@@ -14,7 +14,7 @@
 - `pnpm lint` — `oxlint .`
 - `pnpm format` — `oxfmt --write .`
 - `pnpm format:check` — `oxfmt --check .`
-- `pnpm test:e2e` — Playwright via `playwright-cli` skill
+- `pnpm test:e2e` — Playwright via `tests/playwright.config.ts`
 - `pnpm deploy` — `wrangler deploy` (after `pnpm build`)
 - `pnpm intl-ai:fill` — translate missing keys in `ms.json` / `hi.json` / `de.json` / `ml.json`
 - `pnpm intl-ai:check` — CI gate for missing/stale translations
@@ -28,31 +28,32 @@
 - **Every content page has a `.md` companion.** The same content source feeds HTML + `.md` + `llms-full.txt`.
 - **No real LLM for search.** Pagefind + transformers.js MiniLM-L6-v2 + RRF, all in the browser. See `.agents/docs/search.md`.
 - **No hand-edited `llms.txt`.** Generated at build time from content collections.
+- **No invented facts about Ananthan.** Anything not verifiable from the spec or his public pages is a `draft: true` placeholder with a TODO the owner fills in; draft entries never ship.
 - **Use `oxlint`/`oxfmt`.** Never ESLint or Prettier.
 - **Source Available, not OSS.** License is PolyForm Noncommercial 1.0.0. Don't add MIT/Apache headers to new files except where required (keycap CSS attribution, see NOTICE).
-- **`keythm` keycap CSS recipe and sound are lifted.** Apache-2.0 attribution in NOTICE. The key sound sprite is a trimmed derivative of their `sound.ogg` (explicit owner override of the old "don't lift their sound" rule); never ship the full recording.
+- **Photographs are his.** Never fabricate or substitute an image presented as his work; `public/photos/` holds clearly marked placeholder frames until he supplies the real ones.
 - **Gitflow.** Default branch = `develop`. Feature branches off `develop`. Release branches merge to `main`.
 
 ## Layout
 
 ```
 src/
-  pages/         # file = route. Each content page has a sibling .md.ts endpoint.
+  pages/         # file = route: /, /research, /life, /photography. Each has a sibling .md.ts endpoint.
   components/
-    astro/       # static, no JS
-    react/       # interactive islands (.tsx)
-  content/       # Astro content collections (projects, posts, now, about)
+    astro/       # static, no JS (FigureField, Navbar, ProseLayout)
+    react/       # interactive islands (.tsx) (PhotoLightbox, NavbarActions, StaticCopy, search)
+  content/       # Astro content collections (publications, talks, courses, figures, photos)
   i18n/          # Paraglide + intl-ai source
-  lib/           # shared logic (audio, search, url-state, theme)
+  lib/           # shared logic (content, search, url-state, theme, og, jsonld)
   styles/        # tokens.css + global.css
 
-public/          # static assets, sounds, fonts, OG images
+public/          # static assets, photos, grain, OG images
 content/         # NOT USED — content lives under src/content/ (Astro convention)
 
 .agents/
-  docs/          # agent-facing deep dives (architecture, build, search, audio, llms, url-state)
+  docs/          # agent-facing deep dives (architecture, build, search, llms, url-state)
   skills/        # progressive-disclosure skills
-  screens/       # ASCII layouts (user flows, key maps)
+  screens/       # ASCII layouts
   plans/         # gitignored — active planning
 
 docs/            # public, generic docs (mirrors .agents/docs/architecture.md, no personal info)
@@ -62,12 +63,10 @@ docs/            # public, generic docs (mirrors .agents/docs/architecture.md, n
 
 - touching build pipeline → `.agents/docs/build.md`
 - changing search → `.agents/docs/search.md`
-- touching click/audio → `.agents/docs/audio.md`
-- touching CmdK → `.agents/docs/cmdK.md`
 - touching agent-facing URLs → `.agents/docs/llms.md`
 - touching URL state binding → `.agents/docs/url-state.md`
 - changing architecture → `.agents/docs/architecture.md` (and `docs/architecture.md`)
-- adding a new skill → `.agents/skills/<name>/SKILL.md`
+- adding a figure → `src/content/figures/` (one YAML file, see the spec under `docs/design/`)
 - planning a non-trivial change → `.agents/plans/YYYY-MM-DD-<slug>.md`
 
 ## Don't

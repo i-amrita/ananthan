@@ -1,0 +1,9 @@
+{
+  "title": "Semi-quantitative group testing for efficient and accurate qPCR screening of pathogens with a wide range of loads",
+  "venue": "BMC Bioinformatics",
+  "date": "2024-05-17",
+  "summary": "A group testing scheme for qPCR pathogen screening that handles viral loads spanning several orders of magnitude, with theoretical guarantees on the number of tests required.",
+  "href": "https://doi.org/10.1186/s12859-024-05798-3",
+  "authors": "Ananthan Nambiar; Chao Pan; Vishal Rana; Mahdi Cheraghchi; João Ribeiro; Sergei Maslov; Olgica Milenkovic",
+  "kind": "paper"
+}

@@ -1,0 +1,19 @@
+motif: dna
+label: 'DNA double helix'
+route: research
+weight: 0.8
+paths:
+  # Two sine strands crossing, drawn as cubic curves inside a 140x220 viewBox.
+  - 'M40,10 C40,40 100,60 100,90 C100,120 40,140 40,170 C40,200 100,220 100,250'
+  - 'M100,10 C100,40 40,60 40,90 C40,120 100,140 100,170 C100,200 40,220 40,250'
+  # Rungs: short horizontal strokes between the strands.
+  - 'M48,52 L92,52'
+  - 'M48,116 L92,116'
+  - 'M48,180 L92,180'
+  - 'M52,36 L88,36'
+  - 'M52,100 L88,100'
+  - 'M52,164 L88,164'
+size: [140, 260]
+position: { x: 10, y: 18 }
+delay: 0
+order: 0

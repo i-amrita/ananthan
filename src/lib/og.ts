@@ -11,11 +11,10 @@ import satori from 'satori';
 
 export const OG_SIZE = { width: 1200, height: 630 } as const;
 
-const PAGE = '#fff8f3';
-const FG = '#2a1f2f';
-const BRAND = '#8f4246';
-const MUTED = '#6b5a62';
-const BORDER = '#e8d7cf';
+const PAGE = '#f5f1e8';
+const FG = '#2b2b2b';
+const BRAND = '#b45f42';
+const MUTED = '#5c574c';
 
 export interface OgCard {
   eyebrow?: string;
@@ -41,31 +40,6 @@ const el = (type: string, style: Record<string, unknown>, children?: unknown): N
   type,
   props: { style: { display: 'flex', ...style }, ...(children !== undefined && { children }) },
 });
-
-/** Decorative keycaps echoing the home keyboard. */
-const keycaps = (): Node =>
-  el(
-    'div',
-    { gap: 14 },
-    ['F1', 'F2', 'F3', 'F4'].map((label) =>
-      el(
-        'div',
-        {
-          width: 84,
-          height: 84,
-          alignItems: 'center',
-          justifyContent: 'center',
-          borderRadius: 14,
-          border: `2px solid ${BORDER}`,
-          background: '#ffffff',
-          color: BRAND,
-          fontFamily: 'Fraunces',
-          fontSize: 26,
-        },
-        label,
-      ),
-    ),
-  );
 
 export async function renderOg({ eyebrow, title, subtitle }: OgCard): Promise<Uint8Array> {
   const tree = el(
@@ -103,10 +77,7 @@ export async function renderOg({ eyebrow, title, subtitle }: OgCard): Promise<Ui
           subtitle ? el('div', { fontSize: 34, color: MUTED, lineHeight: 1.3 }, subtitle) : null,
         ].filter(Boolean),
       ),
-      el('div', { justifyContent: 'space-between', alignItems: 'flex-end' }, [
-        el('div', { fontFamily: 'Fraunces', fontSize: 26, color: MUTED }, 'amrita.nambiar.my'),
-        keycaps(),
-      ]),
+      el('div', { fontFamily: 'Fraunces', fontSize: 26, color: MUTED }, 'annambiar.github.io'),
     ],
   );
   const svg = await satori(tree as never, { ...OG_SIZE, fonts: await loadFonts() });

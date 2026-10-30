@@ -35,7 +35,7 @@ export function SearchPanel({ autoFocus = false }: { autoFocus?: boolean }) {
             autoFocus={autoFocus}
             autoComplete="off"
             placeholder={m.search_placeholder()}
-            aria-label={m.action_search()}
+            aria-label={m.nav_search()}
             onChange={(e) => void setState({ q: e.target.value || null })}
             className="h-11 w-full bg-transparent text-sm text-fg outline-none placeholder:text-muted-foreground"
           />

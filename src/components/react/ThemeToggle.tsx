@@ -1,10 +1,10 @@
 import type { MouseEvent } from 'react';
 
 import { m, useLocale } from '@/lib/i18n';
+import type { Theme } from '@/lib/url-state';
 import { cn } from '@/lib/utils';
 
 import { PILL_ITEM } from './LocaleSwitch';
-import { useActions } from './use-actions';
 
 const VT_STYLE_ID = 'theme-vt-style';
 
@@ -54,17 +54,32 @@ function revealFrom(origin: HTMLElement, flip: () => void) {
   }
 }
 
+const nextTheme = (): Theme =>
+  document.documentElement.dataset.theme === 'dark'
+    ? 'light'
+    : document.documentElement.dataset.theme === 'light'
+      ? 'dark'
+      : matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'light'
+        : 'dark';
+
 /** Brand dot with a radar ping: toggles `?theme=` with a circular reveal. The ping is off under `prefers-reduced-motion`. */
 export function ThemeToggle() {
-  const { run } = useActions();
   useLocale();
   return (
     <button
       type="button"
       aria-label={m.action_theme()}
-      onClick={(e: MouseEvent<HTMLButtonElement>) =>
-        revealFrom(e.currentTarget, () => run('theme'))
-      }
+      onClick={(e: MouseEvent<HTMLButtonElement>) => {
+        const next = nextTheme();
+        revealFrom(e.currentTarget, () => {
+          const root = document.documentElement;
+          root.dataset.theme = next;
+          const url = new URL(location.href);
+          url.searchParams.set('theme', next);
+          history.replaceState(history.state, '', url);
+        });
+      }}
       className={cn(PILL_ITEM, 'size-7')}
     >
       <span className="relative flex size-2.5">

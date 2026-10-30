@@ -4,7 +4,7 @@
  * Contract + build steps: `.agents/docs/search.md`.
  */
 
-export type SearchType = 'page' | 'project' | 'post';
+export type SearchType = 'page' | 'publication' | 'talk';
 export type SearchStatus = 'idle' | 'keyword' | 'warming' | 'hybrid';
 
 export interface SearchResult {

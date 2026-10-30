@@ -1,0 +1,9 @@
+{
+  "title": "Transformer Neural Networks for Protein Family and Interaction Prediction Tasks",
+  "venue": "Journal of Computational Biology",
+  "date": "2023-01-01",
+  "summary": "Journal version of the ACM-BCB 2020 paper: a small transformer pretrained on protein sequences, fine-tuned for protein family classification and protein-protein interaction prediction at a fraction of the compute of larger models.",
+  "href": "https://doi.org/10.1089/cmb.2022.0132",
+  "authors": "Ananthan Nambiar; Simon Liu; Maeve Heflin; John Malcolm Forsyth; Sergei Maslov; Mark Hopkins; Anna M. Ritz",
+  "kind": "paper"
+}

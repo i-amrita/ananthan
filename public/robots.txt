@@ -19,4 +19,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://amrita.nambiar.my/sitemap-index.xml
+Sitemap: https://annambiar.github.io/sitemap-index.xml

@@ -4,16 +4,13 @@ import frauncesItalicUrl from '@fontsource/fraunces/files/fraunces-latin-400-ita
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
-import SearchOverlays from '@/components/astro/SearchOverlays.astro';
-import { SPRITE_HASH } from '@/components/react/Keyboard/key-sprite';
+import { StaticCopyIsland } from '@/components/react/StaticCopy';
 
 interface Props {
   title: string;
   description?: string;
-  /** Path of the markdown companion, e.g. `/about.md`. */
+  /** Path of the markdown companion, e.g. `/research.md`. */
   mdHref?: string;
-  /** Preload key-click sounds (home hero only). */
-  preloadSounds?: boolean;
   /** schema.org JSON-LD object, serialized into the head. */
   jsonLd?: object;
   /** Path of the Open Graph image, e.g. `/og/default.png`. Defaults to the site card. */
@@ -25,9 +22,8 @@ interface Props {
 }
 const {
   title,
-  description: rawDescription = 'Amrita Nambiar: AI × community × human-centered design.',
+  description: rawDescription = 'Ananthan Nambiar: machine learning for computational biology.',
   mdHref,
-  preloadSounds = false,
   jsonLd,
   ogImage = '/og/default.png',
   ogType = 'website',
@@ -37,16 +33,6 @@ const {
 const description =
   rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-// Single format (AAC in `.m4a`, plays everywhere), so the preload is the request the app reuses.
-const soundPreload = `(() => {
-  const l = document.createElement('link');
-  l.rel = 'preload';
-  l.as = 'fetch';
-  l.href = '/sounds/sprite-${SPRITE_HASH}.m4a';
-  l.crossOrigin = 'anonymous';
-  l.fetchPriority = 'low';
-  document.head.append(l);
-})();`;
 const ogUrl = new URL(ogImage, Astro.site);
 ---
 
@@ -70,7 +56,7 @@ const ogUrl = new URL(ogImage, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     {withCanonical && <link rel="canonical" href={canonical} />}
-    <meta property="og:site_name" content="Amrita Nambiar" />
+    <meta property="og:site_name" content="Ananthan Nambiar" />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -86,7 +72,6 @@ const ogUrl = new URL(ogImage, Astro.site);
     <link rel="sitemap" href="/sitemap-index.xml" />
     {mdHref && <link rel="alternate" type="text/markdown" href={mdHref} />}
     {jsonLd && <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
-    {preloadSounds && <script is:inline set:html={soundPreload} />}
     <script is:inline>
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
@@ -117,6 +102,6 @@ const ogUrl = new URL(ogImage, Astro.site);
     <slot name="header"><Navbar /></slot>
     <slot />
     <slot name="footer"><Footer /></slot>
-    <SearchOverlays />
+    <StaticCopyIsland client:idle />
   </body>
 </html>

@@ -5,57 +5,37 @@
  */
 import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs';
 
-export const OVERLAYS = ['about', 'projects', 'log'] as const;
-/** Item types shown by the work overlay and `/work`. Absent = all. */
-export const KINDS = ['work', 'projects', 'research'] as const;
 export const LOCALES = ['en', 'ms', 'hi', 'de', 'ml'] as const;
 export const THEMES = ['light', 'dark'] as const;
-export const FLAGS = ['1', '0'] as const;
 
-export type Overlay = (typeof OVERLAYS)[number];
-export type Kind = (typeof KINDS)[number];
 export type Locale = (typeof LOCALES)[number];
 export type Theme = (typeof THEMES)[number];
 
-export const clampHighlight = (n: number) => Math.min(100, Math.max(0, Math.round(n) || 0));
-
 /** nuqs parsers keyed by query param. Pass to `useQueryStates(urlStateParsers)`. */
 export const urlStateParsers = {
-  overlay: parseAsStringLiteral(OVERLAYS),
-  scroll: parseAsInteger,
-  filter: parseAsString,
-  kind: parseAsStringLiteral(KINDS),
-  mute: parseAsStringLiteral(FLAGS),
-  /** Action-key highlight intensity, 0..100. Absent = 0. Clamp on read with `clampHighlight`. */
-  highlight: parseAsInteger.withDefault(0),
   theme: parseAsStringLiteral(THEMES),
   locale: parseAsStringLiteral(LOCALES),
-  cmdk: parseAsStringLiteral(['open'] as const),
   q: parseAsString,
   mode: parseAsStringLiteral(['ai', 'keyword'] as const),
+  /** Index of the focused hero panel, 0..3. Kept in the URL so a panel can be linked to. */
+  panel: parseAsInteger,
 } as const;
 
 export type UrlStateKey = keyof typeof urlStateParsers;
 
 /**
  * `push` creates a history entry (back button restores the previous state).
- * `replace` is for high-frequency or cosmetic state (scroll, filter, mute).
+ * `replace` is for high-frequency or cosmetic state.
  */
 export const historyFor: Record<UrlStateKey, 'push' | 'replace'> = {
-  overlay: 'push',
-  scroll: 'replace',
-  filter: 'replace',
-  kind: 'replace',
-  mute: 'replace',
-  highlight: 'replace',
   theme: 'replace',
   locale: 'replace',
-  cmdk: 'push',
   q: 'replace',
   mode: 'replace',
+  panel: 'replace',
 };
 
-/** Build a static, shareable URL for a state. `href('/', { overlay: 'projects' })` → `/?overlay=projects`. */
+/** Build a static, shareable URL for a state. `href('/', { panel: 2 })` -> `/?panel=2`. */
 export function href(
   path: string,
   state: Partial<Record<UrlStateKey, string | number | null | undefined>> = {},

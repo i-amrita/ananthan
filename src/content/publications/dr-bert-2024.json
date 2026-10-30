@@ -1,0 +1,9 @@
+{
+  "title": "DR-BERT: A protein language model to annotate disordered regions",
+  "venue": "Structure",
+  "date": "2024-08-01",
+  "summary": "A compact protein language model that predicts intrinsically disordered regions without relying on evolutionary or biophysical data, outperforming existing methods on the CAID evaluation datasets.",
+  "href": "https://doi.org/10.1016/j.str.2024.04.010",
+  "authors": "Ananthan Nambiar; John Malcolm Forsyth; Simon Liu; Sergei Maslov",
+  "kind": "paper"
+}

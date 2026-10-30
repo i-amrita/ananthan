@@ -1,0 +1,14 @@
+motif: helix-brush
+label: 'Protein backbone'
+route: research
+weight: 0.7
+paths:
+  # An alpha-helix ribbon: a wide zigzag with two long edges.
+  - 'M20,200 C40,160 60,240 80,200 C100,160 120,240 140,200 C160,160 180,240 200,200'
+  - 'M20,140 C40,100 60,180 80,140 C100,100 120,180 140,140 C160,100 180,180 200,140'
+  - 'M20,140 L20,200'
+  - 'M200,140 L200,200'
+size: [220, 300]
+position: { x: 70, y: 40 }
+delay: 4
+order: 1

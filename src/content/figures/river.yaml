@@ -1,0 +1,13 @@
+motif: river
+label: 'River'
+route: life
+weight: 0.9
+paths:
+  # A wide brush river bending across the frame.
+  - 'M10,180 C60,120 120,240 180,160 C240,80 300,200 360,120'
+  - 'M40,220 C90,160 150,280 210,200 C270,120 330,240 390,160'
+  - 'M10,180 C60,120 120,240 180,160 C240,80 300,200 360,120 M10,180 L10,180'
+size: [400, 300]
+position: { x: 55, y: 55 }
+delay: 2
+order: 0

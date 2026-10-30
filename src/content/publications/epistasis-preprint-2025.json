@@ -1,0 +1,9 @@
+{
+  "title": "Protein Language Models Capture Structural and Functional Epistasis in a Zero-Shot Setting",
+  "venue": "bioRxiv",
+  "date": "2025-09-17",
+  "summary": "Preprint: epistasis as a lens on what protein language models learn. Raw PLM scores align with residue-residue contacts, and a nonlinear transformation shifts the signal toward functional couplings between distant sites.",
+  "href": "https://doi.org/10.1101/2025.09.14.676130",
+  "authors": "Ananthan Nambiar; Sayantani B. Littlefield; Carlos Cuellar; Rohit Khorana; Sergei Maslov",
+  "kind": "preprint"
+}

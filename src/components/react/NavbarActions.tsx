@@ -1,6 +1,4 @@
 import House from '~icons/ph/house-light';
-import Search from '~icons/ph/magnifying-glass-light';
-import User from '~icons/ph/user-light';
 
 import { m, useLocale } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
@@ -8,19 +6,24 @@ import { cn } from '@/lib/utils';
 import { LocaleSwitchButton, PILL_ITEM } from './LocaleSwitch';
 import { Providers } from './Providers';
 import { ThemeToggle } from './ThemeToggle';
-import { useActions } from './use-actions';
+
+/** Route links in the pill. Rendered as real links so they work without JavaScript. */
+const ROUTES = [
+  { href: '/research', key: 'nav_research' },
+  { href: '/life', key: 'nav_life' },
+  { href: '/photography', key: 'nav_photography' },
+] as const;
 
 function Divider() {
   return <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />;
 }
 
 function Pill({ pathname }: { pathname: string }) {
-  const { run } = useActions();
   useLocale();
   const home = pathname === '/';
   return (
     <>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
         <a
           href="/"
           aria-label={m.nav_home()}
@@ -35,26 +38,19 @@ function Pill({ pathname }: { pathname: string }) {
             />
           )}
         </a>
-        <button
-          type="button"
-          aria-label={m.action_about()}
-          onClick={() => run('about')}
-          className={cn(PILL_ITEM, 'size-7')}
-        >
-          <User className="size-4" aria-hidden="true" />
-        </button>
-      </div>
-      <Divider />
-      <div className="flex items-center">
-        <button
-          type="button"
-          title="⌘K"
-          aria-label={m.action_search()}
-          onClick={() => run('cmdk')}
-          className={cn(PILL_ITEM, 'size-7')}
-        >
-          <Search className="size-4" aria-hidden="true" />
-        </button>
+        {ROUTES.map(({ href, key }) => {
+          const active = pathname === href || pathname.startsWith(`${href}/`);
+          return (
+            <a
+              key={href}
+              href={href}
+              aria-current={active ? 'page' : undefined}
+              className={cn(PILL_ITEM, 'px-2 text-xs')}
+            >
+              {m[key]()}
+            </a>
+          );
+        })}
       </div>
       <Divider />
       <div className="flex items-center gap-1">
@@ -68,7 +64,7 @@ function Pill({ pathname }: { pathname: string }) {
 /** Navbar pill: one island sharing the nuqs URL emitter. `pathname` comes from Astro so SSR and hydration agree. */
 export function NavbarActions({ pathname }: { pathname: string }) {
   return (
-    <Providers toaster={false}>
+    <Providers>
       <Pill pathname={pathname} />
     </Providers>
   );

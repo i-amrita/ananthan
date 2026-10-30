@@ -10,23 +10,20 @@ interface Props {
   eyebrow?: string;
   /** Link back to a parent listing. */
   back?: { href: string; label: string };
-  /** Pagefind result type. */
-  kind?: "page" | "project" | "post";
   /** Open Graph image path. */
   ogImage?: string;
 }
-const { title, description, mdHref, jsonLd, eyebrow, back, kind = "page", ogImage } = Astro.props;
+const { title, description, mdHref, jsonLd, eyebrow, back, ogImage } = Astro.props;
 ---
 
 <Base
-  title={`${title} | Amrita Nambiar`}
+  title={`${title} | Ananthan Nambiar`}
   mdHref={mdHref}
   {...ogImage && { ogImage }}
-  ogType={kind === "post" ? "article" : "website"}
   {...description && { description }}
   {...jsonLd && { jsonLd }}
 >
-  <main id="main" class="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-12" data-pagefind-body data-pagefind-meta={`type:${kind}`}>
+  <main id="main" class="mx-auto flex max-w-3xl flex-col gap-6 px-6 py-12" data-pagefind-body>
     {back && <a data-pagefind-ignore href={back.href} class="w-fit text-sm text-muted-foreground transition-[color,transform] duration-300 ease-(--ease-spring) hover:-translate-x-0.5 hover:text-brand active:scale-95 motion-reduce:transition-colors">&larr; {back.label}</a>}
     <header class="rise flex flex-col gap-3">
       {eyebrow && <p class="font-key text-xs uppercase tracking-wide text-muted-foreground">{eyebrow}</p>}

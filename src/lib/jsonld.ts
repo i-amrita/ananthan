@@ -1,16 +1,24 @@
-import { abs, SITE_NAME, SITE_URL, type SingletonEntry } from './content';
+import { abs, SITE_NAME, SITE_URL } from './content';
+import { SOCIALS } from './site';
 
-/** schema.org Person built from the `about` content entry. */
-export function personJsonLd(about?: SingletonEntry, sameAs: string[] = []) {
+/** schema.org Person for Ananthan Nambiar. */
+export function personJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: SITE_NAME,
     url: SITE_URL,
-    description: about?.data.description,
-    affiliation: { '@type': 'CollegeOrUniversity', name: 'UC Berkeley School of Information' },
-    knowsAbout: ['Artificial intelligence', 'Community building', 'Human-centered design'],
-    mainEntityOfPage: abs('/about'),
-    sameAs,
+    email: `mailto:${SOCIALS.portfolio}`,
+    affiliation: { '@type': 'CollegeOrUniversity', name: 'University of Washington' },
+    jobTitle: 'Postdoctoral Scholar',
+    knowsAbout: [
+      'Machine learning',
+      'Computational biology',
+      'Protein language models',
+      'Multi-omic data integration',
+      'Photography',
+    ],
+    mainEntityOfPage: abs('/'),
+    sameAs: [SOCIALS.scholar, SOCIALS.orcid, SOCIALS.github, SOCIALS.instagram],
   };
 }
