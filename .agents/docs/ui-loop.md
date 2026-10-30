@@ -83,4 +83,4 @@ A reference doc must contain a pattern description grounded in more than one pro
 
 ## Known gaps
 
-The baseline screenshot location is not fixed yet. Decide it when the first baseline lands, and record it in the screen spec.
+Baseline screenshots live at `.agents/screens/baselines/<screen>/<WxH>-<theme>-<state>.png`. The location is recorded in each screen spec (see `.agents/screens/overlay-drawer.md`). Reference docs live at `.agents/screens/references.md` with captures under `.agents/screens/references/`.
