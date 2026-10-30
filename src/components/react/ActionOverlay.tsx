@@ -79,7 +79,7 @@ export function ActionOverlay({
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-40 bg-black/60" data-overlay-scrim />
           <Dialog.Content
-            className="fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col overflow-y-auto bg-surface text-fg shadow-lift outline-none"
+            className="fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col overflow-y-auto border-l border-fg/15 bg-surface text-fg shadow-lift outline-none"
             data-overlay-panel
             data-overlay-variant="docked"
           >
