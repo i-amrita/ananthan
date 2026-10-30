@@ -6,9 +6,11 @@ pre-commit:
   parallel: true
   commands:
     oxfmt:
-      glob: '**/*.{ts,tsx,js,jsx,astro,json,css,yaml,yml,toml}'
-      exclude: '(^|/)(mise\.toml|pnpm-lock\.yaml)$|^src/components/ui/|^src/i18n/paraglide/'
-      run: 'pnpm exec oxfmt --write {staged_files}'
+      # oxfmt has no .astro parser (as of 0.75), so Astro files are excluded here
+      # and formatted by the editor's Astro tooling instead.
+      glob: '**/*.{ts,tsx,js,jsx,json,css,yaml,yml,toml}'
+      exclude: '(^|/)(mise\.toml|pnpm-lock\.yaml)$|^src/components/ui/|^src/i18n/paraglide/|\.astro$'
+      run: 'pnpm exec oxfmt --write --no-error-on-unmatched-pattern {staged_files}'
       stage_fixed: true
     oxlint:
       glob: '**/*.{ts,tsx,js,jsx,astro}'
