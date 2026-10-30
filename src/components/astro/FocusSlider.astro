@@ -234,9 +234,9 @@ const panels: Panel[] = [
       reduced = e.matches;
     });
 
-    // Restore the panel named in the URL, if any.
+    // Restore the panel named in the URL, if any. Out-of-range values clamp to the ends.
     const wanted = Number(new URL(location.href).searchParams.get('panel'));
-    if (Number.isInteger(wanted) && wanted > 0 && wanted < count) {
+    if (Number.isInteger(wanted) && wanted !== 0) {
       requestAnimationFrame(() => goTo(wanted));
     } else {
       paint();
