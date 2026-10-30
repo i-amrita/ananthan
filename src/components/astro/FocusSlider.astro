@@ -16,7 +16,45 @@ interface Panel {
   href: string;
   cta: string;
   route: string;
+  photo: { src: string; webp: string; width: number; height: number; alt: string; position: string };
 }
+
+/* Full-bleed panel photographs, owner-supplied. Neutral alt text; nothing is claimed about
+   the owner. Object position is per panel so `cover` keeps the subject in frame. */
+const panelPhotos: Record<string, Panel['photo']> = {
+  home: {
+    src: '/photos/2024-09-15-1.jpg',
+    webp: '/photos/2024-09-15-1.webp',
+    width: 1000,
+    height: 1000,
+    alt: 'Colour photograph of a row of houses beside railway tracks under a cloudy sky.',
+    position: 'center',
+  },
+  research: {
+    src: '/photos/2024-10-16-1.jpg',
+    webp: '/photos/2024-10-16-1.webp',
+    width: 1080,
+    height: 1080,
+    alt: 'Black-and-white photograph of a laboratory bench with a benchtop centrifuge and glassware by a window.',
+    position: 'center',
+  },
+  life: {
+    src: '/photos/2024-10-16-2.jpg',
+    webp: '/photos/2024-10-16-2.webp',
+    width: 1080,
+    height: 1080,
+    alt: 'Black-and-white photograph of a seated person holding an ear of corn.',
+    position: 'center 30%',
+  },
+  photography: {
+    src: '/photos/2024-10-10-1.jpg',
+    webp: '/photos/2024-10-10-1.webp',
+    width: 1080,
+    height: 1080,
+    alt: 'Black-and-white photograph of a bearded person sitting on a chair in a glass-walled lobby.',
+    position: 'center 20%',
+  },
+};
 
 const panels: Panel[] = [
   {
@@ -25,6 +63,7 @@ const panels: Panel[] = [
     href: '/life',
     cta: m.nav_life(),
     route: 'home',
+    photo: panelPhotos.home!,
   },
   {
     label: m.hero_research_label(),
@@ -32,6 +71,7 @@ const panels: Panel[] = [
     href: '/research',
     cta: m.nav_research(),
     route: 'research',
+    photo: panelPhotos.research!,
   },
   {
     label: m.hero_life_label(),
@@ -39,6 +79,7 @@ const panels: Panel[] = [
     href: '/life',
     cta: m.nav_life(),
     route: 'life',
+    photo: panelPhotos.life!,
   },
   {
     label: m.hero_photography_label(),
@@ -46,6 +87,7 @@ const panels: Panel[] = [
     href: '/photography',
     cta: m.nav_photography(),
     route: 'photography',
+    photo: panelPhotos.photography!,
   },
 ];
 ---
@@ -60,7 +102,26 @@ const panels: Panel[] = [
 >
   {
     panels.map((p, i) => (
-      <article class="focus-panel" data-focus-panel={i} data-route={p.route} aria-roledescription="panel">
+      <article
+        class="focus-panel"
+        data-focus-panel={i}
+        data-route={p.route}
+        aria-roledescription="panel"
+      >
+        <picture class="focus-photo">
+          <source srcset={`${p.photo.webp} 1x`} type="image/webp" />
+          <img
+            src={p.photo.src}
+            alt={p.photo.alt}
+            width={p.photo.width}
+            height={p.photo.height}
+            style={`object-position:${p.photo.position};`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchpriority={i === 0 ? 'high' : undefined}
+          />
+        </picture>
+        <div class="focus-scrim" aria-hidden="true" />
         <span class="viewfinder" aria-hidden="true">
           <i class="corner tl" />
           <i class="corner tr" />
@@ -84,21 +145,10 @@ const panels: Panel[] = [
   }
 </section>
 
-<div class="focus-dots" data-focus-dots role="tablist" aria-label={m.hero_panels()}>
-  {
-    panels.map((p, i) => (
-      <button
-        type="button"
-        role="tab"
-        class="focus-dot"
-        data-focus-dot={i}
-        aria-selected={i === 0 ? 'true' : 'false'}
-        aria-label={`${p.label}`}
-      >
-        <span class="sr-only">{p.label}</span>
-      </button>
-    ))
-  }
+<div class="focus-progress" data-focus-progress>
+  <div class="focus-progress-track" data-focus-progress-track role="presentation">
+    <span class="focus-progress-fill" data-focus-progress-fill />
+  </div>
 </div>
 
 <p class="focus-hint" data-focus-hint>{m.hero_hint()}</p>
@@ -106,13 +156,13 @@ const panels: Panel[] = [
 <script>
   /**
    * Desktop niceties on top of the native scroll-snap track:
-   * arrow keys, dot buttons, drag with momentum, and the `?panel=` URL state.
+   * arrow keys, drag with momentum, and the `?panel=` URL state.
    * Everything degrades to a plain scroll container without JavaScript.
    */
   const track = document.querySelector<HTMLElement>('[data-focus-track]');
   if (track) {
     const panels = [...track.querySelectorAll<HTMLElement>('[data-focus-panel]')];
-    const dots = [...document.querySelectorAll<HTMLButtonElement>('[data-focus-dot]')];
+    const progress = document.querySelector<HTMLElement>('[data-focus-progress]');
     const count = panels.length;
     let index = 0;
     let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -139,7 +189,10 @@ const panels: Panel[] = [
         // Neighbours are dimmed and blurred; the focused panel is sharp.
         p.style.setProperty('--panel-focus', i === index ? '1' : '0');
       });
-      dots.forEach((d, i) => d.setAttribute('aria-selected', i === index ? 'true' : 'false'));
+      // The progress bar fills to (focused + 1) / count. A width write only, so no layout churn.
+      if (progress) {
+        progress.style.setProperty('--progress', String((index + 1) / count));
+      }
       const url = new URL(location.href);
       if (index === 0) url.searchParams.delete('panel');
       else url.searchParams.set('panel', String(index));
@@ -171,8 +224,6 @@ const panels: Panel[] = [
         goTo(count - 1);
       }
     });
-
-    dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
 
     // Drag with momentum: pointer capture, then a flick decides the next panel.
     let dragging = false;
@@ -262,8 +313,25 @@ const panels: Panel[] = [
     flex: 0 0 100%;
     scroll-snap-align: center;
     display: grid;
-    place-items: center;
-    padding: 6rem 1.5rem 5rem;
+    align-items: end;
+    justify-items: start;
+    padding: 6rem 1.5rem 6.5rem;
+    overflow: hidden;
+    color: #f7f5f0;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .focus-panel {
+      cursor: zoom-in;
+    }
+  }
+  /* Full-bleed photograph: edge to edge, no card, no border, no gap.
+     The panel itself is not a stacking context, so the home figure field can sit between the
+     photograph and the text. Depth of field lives on the photo layer, not on the panel. */
+  .focus-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
     /* Depth of field: neighbours are blurred and dimmed. */
     filter: blur(6px) saturate(0.85);
     opacity: 0.55;
@@ -273,33 +341,52 @@ const panels: Panel[] = [
       opacity 600ms var(--ease-spring),
       transform 600ms var(--ease-spring);
   }
-  .focus-panel[data-focused] {
+  .focus-panel[data-focused] .focus-photo {
     filter: blur(0) saturate(1);
     opacity: 1;
     transform: scale(1);
   }
-  @media (hover: hover) and (pointer: fine) {
-    .focus-panel {
-      cursor: zoom-in;
-    }
+  .focus-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Legibility scrim. Strong on the text side so the title and body clear WCAG AA in both themes. */
+  .focus-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(to top, rgb(8 7 6 / 0.92) 0%, rgb(8 7 6 / 0.78) 26%, rgb(8 7 6 / 0.42) 52%, rgb(8 7 6 / 0.16) 78%, rgb(8 7 6 / 0.34) 100%),
+      linear-gradient(to right, rgb(8 7 6 / 0.5) 0%, rgb(8 7 6 / 0.12) 60%, rgb(8 7 6 / 0.3) 100%);
   }
   .focus-inner {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    align-items: flex-start;
+    gap: 0.75rem;
     max-width: 34rem;
-    text-align: center;
+    text-align: left;
+  }
+  .focus-index {
+    color: rgb(247 245 240 / 0.88);
   }
   .focus-title {
-    font-size: clamp(2.5rem, 9vw, 5.5rem);
+    font-size: clamp(2.75rem, 9vw, 5.5rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
+    color: #f7f5f0;
+    text-shadow: 0 2px 18px rgb(8 7 6 / 0.55);
   }
   .focus-body {
-    color: var(--c-muted-fg);
+    color: rgb(247 245 240 / 0.92);
     max-width: 30rem;
     text-wrap: balance;
+    text-shadow: 0 1px 12px rgb(8 7 6 / 0.6);
   }
   .focus-cta {
     display: inline-flex;
@@ -307,7 +394,8 @@ const panels: Panel[] = [
     align-items: center;
     gap: 0.5rem;
     border-radius: var(--radius-key);
-    border: 1px solid var(--c-border);
+    border: 1px solid rgb(247 245 240 / 0.5);
+    color: #f7f5f0;
     padding: 0 1rem;
     transition:
       background-color 300ms var(--ease-spring),
@@ -316,31 +404,32 @@ const panels: Panel[] = [
   }
   .focus-cta:hover,
   .focus-cta:focus-visible {
-    background: var(--c-fg);
-    color: var(--c-page);
+    background: #f7f5f0;
+    color: #16150f;
     transform: translateY(-1px);
     outline: none;
   }
   .focus-cta:focus-visible {
-    box-shadow: 0 0 0 2px var(--c-fg);
+    box-shadow: 0 0 0 2px #f7f5f0;
   }
 
   /* Viewfinder corner brackets on the focused panel. */
   .viewfinder {
     position: absolute;
     inset: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
+    z-index: 3;
     pointer-events: none;
     opacity: 0;
     transition: opacity 400ms var(--ease-spring);
   }
   .focus-panel[data-focused] .viewfinder {
-    opacity: 0.55;
+    opacity: 0.7;
   }
   .corner {
     position: absolute;
     width: clamp(1.25rem, 3vw, 2.25rem);
     height: clamp(1.25rem, 3vw, 2.25rem);
-    border: 2px solid var(--c-ink);
+    border: 2px solid rgb(247 245 240 / 0.85);
   }
   .corner.tl {
     top: 0;
@@ -367,47 +456,29 @@ const panels: Panel[] = [
     border-top: 0;
   }
 
-  .focus-dots {
+  /* Progress bar on the bottom edge of the viewport: a 2px track with a fill at (focused + 1) / 4. */
+  .focus-progress {
     position: fixed;
-    bottom: 1.5rem;
-    left: 50%;
-    translate: -50% 0;
-    display: flex;
-    gap: 0.5rem;
+    inset-inline: 0;
+    bottom: 0;
     z-index: 30;
+    pointer-events: none;
   }
-  .focus-dot {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: grid;
-    place-items: center;
-    border-radius: 9999px;
-    background: none;
-    border: 0;
-    cursor: pointer;
+  .focus-progress-track {
+    height: 2px;
+    width: 100%;
+    background: rgb(255 255 255 / 0.28);
   }
-  .focus-dot::before {
-    content: '';
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 9999px;
-    background: var(--c-ink);
-    opacity: 0.35;
-    transition:
-      opacity 300ms var(--ease-spring),
-      width 300ms var(--ease-spring);
-  }
-  .focus-dot[aria-selected='true']::before {
-    opacity: 1;
-    width: 1.25rem;
-  }
-  .focus-dot:focus-visible {
-    outline: 2px solid var(--c-ink);
-    outline-offset: 2px;
+  .focus-progress-fill {
+    display: block;
+    height: 100%;
+    width: calc(var(--progress, 0.25) * 100%);
+    background: #f7f5f0;
+    transition: width 400ms var(--ease-spring);
   }
   .focus-hint {
     position: fixed;
-    bottom: 4.25rem;
+    bottom: 2.5rem;
     left: 50%;
     translate: -50% 0;
     font-size: 0.75rem;
@@ -418,13 +489,13 @@ const panels: Panel[] = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .focus-panel {
+    .focus-photo {
       filter: none;
       opacity: 1;
       transform: none;
       transition: none;
     }
-    .focus-panel:not([data-focused]) {
+    .focus-panel:not([data-focused]) .focus-photo {
       opacity: 0.6;
     }
   }

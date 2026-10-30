@@ -18,4 +18,19 @@ import Base from '@/layouts/Base.astro';
   </main>
 </Base>
 
-<FigureField route="home" depth={1} />
+  <FigureField route="home" depth={1} />
+
+<style>
+  /* On the home route the ink figures float over the full-bleed photographs. The photo layer is
+     z-index 0 and the panel text z-index 2, so a fixed field at z-index 1 sits between them.
+     Lighter weight so the strokes read as an overlay against a photograph, not against paper. */
+  :global([data-figure-field][data-route='home']) {
+    z-index: 1;
+  }
+  :global([data-figure-field][data-route='home'] g) {
+    stroke-width: 3;
+  }
+  :global([data-figure-field][data-route='home'] [data-stroke]) {
+    opacity: 0.4 !important;
+  }
+</style>
