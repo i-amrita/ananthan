@@ -1,0 +1,430 @@
+---
+/**
+ * Hero focus slider: four full-viewport panels on a native `scroll-snap` track.
+ * The slider is the home navigation: each panel links into its route.
+ * Camera cues are CSS only: depth-of-field blur on the neighbours, viewfinder corner brackets
+ * on the focused panel, `zoom-in` cursor on fine pointers.
+ *
+ * A small inline script adds desktop arrow-key navigation, drag momentum and snap assist.
+ * Without JavaScript the track is still a real scroll container with real links.
+ */
+import { m } from '@/lib/i18n';
+
+interface Panel {
+  label: string;
+  body: string;
+  href: string;
+  cta: string;
+  route: string;
+}
+
+const panels: Panel[] = [
+  {
+    label: m.hero_intro_label(),
+    body: m.hero_intro_body(),
+    href: '/life',
+    cta: m.nav_life(),
+    route: 'home',
+  },
+  {
+    label: m.hero_research_label(),
+    body: m.hero_research_body(),
+    href: '/research',
+    cta: m.nav_research(),
+    route: 'research',
+  },
+  {
+    label: m.hero_life_label(),
+    body: m.hero_life_body(),
+    href: '/life',
+    cta: m.nav_life(),
+    route: 'life',
+  },
+  {
+    label: m.hero_photography_label(),
+    body: m.hero_photography_body(),
+    href: '/photography',
+    cta: m.nav_photography(),
+    route: 'photography',
+  },
+];
+---
+
+<section
+  class="focus-track"
+  data-focus-track
+  tabindex="0"
+  role="group"
+  aria-label={m.hero_panels()}
+  data-panel-count={panels.length}
+>
+  {
+    panels.map((p, i) => (
+      <article class="focus-panel" data-focus-panel={i} data-route={p.route} aria-roledescription="panel">
+        <span class="viewfinder" aria-hidden="true">
+          <i class="corner tl" />
+          <i class="corner tr" />
+          <i class="corner bl" />
+          <i class="corner br" />
+        </span>
+        <div class="focus-inner">
+          <p class="focus-index font-mono text-xs tracking-widest text-muted-foreground uppercase">
+            {String(i + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
+          </p>
+          <h2 class="focus-title font-display">{p.label}</h2>
+          <p class="focus-body">{p.body}</p>
+          <a class="focus-cta" href={p.href}>
+            {p.cta}
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+    ))
+  }
+</section>
+
+<div class="focus-dots" data-focus-dots role="tablist" aria-label={m.hero_panels()}>
+  {
+    panels.map((p, i) => (
+      <button
+        type="button"
+        role="tab"
+        class="focus-dot"
+        data-focus-dot={i}
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-label={`${p.label}`}
+      >
+        <span class="sr-only">{p.label}</span>
+      </button>
+    ))
+  }
+</div>
+
+<p class="focus-hint" data-focus-hint>{m.hero_hint()}</p>
+
+<script>
+  /**
+   * Desktop niceties on top of the native scroll-snap track:
+   * arrow keys, dot buttons, drag with momentum, and the `?panel=` URL state.
+   * Everything degrades to a plain scroll container without JavaScript.
+   */
+  const track = document.querySelector<HTMLElement>('[data-focus-track]');
+  if (track) {
+    const panels = [...track.querySelectorAll<HTMLElement>('[data-focus-panel]')];
+    const dots = [...document.querySelectorAll<HTMLButtonElement>('[data-focus-dot]')];
+    const count = panels.length;
+    let index = 0;
+    let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const current = () => {
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      panels.forEach((p, i) => {
+        const center = p.offsetLeft + p.clientWidth / 2;
+        const d = Math.abs(center - mid);
+        if (d < bestDist) {
+          bestDist = d;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const paint = () => {
+      index = current();
+      panels.forEach((p, i) => {
+        p.toggleAttribute('data-focused', i === index);
+        // Neighbours are dimmed and blurred; the focused panel is sharp.
+        p.style.setProperty('--panel-focus', i === index ? '1' : '0');
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', i === index ? 'true' : 'false'));
+      const url = new URL(location.href);
+      if (index === 0) url.searchParams.delete('panel');
+      else url.searchParams.set('panel', String(index));
+      history.replaceState(history.state, '', url);
+    };
+
+    const goTo = (i: number) => {
+      const next = Math.max(0, Math.min(count - 1, i));
+      const panel = panels[next];
+      if (!panel) return;
+      track.scrollTo({ left: panel.offsetLeft, behavior: reduced ? 'auto' : 'smooth' });
+      index = next;
+      paint();
+    };
+
+    // Arrow keys, when the track (or something inside it) has focus.
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        goTo(index + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        goTo(index - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        goTo(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        goTo(count - 1);
+      }
+    });
+
+    dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+    // Drag with momentum: pointer capture, then a flick decides the next panel.
+    let dragging = false;
+    let startX = 0;
+    let startScroll = 0;
+    let lastX = 0;
+    let lastT = 0;
+    let velocity = 0;
+
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'touch') return; // native touch scrolling already works
+      dragging = true;
+      startX = e.clientX;
+      lastX = e.clientX;
+      lastT = performance.now();
+      velocity = 0;
+      startScroll = track.scrollLeft;
+      track.setPointerCapture(e.pointerId);
+      track.setAttribute('data-dragging', '');
+    });
+
+    track.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      track.scrollLeft = startScroll - dx;
+      const now = performance.now();
+      const dt = now - lastT;
+      if (dt > 0) velocity = (e.clientX - lastX) / dt;
+      lastX = e.clientX;
+      lastT = now;
+    });
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      track.removeAttribute('data-dragging');
+      // A flick of more than 0.35 px/ms moves one panel; otherwise snap to the nearest.
+      const flick = velocity < -0.35 ? 1 : velocity > 0.35 ? -1 : 0;
+      goTo(index + flick);
+    };
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    let ticking = false;
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          paint();
+        });
+      },
+      { passive: true },
+    );
+
+    matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+      reduced = e.matches;
+    });
+
+    // Restore the panel named in the URL, if any.
+    const wanted = Number(new URL(location.href).searchParams.get('panel'));
+    if (Number.isInteger(wanted) && wanted > 0 && wanted < count) {
+      requestAnimationFrame(() => goTo(wanted));
+    } else {
+      paint();
+    }
+  }
+</script>
+
+<style>
+  .focus-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    height: 100dvh;
+  }
+  .focus-track::-webkit-scrollbar {
+    display: none;
+  }
+  .focus-panel {
+    position: relative;
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    display: grid;
+    place-items: center;
+    padding: 6rem 1.5rem 5rem;
+    /* Depth of field: neighbours are blurred and dimmed. */
+    filter: blur(6px) saturate(0.85);
+    opacity: 0.55;
+    transform: scale(0.96);
+    transition:
+      filter 600ms var(--ease-spring),
+      opacity 600ms var(--ease-spring),
+      transform 600ms var(--ease-spring);
+  }
+  .focus-panel[data-focused] {
+    filter: blur(0) saturate(1);
+    opacity: 1;
+    transform: scale(1);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .focus-panel {
+      cursor: zoom-in;
+    }
+  }
+  .focus-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 34rem;
+    text-align: center;
+  }
+  .focus-title {
+    font-size: clamp(2.5rem, 9vw, 5.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .focus-body {
+    color: var(--c-muted-fg);
+    max-width: 30rem;
+    text-wrap: balance;
+  }
+  .focus-cta {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-key);
+    border: 1px solid var(--c-border);
+    padding: 0 1rem;
+    transition:
+      background-color 300ms var(--ease-spring),
+      color 300ms var(--ease-spring),
+      transform 300ms var(--ease-spring);
+  }
+  .focus-cta:hover,
+  .focus-cta:focus-visible {
+    background: var(--c-fg);
+    color: var(--c-page);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .focus-cta:focus-visible {
+    box-shadow: 0 0 0 2px var(--c-fg);
+  }
+
+  /* Viewfinder corner brackets on the focused panel. */
+  .viewfinder {
+    position: absolute;
+    inset: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 400ms var(--ease-spring);
+  }
+  .focus-panel[data-focused] .viewfinder {
+    opacity: 0.55;
+  }
+  .corner {
+    position: absolute;
+    width: clamp(1.25rem, 3vw, 2.25rem);
+    height: clamp(1.25rem, 3vw, 2.25rem);
+    border: 2px solid var(--c-ink);
+  }
+  .corner.tl {
+    top: 0;
+    left: 0;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .corner.tr {
+    top: 0;
+    right: 0;
+    border-left: 0;
+    border-bottom: 0;
+  }
+  .corner.bl {
+    bottom: 0;
+    left: 0;
+    border-right: 0;
+    border-top: 0;
+  }
+  .corner.br {
+    bottom: 0;
+    right: 0;
+    border-left: 0;
+    border-top: 0;
+  }
+
+  .focus-dots {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 30;
+  }
+  .focus-dot {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: 9999px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .focus-dot::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: var(--c-ink);
+    opacity: 0.35;
+    transition:
+      opacity 300ms var(--ease-spring),
+      width 300ms var(--ease-spring);
+  }
+  .focus-dot[aria-selected='true']::before {
+    opacity: 1;
+    width: 1.25rem;
+  }
+  .focus-dot:focus-visible {
+    outline: 2px solid var(--c-ink);
+    outline-offset: 2px;
+  }
+  .focus-hint {
+    position: fixed;
+    bottom: 4.25rem;
+    left: 50%;
+    translate: -50% 0;
+    font-size: 0.75rem;
+    color: var(--c-muted-fg);
+    z-index: 30;
+    text-align: center;
+    padding-inline: 1rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .focus-panel {
+      filter: none;
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .focus-panel:not([data-focused]) {
+      opacity: 0.6;
+    }
+  }
+</style>
