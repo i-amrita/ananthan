@@ -16,43 +16,58 @@ interface Panel {
   href: string;
   cta: string;
   route: string;
-  photo: { src: string; webp: string; width: number; height: number; alt: string; position: string };
+  photo: {
+    src: string;
+    webp: string;
+    srcset: string;
+    width: number;
+    height: number;
+    alt: string;
+    position: string;
+  };
 }
 
 /* Full-bleed panel photographs, owner-supplied. Neutral alt text; nothing is claimed about
    the owner. The scans are trimmed to the film area (no letterbox), so the stated dimensions
    are the real image dimensions. Object position is per panel so `cover` keeps the subject
-   in frame at phone, tablet and desktop crops. */
+   in frame at phone, tablet and desktop crops. The srcset carries the two real downscales
+   (480 and 960 px wide); no upscaled files are fabricated. */
 const panelPhotos: Record<string, Panel['photo']> = {
   home: {
     src: '/photos/2024-09-15-1.jpg',
     webp: '/photos/2024-09-15-1.webp',
+    srcset: '/photos/2024-09-15-1-480.webp 480w, /photos/2024-09-15-1-960.webp 960w, /photos/2024-09-15-1.webp 1000w',
     width: 1000,
-    height: 664,
+    height: 660,
     alt: 'Colour photograph of a row of houses beside railway tracks under a cloudy sky.',
     position: 'center 50%',
   },
   research: {
     src: '/photos/2024-10-16-1.jpg',
     webp: '/photos/2024-10-16-1.webp',
+    srcset: '/photos/2024-10-16-1-480.webp 480w, /photos/2024-10-16-1-960.webp 960w, /photos/2024-10-16-1.webp 1080w',
     width: 1080,
     height: 720,
     alt: 'Black-and-white photograph of a laboratory bench with a benchtop centrifuge and glassware by a window.',
     position: 'center 50%',
   },
   life: {
-    src: '/photos/2024-10-16-2.jpg',
-    webp: '/photos/2024-10-16-2.webp',
+    /* P2b: the previous life asset (2024-10-16-2) is a tight face crop whose source scan has
+       no pixels above the head, so no object-position could restore the missing forehead.
+       This alternative scan of the same frame carries the full head; it is cropped to the
+       3:2 band at y 250-970 of the square scan, keeping the face and the corn with headroom. */
+    src: '/photos/2024-10-16-3.jpg',
+    webp: '/photos/2024-10-16-3.webp',
+    srcset: '/photos/2024-10-16-3-480.webp 480w, /photos/2024-10-16-3-960.webp 960w, /photos/2024-10-16-3.webp 1080w',
     width: 1080,
     height: 720,
     alt: 'Black-and-white photograph of a seated person holding an ear of corn.',
-    /* The face sits in the top-right (head around y 40-110 of 720); a high anchor keeps the
-       eyes and forehead in frame at every crop instead of sliding them off the top. */
-    position: '50% 15%',
+    position: 'center 30%',
   },
   photography: {
     src: '/photos/2024-10-10-1.jpg',
     webp: '/photos/2024-10-10-1.webp',
+    srcset: '/photos/2024-10-10-1-480.webp 480w, /photos/2024-10-10-1-960.webp 960w, /photos/2024-10-10-1.webp 1080w',
     width: 1080,
     height: 720,
     alt: 'Black-and-white photograph of a bearded person sitting on a chair in a glass-walled lobby.',
@@ -113,7 +128,7 @@ const panels: Panel[] = [
         aria-roledescription="panel"
       >
         <picture class="focus-photo">
-          <source srcset={`${p.photo.webp} 1x`} type="image/webp" />
+          <source srcset={p.photo.srcset} sizes="100vw" type="image/webp" />
           <img
             src={p.photo.src}
             alt={p.photo.alt}
