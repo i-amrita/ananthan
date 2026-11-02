@@ -88,5 +88,8 @@
   "search_loading": "Memuatkan model carian...",
   "search_type_page": "Halaman",
   "search_type_publication": "Penerbitan",
-  "search_type_talk": "Syarahan"
+  "search_type_talk": "Syarahan",
+  "footer_qr": "QR",
+  "qr_hint": "Imbas untuk buka halaman saya",
+  "qr_aria": "Kod QR untuk annambiar.github.io"
 }

@@ -88,5 +88,8 @@
   "search_loading": "खोज मॉडल लोड हो रहा है...",
   "search_type_page": "पेज",
   "search_type_publication": "प्रकाशन",
-  "search_type_talk": "व्याख्यान"
+  "search_type_talk": "व्याख्यान",
+  "footer_qr": "QR",
+  "qr_hint": "मेरा पेज खोलने के लिए स्कैन करें",
+  "qr_aria": "annambiar.github.io का QR कोड"
 }

@@ -88,5 +88,8 @@
   "search_loading": "തിരയൽ മോഡൽ ലോഡ് ചെയ്യുന്നു...",
   "search_type_page": "പേജ്",
   "search_type_publication": "പ്രസിദ്ധീകരണം",
-  "search_type_talk": "പ്രഭാഷണം"
+  "search_type_talk": "പ്രഭാഷണം",
+  "footer_qr": "QR",
+  "qr_hint": "എന്റെ പേജ് തുറക്കാൻ സ്കാൻ ചെയ്യുക",
+  "qr_aria": "annambiar.github.io-ന്റെ QR കോഡ്"
 }
