@@ -26,7 +26,7 @@ row 3  [LinkedIn] [  LET'S BUILD (2u)  ] [Locale]
 | 2 | `log` | Log | `BookOpen` | `log` | `F3` | cream | `F3`, `b` | `?overlay=log` |
 | 3 | `linkedin` | LinkedIn (brand, not translated) | `Linkedin` | none (link) | `Link:linkedin` | rose | none | opens `SOCIALS.linkedin` in a new tab |
 | 3 | `email` (2u, `span: 2`) | Let's build (sparkle on each side) | `Sparkles` x2 | none (link) | `Link:email` | cream | none | `mailto:<EMAIL>`, same tab |
-| 3 | `locale` | current code (`EN`, `DE`, `MS`, `HI`, `ML`) | none | `locale` | `AltLeft` | cream | `AltLeft`, `AltRight`, `l` | `?locale=ms\|hi\|de\|ml\|en` (cycle) |
+| 3 | `locale` | current code (`EN`, `MS`, `HI`, `ES`, `ML`) | none | `locale` | `AltLeft` | cream | `AltLeft`, `AltRight`, `l` | `?locale=ms\|hi\|es\|ml\|en` (cycle) |
 
 Notes:
 

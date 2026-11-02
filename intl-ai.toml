@@ -1,7 +1,7 @@
 version = 1
 locale_dir = "src/i18n/messages"
 source = "en"
-targets = ["ms", "hi", "de", "ml"]
+targets = ["ms", "hi", "es", "ml"]
 
 # OpenAI-compatible endpoint (OpenRouter). Model and key come from .env (AI_MODEL_ID, AI_API_KEY).
 # The .env AI_BASE_URL ends in /v1, which 404s on this host, so the working base is pinned here.

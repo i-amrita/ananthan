@@ -5,7 +5,7 @@
  */
 import { parseAsInteger, parseAsString, parseAsStringLiteral } from 'nuqs';
 
-export const LOCALES = ['en', 'ms', 'hi', 'de', 'ml'] as const;
+export const LOCALES = ['en', 'ms', 'hi', 'es', 'ml'] as const;
 export const THEMES = ['light', 'dark'] as const;
 
 export type Locale = (typeof LOCALES)[number];

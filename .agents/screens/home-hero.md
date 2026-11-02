@@ -56,7 +56,7 @@ One `fixed inset-0 pointer-events-none` grain pseudo-element on `body` at `opaci
 | `/?highlight=100` | dial turned fully right, strong steady brand glow on navigation keys (Work, About, Log, Find) |
 | `/?mute=1` | Sound key shows VolumeX |
 | `/?theme=dark` / `/?theme=light` | palette switches, chassis stays dark in both |
-| `/?locale=de` | legends in German, each at most about 8 characters, no overflow of the 71px cap |
+| `/?locale=es` | legends in Spanish, each at most about 8 characters, no overflow of the 71px cap |
 
 ## Palette map (tokens, see `.agents/docs/tokens.md`)
 
