@@ -7,14 +7,14 @@ test('invalid locale falls back to english', async ({ page }) => {
 });
 
 test('/?locale=de sets html lang and translates the nav', async ({ page }) => {
-  await page.goto('/?locale=de');
+  await page.goto('/?locale=de&nav=open');
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
   await expect(page.getByRole('link', { name: 'Forschung' })).toBeVisible();
 });
 
 test('/?locale=ml translates the nav and sets lang', async ({ page }) => {
-  await page.goto('/?locale=ml');
+  await page.goto('/?locale=ml&nav=open');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page.getByRole('link', { name: 'ജീവിതം' })).toBeVisible();
 });
@@ -35,7 +35,7 @@ test('the locale switch keeps the other URL params', async ({ page }) => {
 });
 
 test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
-  await page.goto('/?locale=de');
+  await page.goto('/?locale=de&nav=open');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
   await expect.poll(() => page.evaluate(() => localStorage.getItem('locale'))).toBe('de');
   await page.goto('/');
