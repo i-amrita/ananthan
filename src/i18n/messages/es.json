@@ -101,5 +101,8 @@
   "search_loading": "Cargando el modelo de búsqueda...",
   "search_type_page": "Página",
   "search_type_publication": "Publicación",
-  "search_type_talk": "Charla"
+  "search_type_talk": "Charla",
+  "footer_qr": "QR",
+  "qr_hint": "Escanea para abrir mi página",
+  "qr_aria": "Código QR de annambiar.github.io"
 }
