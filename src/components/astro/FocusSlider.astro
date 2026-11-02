@@ -75,6 +75,9 @@ const panelPhotos: Record<string, Panel['photo']> = {
   },
 };
 
+/* Focus-distance stops, text only. One per panel, in panel order. */
+const stops = ['0.30', '0.50', '0.70', '1.00'];
+
 const panels: Panel[] = [
   {
     label: m.hero_intro_label(),
@@ -170,19 +173,59 @@ const panels: Panel[] = [
   </div>
 </div>
 
-<p class="focus-hint" data-focus-hint>{m.hero_hint()}</p>
+<div class="focus-vignette" aria-hidden="true"></div>
+
+<div class="focus-ruler" data-focus-ruler>
+  <div class="ruler-viewport" data-ruler-viewport>
+    <div class="ruler-strip" data-ruler-strip>
+      {
+        panels.map((p, i) => (
+          <span class="ruler-stop" data-stop={i} data-label={p.label} style={`--i:${i};`}>
+            <span class="ruler-label font-mono">
+              {String(i + 1).padStart(2, '0')} {p.label}
+            </span>
+            <span class="ruler-dot" />
+            <span class="ruler-num font-mono">{stops[i]}</span>
+          </span>
+        ))
+      }
+    </div>
+    <span class="ruler-needle" aria-hidden="true"></span>
+  </div>
+  <p class="ruler-readout font-mono" aria-hidden="true">
+    FOCUS <span data-focus-value>{stops[0]}</span> M
+  </p>
+</div>
+
+<p class="sr-only" data-focus-live aria-live="polite" aria-atomic="true"></p>
+
+<p class="sr-only" data-focus-hint>{m.hero_hint()}</p>
+
+<span class="focus-chip font-mono" data-focus-chip aria-hidden="true">‹ ›</span>
 
 <script>
   /**
-   * Desktop niceties on top of the native scroll-snap track:
-   * arrow keys, drag with momentum, and the `?panel=` URL state.
-   * Everything degrades to a plain scroll container without JavaScript.
+   * Behaviour on top of the native scroll-snap track: arrow keys, drag with momentum, the
+   * `?panel=` URL state, the focus-scale ruler, and tap / Enter activation.
+   * Everything degrades to a plain scroll container with real links when JavaScript is off.
    */
   const track = document.querySelector<HTMLElement>('[data-focus-track]');
   if (track) {
     const panels = [...track.querySelectorAll<HTMLElement>('[data-focus-panel]')];
     const progress = document.querySelector<HTMLElement>('[data-focus-progress]');
+    const ruler = document.querySelector<HTMLElement>('[data-focus-ruler]');
+    const rulerView = document.querySelector<HTMLElement>('[data-ruler-viewport]');
+    const rulerStops = [...document.querySelectorAll<HTMLElement>('[data-stop]')];
+    const readout = document.querySelector<HTMLElement>('[data-focus-value]');
+    const live = document.querySelector<HTMLElement>('[data-focus-live]');
+    const chip = document.querySelector<HTMLElement>('[data-focus-chip]');
     const count = panels.length;
+    // Focus distance per panel, text only. Mirrors the stops rendered in the markup.
+    const stopValues = [0.3, 0.5, 0.7, 1.0];
+    // Same literal as `OPEN_OVERLAY_EVENT` in FocusOverlays.tsx (the island is not imported here).
+    const OPEN_OVERLAY_EVENT = 'ananthan:open-overlay';
+    const TAP_MAX_MOVE = 6;
+    const TAP_MAX_MS = 250;
     let index = 0;
     let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -201,13 +244,47 @@ const panels: Panel[] = [
       return best;
     };
 
+    /** Fractional panel position, 0..count-1, from the track scroll offset. */
+    const position = () => {
+      const w = track.clientWidth || 1;
+      return Math.max(0, Math.min(count - 1, track.scrollLeft / w));
+    };
+
+    /** Ruler step in px: distance between two adjacent stops. */
+    const stepPx = () => {
+      const a = rulerStops[0];
+      const b = rulerStops[1];
+      return a && b ? b.offsetLeft - a.offsetLeft || 1 : 1;
+    };
+
+    // Ruler paint: one custom property drives the strip transform (no layout), and the
+    // readout interpolates between the two surrounding stops.
+    const paintRuler = () => {
+      const p = position();
+      ruler?.style.setProperty('--p', p.toFixed(4));
+      if (readout) {
+        const lo = Math.floor(p);
+        const hi = Math.min(count - 1, lo + 1);
+        const t = p - lo;
+        const v = stopValues[lo]! + (stopValues[hi]! - stopValues[lo]!) * t;
+        readout.textContent = v.toFixed(2);
+      }
+    };
+
     const paint = () => {
+      const prev = index;
       index = current();
       panels.forEach((p, i) => {
         p.toggleAttribute('data-focused', i === index);
         // Blur only applies to panels JS has marked as neighbours; the default is sharp.
         p.dataset.focusState = i === index ? 'focused' : 'neighbour';
       });
+      rulerStops.forEach((s, i) => {
+        s.toggleAttribute('data-focused', i === index);
+      });
+      if (live && (index !== prev || !live.textContent)) {
+        live.textContent = panels[index]?.querySelector('.focus-title')?.textContent ?? '';
+      }
       // The progress bar fills to (focused + 1) / count. A width write only, so no layout churn.
       if (progress) {
         progress.style.setProperty('--progress', String((index + 1) / count));
@@ -227,7 +304,29 @@ const panels: Panel[] = [
       paint();
     };
 
-    // Arrow keys, when the track (or something inside it) has focus.
+    /** Open the overlay for a panel. The island listens for the event; without it, follow the link. */
+    const openPanel = (i: number) => {
+      const panel = panels[i];
+      const route = panel?.dataset.route;
+      if (!panel || !route) return;
+      if (document.documentElement.hasAttribute('data-overlay-ready')) {
+        window.dispatchEvent(new CustomEvent(OPEN_OVERLAY_EVENT, { detail: route }));
+      } else {
+        const href = panel.querySelector<HTMLAnchorElement>('.focus-cta')?.href;
+        if (href) location.assign(href);
+      }
+    };
+
+    /** Tap, click or Enter on a panel: focus it, or open it if it already has focus. */
+    const activate = (i: number) => {
+      if (document.documentElement.hasAttribute('data-overlay-open')) return;
+      if (i !== index) goTo(i);
+      // The intro has no page: activating it advances to the first real panel.
+      else if (i === 0) goTo(1);
+      else openPanel(i);
+    };
+
+    // Keys, when the track itself has focus.
     track.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -241,32 +340,63 @@ const panels: Panel[] = [
       } else if (e.key === 'End') {
         e.preventDefault();
         goTo(count - 1);
+      } else if ((e.key === 'Enter' || e.key === ' ') && e.target === track) {
+        e.preventDefault();
+        activate(index);
       }
     });
 
-    // Drag with momentum: pointer capture, then a flick decides the next panel.
+    // The CTA is a real link for no-JS. With JS it is the explicit activation of its panel.
+    track.addEventListener('click', (e) => {
+      const cta = (e.target as Element).closest<HTMLAnchorElement>('.focus-cta');
+      if (!cta || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const i = panels.indexOf(cta.closest<HTMLElement>('[data-focus-panel]')!);
+      if (i < 0) return;
+      e.preventDefault();
+      activate(i);
+    });
+
+    // Pointer handling on the track. Touch scrolls natively; mouse drags with momentum.
+    // A tap is movement < 6px and < 250ms; only a tap can activate, so a flick never opens anything.
     let dragging = false;
+    let captured = false;
     let startX = 0;
+    let startY = 0;
+    let startT = 0;
     let startScroll = 0;
     let lastX = 0;
     let lastT = 0;
     let velocity = 0;
+    let tapTarget: Element | null = null;
 
     track.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      startT = performance.now();
+      tapTarget = e.target as Element;
       if (e.pointerType === 'touch') return; // native touch scrolling already works
       dragging = true;
-      startX = e.clientX;
+      captured = false;
       lastX = e.clientX;
-      lastT = performance.now();
+      lastT = startT;
       velocity = 0;
       startScroll = track.scrollLeft;
-      track.setPointerCapture(e.pointerId);
       track.setAttribute('data-dragging', '');
     });
 
     track.addEventListener('pointermove', (e) => {
+      if (chip && e.pointerType !== 'touch') {
+        chip.style.transform = `translate3d(${e.clientX + 16}px, ${e.clientY + 16}px, 0)`;
+        chip.toggleAttribute('data-visible', true);
+      }
       if (!dragging) return;
       const dx = e.clientX - startX;
+      // Capture only once it is a real drag, so a plain click still reaches links.
+      if (!captured && Math.abs(dx) > TAP_MAX_MOVE) {
+        captured = true;
+        track.setPointerCapture(e.pointerId);
+      }
       track.scrollLeft = startScroll - dx;
       const now = performance.now();
       const dt = now - lastT;
@@ -275,17 +405,104 @@ const panels: Panel[] = [
       lastT = now;
     });
 
+    track.addEventListener('pointerleave', () => chip?.removeAttribute('data-visible'));
+
     const endDrag = () => {
       if (!dragging) return;
       dragging = false;
       track.removeAttribute('data-dragging');
       // A flick of more than 0.35 px/ms moves one panel; otherwise snap to the nearest.
       const flick = velocity < -0.35 ? 1 : velocity > 0.35 ? -1 : 0;
-      goTo(index + flick);
+      goTo(current() + flick);
     };
 
-    track.addEventListener('pointerup', endDrag);
-    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('pointerup', (e) => {
+      const isTap =
+        Math.hypot(e.clientX - startX, e.clientY - startY) < TAP_MAX_MOVE &&
+        performance.now() - startT < TAP_MAX_MS;
+      const target = tapTarget;
+      tapTarget = null;
+      if (dragging) {
+        if (isTap) {
+          dragging = false;
+          track.removeAttribute('data-dragging');
+        } else endDrag();
+      }
+      if (!isTap || !target || target.closest('a, button')) return;
+      const i = panels.indexOf(target.closest<HTMLElement>('[data-focus-panel]')!);
+      if (i >= 0) activate(i);
+    });
+    track.addEventListener('pointercancel', () => {
+      tapTarget = null;
+      endDrag();
+    });
+
+    // Ruler: drag or swipe the scale to scrub the track; tap a stop to jump to it.
+    // 44px touch targets come from the stop columns (one step wide, full ruler height).
+    if (rulerView) {
+      let rDragging = false;
+      let rStartX = 0;
+      let rStartT = 0;
+      let rStartP = 0;
+      let rLastX = 0;
+      let rLastT = 0;
+      let rVelocity = 0;
+      let rTarget: Element | null = null;
+
+      rulerView.addEventListener('pointerdown', (e) => {
+        if (e.button !== 0) return;
+        rDragging = true;
+        rStartX = rLastX = e.clientX;
+        rStartT = rLastT = performance.now();
+        rStartP = position();
+        rVelocity = 0;
+        rTarget = e.target as Element;
+        rulerView.setPointerCapture(e.pointerId);
+        track.setAttribute('data-dragging', '');
+      });
+      rulerView.addEventListener('pointermove', (e) => {
+        if (!rDragging) return;
+        const p = rStartP - (e.clientX - rStartX) / stepPx();
+        const clamped = Math.max(0, Math.min(count - 1, p));
+        track.scrollLeft = clamped * track.clientWidth;
+        const now = performance.now();
+        if (now > rLastT) rVelocity = (e.clientX - rLastX) / (now - rLastT);
+        rLastX = e.clientX;
+        rLastT = now;
+      });
+      const rEnd = (e: PointerEvent, cancelled: boolean) => {
+        if (!rDragging) return;
+        rDragging = false;
+        track.removeAttribute('data-dragging');
+        const stop = rTarget?.closest<HTMLElement>('[data-stop]');
+        const isTap =
+          !cancelled &&
+          Math.abs(e.clientX - rStartX) < TAP_MAX_MOVE &&
+          performance.now() - rStartT < 400;
+        if (isTap && stop) {
+          goTo(Number(stop.dataset.stop));
+          return;
+        }
+        // Ruler content moves with the finger, so a leftward flick advances.
+        const flick = rVelocity < -0.35 ? 1 : rVelocity > 0.35 ? -1 : 0;
+        goTo(Math.round(position()) + flick);
+      };
+      rulerView.addEventListener('pointerup', (e) => rEnd(e, false));
+      rulerView.addEventListener('pointercancel', (e) => rEnd(e, true));
+    }
+
+    // Keyboard and assistive tech reach the stops as buttons; the markup stays inert without JS.
+    rulerStops.forEach((s, i) => {
+      s.setAttribute('role', 'button');
+      s.setAttribute('tabindex', '0');
+      s.setAttribute('aria-label', s.dataset.label ?? '');
+      s.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          goTo(i);
+        }
+      });
+    });
 
     let ticking = false;
     track.addEventListener(
@@ -295,6 +512,7 @@ const panels: Panel[] = [
         ticking = true;
         requestAnimationFrame(() => {
           ticking = false;
+          paintRuler();
           paint();
         });
       },
@@ -308,8 +526,12 @@ const panels: Panel[] = [
     // Restore the panel named in the URL, if any. Out-of-range values clamp to the ends.
     const wanted = Number(new URL(location.href).searchParams.get('panel'));
     if (Number.isInteger(wanted) && wanted !== 0) {
-      requestAnimationFrame(() => goTo(wanted));
+      requestAnimationFrame(() => {
+        goTo(wanted);
+        paintRuler();
+      });
     } else {
+      paintRuler();
       paint();
     }
   }
@@ -337,7 +559,7 @@ const panels: Panel[] = [
     align-items: end;
     justify-items: start;
     /* Top padding clears the fixed navbar pill (48px header + pill height). */
-    padding: 7.5rem 1.5rem 6.5rem;
+    padding: 7.5rem 1.5rem 9.5rem;
     overflow: hidden;
     color: #f7f5f0;
   }
@@ -451,7 +673,7 @@ const panels: Panel[] = [
   /* Viewfinder corner brackets on the focused panel. */
   .viewfinder {
     position: absolute;
-    inset: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem);
+    inset: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem) 9rem;
     z-index: 3;
     pointer-events: none;
     opacity: 0;
@@ -514,18 +736,206 @@ const panels: Panel[] = [
     background: rgb(247 245 240 / 0.9);
     transition: width 400ms var(--ease-spring);
   }
-  /* The hint floats over the photo scrim in both themes, so it is always light-on-photo. */
-  .focus-hint {
+  /* Vignette: one radial gradient over the whole viewport. It sits above the photographs and
+     scrims (z 1, later in the DOM) and below the text (z 2) and the ruler. The focused panel
+     reads as the lit centre while the blurred neighbours sink into the dark edges. Theme
+     independent, since it darkens the photograph, not the paper. Tuned for portrait first. */
+  .focus-vignette {
     position: fixed;
-    bottom: 2.5rem;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 78% 58% at 50% 40%,
+      transparent 0%,
+      transparent 30%,
+      rgb(8 7 6 / 0.5) 66%,
+      rgb(8 7 6 / 0.9) 100%
+    );
+  }
+  @media (min-width: 768px) {
+    .focus-vignette {
+      background: radial-gradient(
+        ellipse 72% 80% at 50% 42%,
+        transparent 0%,
+        transparent 38%,
+        rgb(8 7 6 / 0.45) 72%,
+        rgb(8 7 6 / 0.85) 100%
+      );
+    }
+  }
+  .focus-track[data-dragging] {
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  /* Focus-scale ruler. Fixed at the bottom of the viewport, above the 2px progress bar.
+     The strip is one wide element: stop i sits at 50cqw + i * step, and the only per-frame
+     write is the --p custom property feeding a transform (no layout). Mono type, light ink
+     on the photograph in both themes, red needle fixed at the centre. */
+  .focus-ruler {
+    --step: 8rem;
+    --needle: #ff4a2e;
+    --ink: rgb(247 245 240 / 0.92);
+    --ink-dim: rgb(247 245 240 / 0.6);
+    position: fixed;
+    inset-inline: 0;
+    bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 30;
+    height: 7.75rem;
+    color: var(--ink);
+    --p: 0;
+  }
+  @media (min-width: 768px) {
+    .focus-ruler {
+      --step: 11rem;
+    }
+  }
+  .ruler-viewport {
+    position: relative;
+    height: 6.25rem;
+    overflow: hidden;
+    container-type: inline-size;
+    touch-action: none;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .ruler-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(100cqw + 3 * var(--step));
+    transform: translate3d(calc(var(--p) * var(--step) * -1), 0, 0);
+    will-change: transform;
+    /* Baseline hairline, then minor ticks (every step / 6) and major ticks (every step),
+       phased so a major tick lands on every stop. */
+    background:
+      linear-gradient(90deg, var(--ink) 0 1px, transparent 1px) calc(50cqw - 0.5px) 2.75rem /
+        var(--step) 0.9rem repeat-x,
+      linear-gradient(90deg, rgb(247 245 240 / 0.55) 0 1px, transparent 1px)
+        calc(50cqw - 0.5px) 2.75rem / calc(var(--step) / 6) 0.45rem repeat-x,
+      linear-gradient(rgb(247 245 240 / 0.45), rgb(247 245 240 / 0.45)) 0 2.75rem / 100% 1px
+        no-repeat;
+  }
+  .ruler-stop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50cqw + var(--i) * var(--step) - var(--step) / 2);
+    width: var(--step);
+    display: block;
+    text-align: center;
+    cursor: pointer;
+  }
+  .ruler-stop:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -2px;
+  }
+  .ruler-label {
+    position: absolute;
+    top: 0.35rem;
+    inset-inline: 0;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--ink-dim);
+    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
+  }
+  .ruler-dot {
+    position: absolute;
+    top: 1.85rem;
+    left: 50%;
+    width: 0.4rem;
+    height: 0.4rem;
+    translate: -50% 0;
+    border-radius: 50%;
+    border: 1px solid var(--ink-dim);
+    box-sizing: border-box;
+  }
+  .ruler-num {
+    position: absolute;
+    top: 3.9rem;
+    inset-inline: 0;
+    font-size: 0.8125rem;
+    color: var(--ink-dim);
+    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
+  }
+  .ruler-stop[data-focused] .ruler-label,
+  .ruler-stop[data-focused] .ruler-num {
+    color: #fff;
+  }
+  .ruler-stop[data-focused] .ruler-dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    top: 1.7rem;
+    background: #fff;
+    border-color: #fff;
+  }
+  .ruler-needle {
+    position: absolute;
+    top: 2.3rem;
+    left: 50%;
+    width: 2px;
+    height: 3.2rem;
+    translate: -50% 0;
+    background: var(--needle);
+    pointer-events: none;
+  }
+  .ruler-needle::before {
+    content: '';
+    position: absolute;
+    top: 0;
     left: 50%;
     translate: -50% 0;
-    font-size: 0.75rem;
-    color: rgb(247 245 240 / 0.85);
-    text-shadow: 0 1px 8px rgb(8 7 6 / 0.8);
-    z-index: 30;
+    border-inline: 0.3rem solid transparent;
+    border-top: 0.4rem solid var(--needle);
+  }
+  .ruler-readout {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
     text-align: center;
-    padding-inline: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
+    pointer-events: none;
+  }
+  .ruler-readout [data-focus-value] {
+    color: var(--needle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Cursor chip: fine pointers only, never under reduced motion, hidden while a drawer is open. */
+  .focus-chip {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 35;
+    pointer-events: none;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: #16150f;
+    background: rgb(247 245 240 / 0.92);
+    opacity: 0;
+    transition: opacity 150ms linear;
+  }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .focus-chip {
+      display: block;
+    }
+    .focus-chip[data-visible] {
+      opacity: 1;
+    }
+    :global(html[data-overlay-open]) .focus-chip {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
