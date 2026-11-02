@@ -115,3 +115,31 @@ test('window.sound exposes the gate and the mute state', async ({ page }) => {
   }));
   expect(api).toEqual({ status: 'ready', decoded: true, muted: false, mutedByUrl: false });
 });
+
+test('the sprite manifest carries exactly the four licensed slices', async ({ page }) => {
+  await page.goto('/');
+  await gateSettled(page);
+  const names = await page.evaluate(() => window.sound?.names() ?? []);
+  expect(names).toEqual(['slider-detent', 'slider-settle', 'shutter-fire', 'shutter-release']);
+  // The dropped slices must not linger in the runtime API: the owner removed them.
+  for (const gone of ['locale-commit', 'panel-open', 'panel-close']) {
+    expect(names).not.toContain(gone);
+    expect(await page.evaluate((n) => window.sound?.has(n) ?? null, gone)).toBe(false);
+  }
+  for (const name of names) {
+    expect(await page.evaluate((n) => window.sound?.has(n) ?? null, name)).toBe(true);
+  }
+});
+
+test('the sprite is served with a cache-busting hash and stays under budget', async ({ page }) => {
+  await page.goto('/');
+  await gateSettled(page);
+  const { url, bytes } = await page.evaluate(async () => {
+    const u = window.sound?.spriteUrl() ?? '';
+    const res = await fetch(u);
+    return { url: u, bytes: (await res.arrayBuffer()).byteLength };
+  });
+  expect(url).toMatch(/\/audio\/sprite\.(mp3|ogg)\?v=[0-9a-f]{8}/);
+  // 150 KB budget from .agents/docs/sound.md.
+  expect(bytes).toBeLessThan(150 * 1024);
+});

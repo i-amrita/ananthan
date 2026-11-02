@@ -20,11 +20,17 @@ import {
   type SoundStatus,
 } from './engine';
 import { onSoundReady, type SoundReadyDetail } from './gate';
-import { type SoundName } from './sprite';
+import { SOUND_NAMES, spriteUrl, type SoundName } from './sprite';
 
 export interface SoundGlobal {
   /** Play one sprite slice. No-op when muted, before the sprite is decoded, or while locked. */
   play: (name: SoundName, options?: PlayOptions) => void;
+  /** True when `name` is a slice of the sprite. */
+  has: (name: string) => boolean;
+  /** Every slice name, in sprite order. */
+  names: () => readonly string[];
+  /** The sprite URL with its cache-busting hash. */
+  spriteUrl: () => string;
   /** Subscribe to the preload gate. Fires with `ready` or `failed`. */
   onSoundReady: (cb: (detail: SoundReadyDetail) => void) => () => void;
   /** Current gate status: `loading`, `ready` or `failed`. */
@@ -48,6 +54,9 @@ declare global {
 if (typeof window !== 'undefined') {
   window.sound = {
     play,
+    has: (name) => SOUND_NAMES.includes(name as SoundName),
+    names: () => SOUND_NAMES,
+    spriteUrl,
     onSoundReady,
     getStatus,
     isDecoded: isSoundDecoded,
