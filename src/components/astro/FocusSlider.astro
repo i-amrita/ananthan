@@ -114,6 +114,7 @@ function panelFor(route: PanelRoute): Panel {
         class="focus-panel"
         data-focus-panel={i}
         data-route={p.route}
+        data-label={p.label}
         aria-roledescription="panel"
       >
         <div class="focus-content" data-focus-content>
@@ -297,7 +298,8 @@ function panelFor(route: PanelRoute): Panel {
         s.toggleAttribute('data-focused', i === index);
       });
       if (live && (index !== prev || !live.textContent)) {
-        live.textContent = panels[index]?.querySelector('.focus-title')?.textContent ?? '';
+        // The panel label (Intro, Research, Photography, Life), not the header.
+        live.textContent = panels[index]?.dataset.label ?? '';
       }
       // The progress bar fills to (focused + 1) / count. A width write only, so no layout churn.
       if (progress) {
