@@ -33,6 +33,11 @@ interface ActionOverlayProps {
   title: string;
   description: string;
   children: React.ReactNode;
+  /**
+   * Fired once the close animation has finished. Radix keeps the panel mounted until its
+   * `animationend`, so this is the first moment the overlay is really gone.
+   */
+  onExitComplete?: () => void;
 }
 
 /**
@@ -40,6 +45,11 @@ interface ActionOverlayProps {
  * The visible heading and subhead are the Radix title and description, so the dialog role is
  * labelled without duplicating the text for screen readers. The close button sits at the top of
  * the panel, so it is reachable by thumb on a phone.
+ *
+ * Motion lives in `src/styles/global.css` (`.overlay-panel`, `.overlay-scrim`): the sheet keeps
+ * vaul's own slide keyframes (so dragging still owns the transform) and the dock gets a slide of
+ * its own. Both are transform/opacity only and collapse to a short opacity fade under
+ * `prefers-reduced-motion`.
  */
 export function ActionOverlay({
   open,
@@ -47,9 +57,19 @@ export function ActionOverlay({
   title,
   description,
   children,
+  onExitComplete,
 }: ActionOverlayProps) {
   const docked = useMinWidth(640);
   const closeLabel = m.overlay_close();
+  // The exit animation ends on the panel element; only the close transition counts.
+  const closing = React.useRef(false);
+  closing.current = !open;
+
+  const onAnimationEnd = (event: React.AnimationEvent<HTMLElement>) => {
+    if (event.target !== event.currentTarget) return;
+    if (!closing.current) return;
+    onExitComplete?.();
+  };
 
   const header = (titleNode: React.ReactNode, descriptionNode: React.ReactNode) => (
     <header className="flex items-start justify-between gap-4 px-5 pt-4 pb-2 sm:px-7 sm:pt-6">
@@ -77,11 +97,12 @@ export function ActionOverlay({
     return (
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 z-40 bg-black/60" data-overlay-scrim />
+          <Dialog.Overlay className="overlay-scrim" data-overlay-scrim />
           <Dialog.Content
-            className="fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col overflow-y-auto border-l border-fg/15 bg-surface text-fg shadow-lift outline-none"
+            className="overlay-panel overlay-panel-dock fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col overflow-y-auto border-l border-fg/15 bg-surface text-fg shadow-lift outline-none"
             data-overlay-panel
             data-overlay-variant="docked"
+            onAnimationEnd={onAnimationEnd}
           >
             {header(
               <Dialog.Title className="font-display text-2xl leading-tight">{title}</Dialog.Title>,
@@ -99,8 +120,13 @@ export function ActionOverlay({
   return (
     <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerPortal>
-        <DrawerOverlay data-overlay-scrim />
-        <DrawerContent data-overlay-panel data-overlay-variant="sheet">
+        <DrawerOverlay className="overlay-scrim" data-overlay-scrim />
+        <DrawerContent
+          className="overlay-panel overlay-panel-sheet"
+          data-overlay-panel
+          data-overlay-variant="sheet"
+          onAnimationEnd={onAnimationEnd}
+        >
           <DrawerHandle />
           {header(
             <DrawerTitle className="font-display text-2xl leading-tight">{title}</DrawerTitle>,
