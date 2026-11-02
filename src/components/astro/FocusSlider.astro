@@ -391,6 +391,8 @@ function panelFor(route: PanelRoute): Panel {
     let lastX = 0;
     let lastT = 0;
     let velocity = 0;
+    /** Largest distance from the pointer-down point during this gesture. */
+    let maxMove = 0;
     let tapTarget: Element | null = null;
 
     track.addEventListener('pointerdown', (e) => {
@@ -405,6 +407,7 @@ function panelFor(route: PanelRoute): Panel {
       lastX = e.clientX;
       lastT = startT;
       velocity = 0;
+      maxMove = 0;
       startScroll = track.scrollLeft;
       track.setAttribute('data-dragging', '');
     });
@@ -416,6 +419,9 @@ function panelFor(route: PanelRoute): Panel {
       }
       if (!dragging) return;
       const dx = e.clientX - startX;
+      // The tap threshold is the largest distance travelled during the gesture, not the
+      // distance at release: a drag that ends where it started is still a drag.
+      maxMove = Math.max(maxMove, Math.hypot(e.clientX - startX, e.clientY - startY));
       // Capture only once it is a real drag, so a plain click still reaches links.
       if (!captured && Math.abs(dx) > TAP_MAX_MOVE) {
         captured = true;
@@ -441,9 +447,8 @@ function panelFor(route: PanelRoute): Panel {
     };
 
     track.addEventListener('pointerup', (e) => {
-      const isTap =
-        Math.hypot(e.clientX - startX, e.clientY - startY) < TAP_MAX_MOVE &&
-        performance.now() - startT < TAP_MAX_MS;
+      maxMove = Math.max(maxMove, Math.hypot(e.clientX - startX, e.clientY - startY));
+      const isTap = maxMove < TAP_MAX_MOVE && performance.now() - startT < TAP_MAX_MS;
       const target = tapTarget;
       tapTarget = null;
       if (dragging) {
