@@ -1,29 +1,43 @@
 # Screen: sound engine + preload gate
 
 > Spec: `.agents/plans/2026-10-30-ananthan-site-revision.md` section "Sound design", steer item 1.
-> Scope of this piece: engine and preload gate only. No slider/shutter wiring (next session).
+> Scope: engine, preload gate and the sprite. The sprite holds the owner's own Stable Audio
+> recordings (commercial licence, no attribution, no stand-alone redistribution), not synthesis.
 
 ## What ships
 
-- One sprite file, `public/audio/sprite.mp3` (+ `public/audio/sprite.ogg` fallback), synthesized
-  offline with ffmpeg. Target < 150 KB.
-- Seven named slices, packed in this order, each separated by 120 ms of silence:
+- One sprite file, `public/audio/sprite.mp3` (+ `public/audio/sprite.ogg` fallback), built by
+  `pnpm sound:build` from trimmed FLAC slices of the owner's Stable Audio tracks. Target < 150 KB.
+- Four named slices, packed in this order, each separated by 120 ms of silence:
 
-| # | Slice | Length | Description |
-|---|---|---|---|
-| 1 | `slider-detent` | ~60 ms | Focus-ruler detent tick. Short, dry, mid-high click. |
-| 2 | `slider-settle` | ~110 ms | Slider snapping to its stop. Slightly lower, longer tail. |
-| 3 | `shutter-fire` | ~400 ms | Two-stage mechanical click-clack (blade open, then close). |
-| 4 | `shutter-release` | ~180 ms | Softer release tail, no second clack. |
-| 5 | `locale-commit` | ~120 ms | Commit click for the locale shutter. Distinct pitch from the detent. |
-| 6 | `panel-open` | ~320 ms | Whoosh for the drawer opening (filtered noise swell). |
-| 7 | `panel-close` | ~90 ms | Dry tick that lands the drawer closing. |
+| # | Slice | Length | Source window | Description |
+|---|---|---|---|---|
+| 1 | `slider-detent` | ~60 ms | slider-0 `3.415-3.475s` | Very short, bright tick for the focus ruler crossing a snap stop. |
+| 2 | `slider-settle` | ~230 ms | slider-2 `3.37-3.60s` | Softer, lower landing for the slider snapping home. |
+| 3 | `shutter-fire` | ~220 ms | shutter-1 `3.48-3.70s` | The sharpest click: mirror slap + curtain close. |
+| 4 | `shutter-release` | ~230 ms | shutter-0 `3.49-3.72s` | A second, softer click: the release tail. |
 
-- `src/lib/sound/sprite.ts` holds the map (name -> start/duration in seconds) and the sprite URL.
+- `src/lib/sound/sprite.ts` holds the map (name -> start/duration in seconds), `SPRITE_HASH` and the
+  sprite URL. The engine API is unchanged.
 - `src/lib/sound/engine.ts` owns the single `AudioContext`, the decode-once buffer cache and
   `play(name, { rate, gain })`.
 - `src/lib/sound/gate.ts` owns the readiness signal: `html[data-sound-ready]` (`""` when decoded,
   `"failed"` when the fetch/decode failed or the 6 s timeout hit) plus a `sound:ready` DOM event.
+
+## Slice selection (measured, not guessed)
+
+Every candidate window was profiled with `ffmpeg silencedetect`, `astats` (peak/RMS per 5-40 ms
+bin) and `aspectralstats` (centroid, flatness). Numbers live in `.agents/docs/sound.md`.
+
+| Slice | Peak | RMS | Centroid | Why this one |
+|---|---|---|---|---|
+| `slider-detent` | -8.7 dB | -33.5 dB | 8.6 kHz | Only near-impulsive click in the slider set: a 40 ms spike at 3.455 s with a -24 dB floor before and after. Highest centroid of the slider candidates. |
+| `slider-settle` | -7.5 dB | -27.7 dB | 8.1 kHz | Two-stage landing (3.44 s and 3.51 s) with a 100 ms soft tail, no hard click at the head. |
+| `shutter-fire` | -2.5 dB | -25.8 dB | 5.2 kHz | Sharpest click in the shutter set (3.61 s, -2.5 dB) preceded by a mirror slap at 3.54 s. |
+| `shutter-release` | -5.9 dB | -25.4 dB | 5.4 kHz | Softer second click, no peak above -5.9 dB, no -2.5 dB transient. |
+
+All four are loudness-normalised to about -16 LUFS short-term and get 5 ms in/out fades, so
+nothing clips and nothing clicks on slice boundaries.
 
 ## Preload gate
 
@@ -53,9 +67,9 @@ load ──► fetch /audio/sprite.mp3 ──► decode once ──► data-soun
 
 ## Dev page
 
-`/sound-test` is dev-only (`import.meta.env.DEV`), excluded from the sitemap and `noindex`. It
-lists one button per slice, plus a mute toggle and the live gate status. The owner can audition
-every slice without touching the landing UI.
+`/dev/sound-test` is dev-only, excluded from the sitemap and `noindex`. It lists one button per
+slice, plus a mute toggle and the live gate status. The owner can audition every slice without
+touching the landing UI.
 
 ```
 375x812
@@ -66,9 +80,6 @@ every slice without touching the landing UI.
 │ ▸ slider-settle         │
 │ ▸ shutter-fire          │
 │ ▸ shutter-release       │
-│ ▸ locale-commit         │
-│ ▸ panel-open            │
-│ ▸ panel-close           │
 │                         │
 │ [ mute ]                │
 └─────────────────────────┘

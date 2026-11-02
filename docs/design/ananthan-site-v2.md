@@ -374,3 +374,15 @@ already covers the human-approval role, and the capture leg is real-site
 Playwright, which Calca cannot replace. Revisit when `exportScreenshot` and
 Phase 3 formats ship (post-1.0). A cheap spike is possible later if the canvas
 review surface proves better than reading screenshots in chat.
+
+## Addendum (2026-11-02, Stable Audio sprite)
+
+Supersedes the "Sourcing decision" and "Sprite extension" sections above. The
+owner supplied five licensed Stable Audio 3 tracks (Brioso custom-track
+licence: commercial use, editing allowed, no attribution, no stand-alone
+redistribution). The sprite is now cut from those recordings, not synthesized:
+`slider-detent`, `slider-settle`, `shutter-fire`, `shutter-release` — see
+`.agents/docs/sound.md` for the windows and the measurements behind them.
+`locale-commit`, `panel-open` and `panel-close` are dropped: panels get motion
+only, no sound. The licence terms and the no-stand-alone-redistribution guard
+are recorded in `NOTICE`.
