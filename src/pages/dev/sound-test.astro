@@ -1,0 +1,35 @@
+---
+import Base from '@/layouts/Base.astro';
+import Navbar from '@/components/astro/Navbar.astro';
+import { SoundTestIsland } from '@/components/react/SoundTest';
+
+/**
+ * Dev-only sound bench at `/dev/sound-test`. The `/dev/` prefix is dropped by the sitemap
+ * filter in astro.config.mjs, and a production build renders a stub instead of the island,
+ * so the page never ships its controls.
+ */
+const dev = import.meta.env.DEV;
+---
+
+<Base title="Sound test | Ananthan Nambiar" description="Audition the sound sprite slices.">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+  <Navbar slot="header" />
+  <main id="main" class="mx-auto flex max-w-2xl flex-col gap-8 px-6 py-12">
+    {
+      dev ? (
+        <>
+          <header class="flex flex-col gap-2">
+            <h1 class="font-display text-4xl">Sound test</h1>
+            <p class="text-sm text-muted-foreground">
+              Dev only. One button per slice, in sprite order. Append <code class="font-mono">?mute=1</code> to
+              test the mute path.
+            </p>
+          </header>
+          <SoundTestIsland client:load />
+        </>
+      ) : (
+        <p class="text-sm text-muted-foreground">The sound bench runs in the dev server only.</p>
+      )
+    }
+  </main>
+</Base>

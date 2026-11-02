@@ -1,0 +1,11 @@
+---
+/**
+ * Arms the sound gate as a bundled module script. Astro processes the `<script>` below with
+ * Vite, so the module self-arms on load (see `src/lib/sound/gate.ts`) and the sprite fetch
+ * starts as early as the head is parsed. The script is a no-op without JavaScript.
+ */
+---
+
+<script>
+  import '@/lib/sound/gate';
+</script>
