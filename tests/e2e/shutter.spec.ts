@@ -25,17 +25,31 @@ test('it opens the locale popover and reflects aria-expanded', async ({ page }) 
   await expect(shutter).toHaveAttribute('aria-expanded', 'false');
   await shutter.click();
   await expect(shutter).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('option', { name: 'Deutsch' })).toBeVisible();
+  await expect(page.getByRole('option', { name: 'Español' })).toBeVisible();
 });
 
 test('picking a locale updates the URL and html lang', async ({ page }) => {
   await page.goto('/research?theme=dark');
   await hydrated(page);
   await page.locator('[data-shutter]').click();
-  await page.getByRole('option', { name: 'Deutsch' }).click();
-  await expect(page).toHaveURL(/locale=de/);
+  await page.getByRole('option', { name: 'Español' }).click();
+  await expect(page).toHaveURL(/locale=es/);
   await expect(page).toHaveURL(/theme=dark/);
-  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+});
+
+test('the iris cap shows the locale code and follows the nav chip', async ({ page }) => {
+  await page.goto('/research');
+  await hydrated(page);
+  const shutter = page.locator('[data-shutter]');
+  await expect(shutter).toHaveAttribute('aria-label', /^EN /);
+  await expect(shutter.getByText('EN', { exact: true })).toBeVisible();
+  // The nav chip drives the same `?locale=` state, so the shutter code follows without its own popover.
+  await page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }).click();
+  await page.getByRole('option', { name: 'Español' }).click();
+  await expect(page).toHaveURL(/locale=es/);
+  await expect(shutter).toHaveAttribute('aria-label', /^ES /);
+  await expect(shutter.getByText('ES', { exact: true })).toBeVisible();
 });
 
 test('only one locale popover is open at a time', async ({ page }) => {
@@ -44,7 +58,7 @@ test('only one locale popover is open at a time', async ({ page }) => {
   await page.locator('[data-shutter]').click();
   await expect(page.getByRole('listbox')).toHaveCount(1);
   // Keyboard open on the nav chip: no pointerdown, so only the shared event can close the shutter's popover.
-  await page.getByRole('button', { name: 'EN Choose language' }).focus();
+  await page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }).focus();
   await page.keyboard.press('Enter');
   await expect(page.locator('[data-shutter]')).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByRole('listbox')).toHaveCount(1);

@@ -1,10 +1,10 @@
 # Locales
 
-State: `?locale=en|ms|hi|de|ml`. English is the default; the other four are translations of the same keys.
+State: `?locale=en|ms|hi|es|ml`. English is the default; the other four are translations of the same keys.
 
 ## Flows
 
-- `/?locale=de` renders German strings and sets `<html lang="de">`.
+- `/?locale=es` renders Spanish strings and sets `<html lang="es">`.
 - An invalid locale (`?locale=xx`) falls back to English.
 - `/?locale=ml` renders Malayalam strings.
 - `/research?locale=hi` renders the Hindi section headings.

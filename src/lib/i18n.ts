@@ -1,6 +1,6 @@
 /**
  * Typed i18n helper for islands. Messages live in `src/i18n/messages/en.json` (source) and are compiled by Paraglide.
- * The active locale is URL state (`?locale=ms|hi|de|ml|en`, default `en`). Contract: `.agents/docs/i18n.md`.
+ * The active locale is URL state (`?locale=ms|hi|es|ml|en`, default `en`). Contract: `.agents/docs/i18n.md`.
  */
 import { useQueryState } from 'nuqs';
 import { useCallback, useEffect } from 'react';
@@ -20,7 +20,7 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   en: 'English',
   ms: 'Bahasa Melayu',
   hi: 'हिन्दी',
-  de: 'Deutsch',
+  es: 'Español',
   ml: 'മലയാളം',
 };
 

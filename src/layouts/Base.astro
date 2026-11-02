@@ -90,13 +90,13 @@ const ogUrl = new URL(ogImage, Astro.site);
       // A locale chosen earlier is restored (replaceState, before islands hydrate) unless the URL already carries one.
       try {
         const saved = localStorage.getItem('locale');
-        if (!q.has('locale') && saved && ['ms', 'hi', 'de', 'ml'].includes(saved)) {
+        if (!q.has('locale') && saved && ['ms', 'hi', 'es', 'ml'].includes(saved)) {
           q.set('locale', saved);
           history.replaceState(history.state, '', location.pathname + '?' + q + location.hash);
         }
       } catch {}
       const l = q.get('locale');
-      if (l && ['ms', 'hi', 'de', 'ml'].includes(l)) document.documentElement.lang = l;
+      if (l && ['ms', 'hi', 'es', 'ml'].includes(l)) document.documentElement.lang = l;
       document.documentElement.dir = 'ltr';
       // i18n:end
     </script>

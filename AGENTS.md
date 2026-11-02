@@ -16,7 +16,7 @@
 - `pnpm format:check` — `oxfmt --check .`
 - `pnpm test:e2e` — Playwright via `tests/playwright.config.ts`
 - `pnpm deploy` — `wrangler deploy` (after `pnpm build`)
-- `pnpm intl-ai:fill` — translate missing keys in `ms.json` / `hi.json` / `de.json` / `ml.json`
+- `pnpm intl-ai:fill` — translate missing keys in `ms.json` / `hi.json` / `es.json` / `ml.json`
 - `pnpm intl-ai:check` — CI gate for missing/stale translations
 
 ## Hard rules

@@ -11,6 +11,12 @@ const BLADES = [0, 1, 2, 3, 4, 5] as const;
 /** Half of the blink keyframe: the locale flips while the popover is closed to a point. */
 const BLINK_MS = 320;
 
+/**
+ * Aperture dial: 72deg per locale stop, so the ring travels one full turn across the five locales.
+ * The text counter-rotates by the same angle, so the code always reads upright at rest.
+ */
+const STEP_DEG = 360 / LOCALES.length;
+
 /** One iris blade: a wedge clipped out of a full-size span, rotated into place. The wrapper's drop-shadow draws the blade edge. */
 function Blade({ index }: { index: number }) {
   return (
@@ -33,16 +39,19 @@ function Shutter() {
   const [blink, setBlink] = useState(false);
   const timers = useRef<number[]>([]);
 
-  const choose = (code: (typeof LOCALES)[number]) => {
+  const code = locale.toUpperCase();
+  const angle = LOCALES.indexOf(locale) * STEP_DEG;
+
+  const choose = (next: (typeof LOCALES)[number]) => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
-      void setLocale(code);
+      void setLocale(next);
       setOpen(false);
       return;
     }
     setBlink(true);
     timers.current.push(
-      window.setTimeout(() => void setLocale(code), BLINK_MS / 2),
+      window.setTimeout(() => void setLocale(next), BLINK_MS / 2),
       window.setTimeout(() => {
         setBlink(false);
         setOpen(false);
@@ -55,7 +64,7 @@ function Shutter() {
       <PopoverTrigger asChild>
         <button
           type="button"
-          aria-label={m.locale_switch_label()}
+          aria-label={`${code} ${m.locale_switch_label()}`}
           data-shutter
           className={cn(
             'group fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 grid size-14 place-items-center rounded-full',
@@ -84,6 +93,23 @@ function Shutter() {
                 <Blade key={i} index={i} />
               ))}
             </span>
+            {/* Aperture ring: carries the locale code one stop (72deg) per locale. The text
+                counter-rotates, so the code rests upright; the label is decorative because the
+                button's accessible name already carries the code. */}
+            <span
+              data-locale-ring
+              className="absolute inset-0 transition-transform duration-500 ease-(--ease-spring) motion-reduce:transition-none"
+              style={{ transform: `rotate(${angle}deg)` }}
+            >
+              <span
+                className="absolute inset-0 grid place-items-center"
+                style={{ transform: `rotate(${-angle}deg)` }}
+              >
+                <span className="rounded-full bg-chassis-lo/85 px-1 font-mono text-[9px] font-semibold tracking-widest text-white/90 ring-1 ring-white/25">
+                  {code}
+                </span>
+              </span>
+            </span>
             <span className="absolute inset-0 rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12)]" />
           </span>
         </button>
@@ -98,18 +124,18 @@ function Shutter() {
         )}
       >
         <ul role="listbox" aria-label={m.locale_switch_label()} className="flex flex-col">
-          {LOCALES.map((code) => (
-            <li key={code} role="option" aria-selected={code === locale}>
+          {LOCALES.map((next) => (
+            <li key={next} role="option" aria-selected={next === locale}>
               <button
                 type="button"
-                lang={code}
-                onClick={() => choose(code)}
+                lang={next}
+                onClick={() => choose(next)}
                 className={cn(
                   'w-full rounded-sm px-2 py-2.5 text-left text-sm hover:bg-accent hover:text-accent-foreground',
-                  code === locale && 'bg-accent font-medium text-accent-foreground',
+                  next === locale && 'bg-accent font-medium text-accent-foreground',
                 )}
               >
-                {LOCALE_NAMES[code]}
+                {LOCALE_NAMES[next]}
               </button>
             </li>
           ))}
