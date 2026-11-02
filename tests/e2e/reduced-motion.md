@@ -1,9 +1,10 @@
 # Flow: reduced motion
 
 ## Goal
-`prefers-reduced-motion: reduce` freezes the ink draw-in and the panel snap. The page must stay fully usable: the hero still responds to the keyboard and nothing animates.
+`prefers-reduced-motion` removes the garnish: no ink animation, no figure scheduler, no focus blur. The page stays fully usable.
 
 ## Checks
-- The hero renders four panels and still responds to `ArrowRight`.
-- The figure field's strokes are not running an animation.
-- Nothing under `main` has a running CSS animation.
+- The hero still renders and navigates (arrow keys move the focus).
+- The panel content never blurs, even mid-drag.
+- The figure field shows a static scattering, no running animations.
+- Nothing inside `main` runs a CSS animation.
