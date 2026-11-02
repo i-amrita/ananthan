@@ -14,3 +14,8 @@ The dial detent sprite (the tail of public/sounds/sprite-*.ogg and sprite-*.m4a)
 by Kenney Vleugels, licensed CC0 1.0 (verified from the pack's License.txt).
 Slices were trimmed to about 22ms, pitched down 3 semitones, high-passed at 180Hz,
 given a presence boost near 3.5kHz and loudness-normalized.
+
+The UI sound sprite (public/audio/sprite.mp3 and sprite.ogg) is fully synthesized: every slice
+is rendered offline from ffmpeg lavfi sources (sine oscillators, filtered noise, aevalsrc
+envelopes) with fixed seeds, by scripts/build-sound-sprite.ts (pnpm sound:build). No sampled or
+third-party recordings are included. Offsets live in src/lib/sound/sprite.ts.
