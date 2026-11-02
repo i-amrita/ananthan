@@ -220,11 +220,7 @@ html:not([data-nav-ready]) [data-nav-links] {
   }
 }
 
-/* Home slider: lift the shutter above the focus ruler so it never covers a stop, and drop the
-   bottom-right viewfinder bracket it would otherwise sit on top of. */
+/* Home slider: lift the shutter above the focus ruler so it never covers a stop. */
 html:has([data-focus-ruler]) [data-shutter] {
   bottom: calc(9.25rem + env(safe-area-inset-bottom, 0px));
-}
-html:has([data-focus-ruler]) .corner.br {
-  display: none;
 }
