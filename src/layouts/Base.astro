@@ -5,6 +5,7 @@ import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
 import { FocusOverlaysIsland } from '@/components/react/FocusOverlays';
+import { ShutterButtonIsland } from '@/components/react/ShutterButton';
 import { StaticCopyIsland } from '@/components/react/StaticCopy';
 
 interface Props {
@@ -112,5 +113,6 @@ const ogUrl = new URL(ogImage, Astro.site);
     <StaticCopyIsland client:idle />
     <!-- client:load, not client:idle: `?overlay=` is a deep link, so the panel must be open on the first paint after load, and the island reads the URL state. -->
     <FocusOverlaysIsland client:load />
+    <ShutterButtonIsland client:idle />
   </body>
 </html>

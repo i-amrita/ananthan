@@ -28,7 +28,7 @@ test('/?locale=hi translates the research route headings', async ({ page }) => {
 test('the locale switch keeps the other URL params', async ({ page }) => {
   await page.goto('/?theme=dark');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  await page.getByRole('button', { name: 'Choose language' }).click();
+  await page.getByRole('button', { name: 'EN Choose language' }).click();
   await page.getByRole('option', { name: 'Deutsch' }).click();
   await expect(page).toHaveURL(/locale=de/);
   await expect(page).toHaveURL(/theme=dark/);

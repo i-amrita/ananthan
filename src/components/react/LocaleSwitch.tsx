@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import Languages from '~icons/ph/translate-light';
 
 import { Button } from '@/components/ui/button';
@@ -12,10 +12,31 @@ import { Providers } from './Providers';
 export const PILL_ITEM =
   'relative inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-[color,background-color,transform] duration-300 ease-(--ease-spring) active:scale-90 motion-reduce:transition-colors motion-reduce:active:scale-100 after:absolute after:-inset-2 after:content-[""] hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-brand aria-[current=page]:text-fg data-[state=open]:text-brand';
 
+/** Fired when a locale popover opens; the others listen and close, so only one is open at a time. */
+const LOCALE_POPOVER_EVENT = 'ananthan:locale-popover';
+
+/** Controlled open state for a locale popover that yields to any other locale popover. */
+export function useExclusiveOpen() {
+  const id = useId();
+  const [open, setOpenState] = useState(false);
+  const setOpen = (next: boolean) => {
+    setOpenState(next);
+    if (next) window.dispatchEvent(new CustomEvent(LOCALE_POPOVER_EVENT, { detail: id }));
+  };
+  useEffect(() => {
+    const onOther = (e: Event) => {
+      if ((e as CustomEvent<string>).detail !== id) setOpenState(false);
+    };
+    window.addEventListener(LOCALE_POPOVER_EVENT, onOther);
+    return () => window.removeEventListener(LOCALE_POPOVER_EVENT, onOther);
+  }, [id]);
+  return [open, setOpen] as const;
+}
+
 /** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
 export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' | 'chip' }) {
   const { locale, setLocale } = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useExclusiveOpen();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

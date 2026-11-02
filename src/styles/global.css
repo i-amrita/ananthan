@@ -205,3 +205,17 @@ html:not([data-nav-ready]) [data-nav-links] {
     transition: none;
   }
 }
+
+/* Shutter popover blink: the popover closes to a point and reopens, like blades. */
+@keyframes shutter-blink {
+  0% {
+    clip-path: circle(150% at 100% 100%);
+  }
+  45%,
+  55% {
+    clip-path: circle(0% at 100% 100%);
+  }
+  100% {
+    clip-path: circle(150% at 100% 100%);
+  }
+}
