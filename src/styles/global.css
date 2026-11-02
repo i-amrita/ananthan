@@ -228,3 +228,82 @@ html:has([data-focus-ruler]) [data-shutter] {
 html:has([data-focus-ruler]) .corner.br {
   display: none;
 }
+
+/* PhotoFrame: minimal viewfinder corner marks over a photo. Reusable by the /photography grid and
+   the landing Photography drawer. Wrap the img in .photo-frame and add the four .pf-c marks. */
+.photo-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  --pf-leg: 16px;
+  --pf-inset: 11px;
+  --pf-width: 1.5px;
+}
+.photo-frame .pf-c {
+  position: absolute;
+  z-index: 1;
+  width: var(--pf-leg);
+  height: var(--pf-leg);
+  border: var(--pf-width) solid var(--c-ink);
+  opacity: 0.7;
+  transition:
+    opacity 300ms var(--ease-spring),
+    translate 300ms var(--ease-spring);
+  pointer-events: none;
+}
+.photo-frame .pf-tl {
+  top: var(--pf-inset);
+  left: var(--pf-inset);
+  border-right: 0;
+  border-bottom: 0;
+}
+.photo-frame .pf-tr {
+  top: var(--pf-inset);
+  right: var(--pf-inset);
+  border-left: 0;
+  border-bottom: 0;
+}
+.photo-frame .pf-bl {
+  bottom: var(--pf-inset);
+  left: var(--pf-inset);
+  border-right: 0;
+  border-top: 0;
+}
+.photo-frame .pf-br {
+  bottom: var(--pf-inset);
+  right: var(--pf-inset);
+  border-left: 0;
+  border-top: 0;
+}
+@media (hover: hover) {
+  .group:hover .photo-frame .pf-c,
+  button:focus-visible .photo-frame .pf-c,
+  a:focus-visible .photo-frame .pf-c {
+    opacity: 1;
+  }
+  .group:hover .photo-frame .pf-tl,
+  button:focus-visible .photo-frame .pf-tl {
+    translate: 2px 2px;
+  }
+  .group:hover .photo-frame .pf-tr,
+  button:focus-visible .photo-frame .pf-tr {
+    translate: -2px 2px;
+  }
+  .group:hover .photo-frame .pf-bl,
+  button:focus-visible .photo-frame .pf-bl {
+    translate: 2px -2px;
+  }
+  .group:hover .photo-frame .pf-br,
+  button:focus-visible .photo-frame .pf-br {
+    translate: -2px -2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-frame .pf-c,
+  .group:hover .photo-frame .pf-c,
+  button:focus-visible .photo-frame .pf-c,
+  a:focus-visible .photo-frame .pf-c {
+    transition: opacity 300ms var(--ease-spring);
+    translate: none;
+  }
+}
