@@ -47,7 +47,7 @@ const MOBILE: Preset = {
   gap: 8,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.115 }, // navbar pill
-    { x: 0, y: 0.34, w: 1, h: 0.34 }, // the centred copy
+    { x: 0, y: 0.5, w: 1, h: 0.36 }, // the lower-left copy block and CTA
     { x: 0, y: 0.84, w: 1, h: 0.16 }, // hint, dots and dock
   ],
 };
@@ -59,7 +59,7 @@ const DESKTOP: Preset = {
   gap: 18,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.13 }, // navbar pill
-    { x: 0.22, y: 0.3, w: 0.56, h: 0.52 }, // the centred copy
+    { x: 0, y: 0.42, w: 0.62, h: 0.46 }, // the lower-left copy block and CTA
     { x: 0, y: 0.86, w: 1, h: 0.14 }, // hint, dots and dock
   ],
 };
