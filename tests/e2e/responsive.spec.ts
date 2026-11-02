@@ -23,6 +23,8 @@ for (const path of ROUTES) {
 test('the nav stays reachable at 375px', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('header')).toBeVisible();
+  // The chip is the nav: the expand toggle is visible collapsed, and the links are one tap away.
+  await page.locator('[data-nav-toggle]').click();
   await expect(page.getByRole('link', { name: 'Research' }).first()).toBeVisible();
 });
 

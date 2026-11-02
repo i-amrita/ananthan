@@ -5,9 +5,10 @@ import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
 import SoundGate from '@/components/astro/SoundGate.astro';
-import { FocusOverlaysIsland } from '@/components/react/FocusOverlays';
+import { FocusOverlaysIsland, type OverlayData } from '@/components/react/FocusOverlays';
 import { ShutterButtonIsland } from '@/components/react/ShutterButton';
 import { StaticCopyIsland } from '@/components/react/StaticCopy';
+import { getOverlayData } from '@/lib/overlay-data';
 
 interface Props {
   title: string;
@@ -24,6 +25,8 @@ interface Props {
   canonical?: boolean;
   /** Route key, used to pick the per-route accent colour. */
   route?: 'home' | 'research' | 'life' | 'photography' | 'other';
+  /** Drawer content for the hero overlays. Defaults to the build-time projection. */
+  overlayData?: OverlayData;
 }
 const {
   title,
@@ -34,7 +37,10 @@ const {
   ogType = 'website',
   canonical: withCanonical = true,
   route = 'home',
+  overlayData,
 } = Astro.props;
+// The drawers project the same collections the pages use, so teaser and page cannot drift.
+const overlays = overlayData ?? (await getOverlayData());
 // Search engines cut descriptions near 160 chars; trim at a word boundary.
 const description =
   rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
@@ -114,7 +120,7 @@ const ogUrl = new URL(ogImage, Astro.site);
     <slot name="footer"><Footer /></slot>
     <StaticCopyIsland client:idle />
     <!-- client:load, not client:idle: `?overlay=` is a deep link, so the panel must be open on the first paint after load, and the island reads the URL state. -->
-    <FocusOverlaysIsland client:load />
+    <FocusOverlaysIsland data={overlays} client:load />
     <ShutterButtonIsland client:idle />
   </body>
 </html>

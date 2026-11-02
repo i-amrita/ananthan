@@ -2,116 +2,102 @@
 /**
  * Hero focus slider: four full-viewport panels on a native `scroll-snap` track.
  * The slider is the home navigation: each panel links into its route.
- * Camera cues are CSS only: depth-of-field blur on the neighbours, viewfinder corner brackets
- * on the focused panel, `zoom-in` cursor on fine pointers.
+ *
+ * v3: no background photographs, no scrim, no viewfinder brackets. Each panel is a single
+ * section of the paper/ink page. The blur is the depth cue: the panel content is blurred while
+ * the focus travels between stops, and the navbar, the ruler and the shutter stay sharp.
  *
  * A small inline script adds desktop arrow-key navigation, drag momentum and snap assist.
  * Without JavaScript the track is still a real scroll container with real links.
  */
 import { m } from '@/lib/i18n';
+import { FOCUS_STOPS, PANELS, type PanelRoute } from '@/lib/panels';
+import { SOCIALS } from '@/lib/site';
+import GraduationCap from '~icons/ph/graduation-cap-light';
+import IdentificationCard from '~icons/ph/identification-card-light';
+import GithubLogo from '~icons/ph/github-logo-light';
+import InstagramLogo from '~icons/ph/instagram-logo-light';
+import ImagesSquare from '~icons/ph/images-square-light';
 
 interface Panel {
+  route: PanelRoute;
+  /** Ruler and aria-live label. */
   label: string;
-  body: string;
-  href: string;
-  cta: string;
-  route: string;
-  photo: {
-    src: string;
-    webp: string;
-    srcset: string;
-    width: number;
-    height: number;
-    alt: string;
-    position: string;
-  };
+  /** Header of the panel. The Intro panel carries the name as the page h1. */
+  header: string;
+  /** One-line tagline under the header. */
+  tagline: string;
+  /** Short list of topics, only on the Research panel. */
+  topics?: { key: string; text: string }[];
+  /** Drawer route opened by the CTA. Absent on the Intro panel: no CTA there. */
+  cta?: { label: string; route: string };
 }
 
-/* Full-bleed panel photographs, owner-supplied. Neutral alt text; nothing is claimed about
-   the owner. The scans are trimmed to the film area (no letterbox), so the stated dimensions
-   are the real image dimensions. Object position is per panel so `cover` keeps the subject
-   in frame at phone, tablet and desktop crops. The srcset carries the two real downscales
-   (480 and 960 px wide); no upscaled files are fabricated. */
-const panelPhotos: Record<string, Panel['photo']> = {
+/** Icon-only social links. Every URL is already in the repo (`src/lib/site.ts`), plus the
+    owner's Instagram. No invented handles. */
+const SOCIAL_ICONS = [
+  { href: SOCIALS.scholar, label: m.socials_scholar(), Icon: GraduationCap },
+  { href: SOCIALS.orcid, label: m.socials_orcid(), Icon: IdentificationCard },
+  { href: SOCIALS.github, label: m.socials_github(), Icon: GithubLogo },
+  { href: SOCIALS.instagram, label: m.socials_instagram(), Icon: InstagramLogo },
+  { href: SOCIALS.portfolio, label: m.socials_portfolio(), Icon: ImagesSquare },
+] as const;
+
+/** The panel copy, keyed by route. `PANELS` fixes the order: Intro, Research, Photography, Life. */
+const CONTENT: Record<
+  PanelRoute,
+  {
+    label: string;
+    header: string;
+    tagline: string;
+    topics?: { key: string; text: string }[];
+    cta?: { label: string; route: string };
+  }
+> = {
   home: {
-    src: '/photos/2024-09-15-1.jpg',
-    webp: '/photos/2024-09-15-1.webp',
-    srcset: '/photos/2024-09-15-1-480.webp 480w, /photos/2024-09-15-1-960.webp 960w, /photos/2024-09-15-1.webp 1000w',
-    width: 1000,
-    height: 660,
-    alt: 'Colour photograph of a row of houses beside railway tracks under a cloudy sky.',
-    position: 'center 50%',
+    label: m.hero_intro_label(),
+    header: m.hero_name(),
+    tagline: m.hero_intro_body(),
   },
   research: {
-    src: '/photos/2024-10-16-1.jpg',
-    webp: '/photos/2024-10-16-1.webp',
-    srcset: '/photos/2024-10-16-1-480.webp 480w, /photos/2024-10-16-1-960.webp 960w, /photos/2024-10-16-1.webp 1080w',
-    width: 1080,
-    height: 720,
-    alt: 'Black-and-white photograph of a laboratory bench with a benchtop centrifuge and glassware by a window.',
-    position: 'center 50%',
-  },
-  life: {
-    /* P2b: the previous life asset (2024-10-16-2) is a tight face crop whose source scan has
-       no pixels above the head, so no object-position could restore the missing forehead.
-       This alternative scan of the same frame carries the full head; it is cropped to the
-       3:2 band at y 250-970 of the square scan, keeping the face and the corn with headroom. */
-    src: '/photos/2024-10-16-3.jpg',
-    webp: '/photos/2024-10-16-3.webp',
-    srcset: '/photos/2024-10-16-3-480.webp 480w, /photos/2024-10-16-3-960.webp 960w, /photos/2024-10-16-3.webp 1080w',
-    width: 1080,
-    height: 720,
-    alt: 'Black-and-white photograph of a seated person holding an ear of corn.',
-    position: 'center 30%',
+    label: m.hero_research_label(),
+    header: m.hero_research_label(),
+    tagline: m.hero_research_body(),
+    topics: [
+      { key: 'hero_research_topic_language', text: m.hero_research_topic_language() },
+      { key: 'hero_research_topic_variants', text: m.hero_research_topic_variants() },
+      { key: 'hero_research_topic_diversity', text: m.hero_research_topic_diversity() },
+      { key: 'hero_research_topic_biology', text: m.hero_research_topic_biology() },
+    ],
+    cta: { label: m.overlay_research_read_more(), route: 'research' },
   },
   photography: {
-    src: '/photos/2024-10-10-1.jpg',
-    webp: '/photos/2024-10-10-1.webp',
-    srcset: '/photos/2024-10-10-1-480.webp 480w, /photos/2024-10-10-1-960.webp 960w, /photos/2024-10-10-1.webp 1080w',
-    width: 1080,
-    height: 720,
-    alt: 'Black-and-white photograph of a bearded person sitting on a chair in a glass-walled lobby.',
-    position: 'center 40%',
+    label: m.hero_photography_label(),
+    header: m.hero_photography_label(),
+    tagline: m.hero_photography_body(),
+    cta: { label: m.overlay_photography_read_more(), route: 'photography' },
+  },
+  life: {
+    label: m.hero_life_label(),
+    header: m.hero_life_label(),
+    tagline: m.hero_life_body(),
+    cta: { label: m.overlay_life_read_more(), route: 'life' },
   },
 };
 
-/* Focus-distance stops, text only. One per panel, in panel order. */
-const stops = ['0.30', '0.50', '0.70', '1.00'];
+const panels: Panel[] = PANELS.map((p) => panelFor(p.route));
 
-const panels: Panel[] = [
-  {
-    label: m.hero_intro_label(),
-    body: m.hero_intro_body(),
-    href: '/life',
-    cta: m.hero_enter(),
-    route: 'home',
-    photo: panelPhotos.home!,
-  },
-  {
-    label: m.hero_research_label(),
-    body: m.hero_research_body(),
-    href: '/research',
-    cta: m.nav_research(),
-    route: 'research',
-    photo: panelPhotos.research!,
-  },
-  {
-    label: m.hero_life_label(),
-    body: m.hero_life_body(),
-    href: '/life',
-    cta: m.nav_life(),
-    route: 'life',
-    photo: panelPhotos.life!,
-  },
-  {
-    label: m.hero_photography_label(),
-    body: m.hero_photography_body(),
-    href: '/photography',
-    cta: m.nav_photography(),
-    route: 'photography',
-    photo: panelPhotos.photography!,
-  },
-];
+function panelFor(route: PanelRoute): Panel {
+  const c = CONTENT[route];
+  return {
+    route,
+    label: c.label,
+    header: c.header,
+    tagline: c.tagline,
+    ...(c.topics ? { topics: c.topics } : {}),
+    ...(c.cta ? { cta: c.cta } : {}),
+  };
+}
 ---
 
 <section
@@ -128,39 +114,54 @@ const panels: Panel[] = [
         class="focus-panel"
         data-focus-panel={i}
         data-route={p.route}
+        data-label={p.label}
         aria-roledescription="panel"
       >
-        <picture class="focus-photo">
-          <source srcset={p.photo.srcset} sizes="100vw" type="image/webp" />
-          <img
-            src={p.photo.src}
-            alt={p.photo.alt}
-            width={p.photo.width}
-            height={p.photo.height}
-            style={`object-position:${p.photo.position};`}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            decoding="async"
-            fetchpriority={i === 0 ? 'high' : undefined}
-          />
-        </picture>
-        <div class="focus-scrim" aria-hidden="true" />
-        <span class="viewfinder" aria-hidden="true">
-          <i class="corner tl" />
-          <i class="corner tr" />
-          <i class="corner bl" />
-          <i class="corner br" />
-        </span>
-        <div class="focus-inner">
+        <div class="focus-content" data-focus-content>
           <p class="focus-index font-mono text-xs tracking-widest text-muted-foreground uppercase">
             {String(i + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
           </p>
-          {i === 0 ? <h1 class="sr-only">{m.hero_name()}</h1> : null}
-          <h2 class="focus-title font-display">{p.label}</h2>
-          <p class="focus-body">{p.body}</p>
-          <a class="focus-cta" href={p.href}>
-            {p.cta}
-            <span aria-hidden="true">→</span>
-          </a>
+          {i === 0 ? (
+            <h1 class="focus-title font-display">{p.header}</h1>
+          ) : (
+            <h2 class="focus-title font-display">{p.header}</h2>
+          )}
+          <p class="focus-body">{p.tagline}</p>
+          {p.topics && (
+            <ul class="focus-topics">
+              {p.topics.map((t) => (
+                <li class="focus-topic">
+                  <span class="focus-topic-dot" aria-hidden="true" />
+                  <span data-i18n={t.key}>{t.text}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {i === 0 ? (
+            <ul class="focus-socials" aria-label={m.hero_social_aria()}>
+              {SOCIAL_ICONS.map(({ href, label, Icon }) => (
+                <li>
+                  <a
+                    href={href}
+                    rel="me noopener"
+                    class="focus-social"
+                    title={label}
+                    aria-label={label}
+                  >
+                    <Icon aria-hidden="true" className="size-5" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {p.cta && (
+            /* A real link so the panel works without JavaScript. With JS the click is
+               intercepted and the drawer opens instead of a page navigation. */
+            <a class="focus-cta" href={`/${p.cta.route}`} data-focus-cta={p.cta.route}>
+              {p.cta.label}
+              <span aria-hidden="true">→</span>
+            </a>
+          )}
         </div>
       </article>
     ))
@@ -173,8 +174,6 @@ const panels: Panel[] = [
   </div>
 </div>
 
-<div class="focus-vignette" aria-hidden="true"></div>
-
 <div class="focus-ruler" data-focus-ruler>
   <div class="ruler-viewport" data-ruler-viewport>
     <div class="ruler-strip" data-ruler-strip>
@@ -185,7 +184,7 @@ const panels: Panel[] = [
               {String(i + 1).padStart(2, '0')} {p.label}
             </span>
             <span class="ruler-dot" />
-            <span class="ruler-num font-mono">{stops[i]}</span>
+            <span class="ruler-num font-mono">{FOCUS_STOPS[i]}</span>
           </span>
         ))
       }
@@ -193,7 +192,7 @@ const panels: Panel[] = [
     <span class="ruler-needle" aria-hidden="true"></span>
   </div>
   <p class="ruler-readout font-mono" aria-hidden="true">
-    FOCUS <span data-focus-value>{stops[0]}</span> M
+    FOCUS <span data-focus-value>{FOCUS_STOPS[0]}</span> M
   </p>
 </div>
 
@@ -206,12 +205,13 @@ const panels: Panel[] = [
 <script>
   /**
    * Behaviour on top of the native scroll-snap track: arrow keys, drag with momentum, the
-   * `?panel=` URL state, the focus-scale ruler, and tap / Enter activation.
+   * `?panel=` URL state, the focus-scale ruler, the depth-of-field blur and tap / Enter activation.
    * Everything degrades to a plain scroll container with real links when JavaScript is off.
    */
   const track = document.querySelector<HTMLElement>('[data-focus-track]');
   if (track) {
     const panels = [...track.querySelectorAll<HTMLElement>('[data-focus-panel]')];
+    const contents = [...track.querySelectorAll<HTMLElement>('[data-focus-content]')];
     const progress = document.querySelector<HTMLElement>('[data-focus-progress]');
     const ruler = document.querySelector<HTMLElement>('[data-focus-ruler]');
     const rulerView = document.querySelector<HTMLElement>('[data-ruler-viewport]');
@@ -271,19 +271,38 @@ const panels: Panel[] = [
       }
     };
 
+    /**
+     * Depth of field: each panel's content is blurred by its distance from the nearest stop,
+     * so the blur follows the finger continuously and is sharp exactly on a stop. The navbar,
+     * the ruler and the shutter are outside this layer, so they stay sharp. JS-gated (the
+     * custom property is only written here) and off under reduced motion.
+     *
+     * The opacity dip is deliberately small: the off-focus panels stay in the DOM, so a deep
+     * dip would push their text below the WCAG AA contrast ratio.
+     */
+    const paintFocus = () => {
+      const p = position();
+      contents.forEach((el, i) => {
+        const distance = Math.abs(p - i);
+        // 0 at the stop, 1 half-way between two stops.
+        const t = Math.min(1, distance);
+        el.style.setProperty('--focus-blur', `${(t * 7).toFixed(2)}px`);
+        el.style.setProperty('--focus-dim', (t * 0.12).toFixed(3));
+      });
+    };
+
     const paint = () => {
       const prev = index;
       index = current();
       panels.forEach((p, i) => {
         p.toggleAttribute('data-focused', i === index);
-        // Blur only applies to panels JS has marked as neighbours; the default is sharp.
-        p.dataset.focusState = i === index ? 'focused' : 'neighbour';
       });
       rulerStops.forEach((s, i) => {
         s.toggleAttribute('data-focused', i === index);
       });
       if (live && (index !== prev || !live.textContent)) {
-        live.textContent = panels[index]?.querySelector('.focus-title')?.textContent ?? '';
+        // The panel label (Intro, Research, Photography, Life), not the header.
+        live.textContent = panels[index]?.dataset.label ?? '';
       }
       // The progress bar fills to (focused + 1) / count. A width write only, so no layout churn.
       if (progress) {
@@ -304,26 +323,32 @@ const panels: Panel[] = [
       paint();
     };
 
-    /** Open the overlay for a panel. The island listens for the event; without it, follow the link. */
-    const openPanel = (i: number) => {
-      const panel = panels[i];
-      const route = panel?.dataset.route;
-      if (!panel || !route) return;
+    /** Open the drawer for a panel. The island listens for the event; without it, follow the link. */
+    const openPanel = (route: string) => {
+      if (!route) return;
       if (document.documentElement.hasAttribute('data-overlay-ready')) {
         window.dispatchEvent(new CustomEvent(OPEN_OVERLAY_EVENT, { detail: route }));
       } else {
-        const href = panel.querySelector<HTMLAnchorElement>('.focus-cta')?.href;
-        if (href) location.assign(href);
+        // No island (no JS): a plain navigation to the page is the fallback.
+        location.assign(`/${route === 'home' ? '' : route}`);
       }
     };
 
     /** Tap, click or Enter on a panel: focus it, or open it if it already has focus. */
     const activate = (i: number) => {
       if (document.documentElement.hasAttribute('data-overlay-open')) return;
-      if (i !== index) goTo(i);
-      // The intro has no page: activating it advances to the first real panel.
-      else if (i === 0) goTo(1);
-      else openPanel(i);
+      if (i !== index) {
+        goTo(i);
+        return;
+      }
+      const panel = panels[i];
+      const route = panel?.dataset.route;
+      // The Intro panel has no drawer: activating it advances to the first real panel.
+      if (!route || route === 'home') {
+        goTo(1);
+        return;
+      }
+      openPanel(route);
     };
 
     // Keys, when the track itself has focus.
@@ -346,14 +371,13 @@ const panels: Panel[] = [
       }
     });
 
-    // The CTA is a real link for no-JS. With JS it is the explicit activation of its panel.
+    // The CTA is a real link for no-JS. With JS it opens the drawer for its panel instead.
     track.addEventListener('click', (e) => {
-      const cta = (e.target as Element).closest<HTMLAnchorElement>('.focus-cta');
+      const cta = (e.target as Element).closest<HTMLElement>('[data-focus-cta]');
       if (!cta || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const i = panels.indexOf(cta.closest<HTMLElement>('[data-focus-panel]')!);
-      if (i < 0) return;
       e.preventDefault();
-      activate(i);
+      const route = cta.dataset['focusCta'];
+      if (route) openPanel(route);
     });
 
     // Pointer handling on the track. Touch scrolls natively; mouse drags with momentum.
@@ -367,6 +391,8 @@ const panels: Panel[] = [
     let lastX = 0;
     let lastT = 0;
     let velocity = 0;
+    /** Largest distance from the pointer-down point during this gesture. */
+    let maxMove = 0;
     let tapTarget: Element | null = null;
 
     track.addEventListener('pointerdown', (e) => {
@@ -381,6 +407,7 @@ const panels: Panel[] = [
       lastX = e.clientX;
       lastT = startT;
       velocity = 0;
+      maxMove = 0;
       startScroll = track.scrollLeft;
       track.setAttribute('data-dragging', '');
     });
@@ -392,6 +419,9 @@ const panels: Panel[] = [
       }
       if (!dragging) return;
       const dx = e.clientX - startX;
+      // The tap threshold is the largest distance travelled during the gesture, not the
+      // distance at release: a drag that ends where it started is still a drag.
+      maxMove = Math.max(maxMove, Math.hypot(e.clientX - startX, e.clientY - startY));
       // Capture only once it is a real drag, so a plain click still reaches links.
       if (!captured && Math.abs(dx) > TAP_MAX_MOVE) {
         captured = true;
@@ -417,9 +447,8 @@ const panels: Panel[] = [
     };
 
     track.addEventListener('pointerup', (e) => {
-      const isTap =
-        Math.hypot(e.clientX - startX, e.clientY - startY) < TAP_MAX_MOVE &&
-        performance.now() - startT < TAP_MAX_MS;
+      maxMove = Math.max(maxMove, Math.hypot(e.clientX - startX, e.clientY - startY));
+      const isTap = maxMove < TAP_MAX_MOVE && performance.now() - startT < TAP_MAX_MS;
       const target = tapTarget;
       tapTarget = null;
       if (dragging) {
@@ -515,6 +544,7 @@ const panels: Panel[] = [
         requestAnimationFrame(() => {
           ticking = false;
           paintRuler();
+          paintFocus();
           paint();
         });
       },
@@ -523,6 +553,15 @@ const panels: Panel[] = [
 
     matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
       reduced = e.matches;
+      if (reduced) {
+        // Reduced motion: nothing blurs.
+        contents.forEach((el) => {
+          el.style.removeProperty('--focus-blur');
+          el.style.removeProperty('--focus-dim');
+        });
+      } else {
+        paintFocus();
+      }
     });
 
     // Restore the panel named in the URL, if any. Out-of-range values clamp to the ends.
@@ -531,9 +570,11 @@ const panels: Panel[] = [
       requestAnimationFrame(() => {
         goTo(wanted);
         paintRuler();
+        paintFocus();
       });
     } else {
       paintRuler();
+      paintFocus();
       paint();
     }
   }
@@ -563,62 +604,16 @@ const panels: Panel[] = [
     /* Top padding clears the fixed navbar pill (48px header + pill height). */
     padding: 7.5rem 1.5rem 11.75rem;
     overflow: hidden;
-    color: #f7f5f0;
   }
   @media (hover: hover) and (pointer: fine) {
     .focus-panel {
       cursor: zoom-in;
     }
   }
-  /* Full-bleed photograph: edge to edge, no card, no border, no gap.
-     The panel itself is not a stacking context, so the home figure field can sit between the
-     photograph and the text. Depth of field lives on the photo layer, not on the panel. */
-  .focus-photo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: block;
-    /* Depth of field: only panels JavaScript marks non-focused are blurred and dimmed.
-     Default (no-JS) is the sharp, fully opaque photo. */
-  }
-  .focus-panel[data-focus-state='neighbour'] .focus-photo {
-    filter: blur(6px) saturate(0.85);
-    opacity: 0.55;
-    transform: scale(0.96);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .focus-photo {
-      transition:
-        filter 600ms var(--ease-spring),
-        opacity 600ms var(--ease-spring),
-        transform 600ms var(--ease-spring);
-    }
-  }
-  .focus-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  /* Legibility scrim. Strong on the text side so the title and body clear WCAG AA in both themes. */
-  .focus-scrim {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background:
-    /* One continuous gradient: opaque only behind the bottom text block, easing away to the
-       top edge so the photograph stays unobstructed. No banded stops. */
-    background: linear-gradient(
-      to top,
-      rgb(8 7 6 / 0.94) 0%,
-      rgb(8 7 6 / 0.86) 22%,
-      rgb(8 7 6 / 0.6) 46%,
-      rgb(8 7 6 / 0.24) 72%,
-      rgb(8 7 6 / 0.08) 100%
-    );
-  }
-  .focus-inner {
+  /* The content layer is the only thing that blurs: the navbar, the ruler and the shutter live
+     outside it. `--focus-blur` is only ever written by the script, so there is no blur without
+     JavaScript, and the reduced-motion rule below removes it entirely. */
+  .focus-content {
     position: relative;
     z-index: 2;
     display: flex;
@@ -627,22 +622,92 @@ const panels: Panel[] = [
     gap: 0.75rem;
     max-width: 34rem;
     text-align: left;
+    filter: blur(var(--focus-blur, 0px));
+    opacity: calc(1 - var(--focus-dim, 0));
+    will-change: filter, opacity;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .focus-content {
+      transition:
+        filter 260ms var(--ease-spring),
+        opacity 260ms var(--ease-spring);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .focus-content {
+      filter: none !important;
+      opacity: 1 !important;
+    }
   }
   .focus-index {
-    color: rgb(247 245 240 / 0.88);
+    color: var(--c-muted-fg);
   }
   .focus-title {
-    font-size: clamp(2.75rem, 9vw, 5.5rem);
-    line-height: 1.02;
+    font-size: clamp(2.5rem, 8.5vw, 5.25rem);
+    line-height: 1.04;
     letter-spacing: -0.02em;
-    color: #f7f5f0;
-    text-shadow: 0 2px 18px rgb(8 7 6 / 0.55);
+    color: var(--c-fg);
   }
   .focus-body {
-    color: rgb(247 245 240 / 0.92);
+    color: var(--c-muted-fg);
     max-width: 30rem;
     text-wrap: balance;
-    text-shadow: 0 1px 12px rgb(8 7 6 / 0.6);
+  }
+  /* Research topic list: a short, scannable list of what he works on. */
+  .focus-topics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+    max-width: 32rem;
+  }
+  .focus-topic {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--c-ink-soft);
+  }
+  .focus-topic-dot {
+    flex: none;
+    width: 0.35rem;
+    height: 0.35rem;
+    translate: 0 -0.15rem;
+    border-radius: 50%;
+    background: var(--c-brand);
+  }
+  /* Social links: icon-only, 44px targets, ink on paper. */
+  .focus-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .focus-social {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border-radius: var(--radius-key);
+    border: 1px solid var(--c-border);
+    color: var(--c-fg);
+    transition:
+      background-color 300ms var(--ease-spring),
+      color 300ms var(--ease-spring),
+      border-color 300ms var(--ease-spring),
+      transform 300ms var(--ease-spring);
+  }
+  .focus-social:hover,
+  .focus-social:focus-visible {
+    background: var(--c-brand);
+    border-color: var(--c-brand);
+    color: var(--c-brand-fg);
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .focus-social:focus-visible {
+    box-shadow: 0 0 0 2px var(--c-page), 0 0 0 4px var(--c-brand);
   }
   .focus-cta {
     display: inline-flex;
@@ -650,69 +715,27 @@ const panels: Panel[] = [
     align-items: center;
     gap: 0.5rem;
     border-radius: var(--radius-key);
-    border: 1px solid rgb(247 245 240 / 0.5);
-    color: #f7f5f0;
+    border: 1px solid var(--c-border);
+    background: var(--c-surface);
+    color: var(--c-fg);
     padding: 0 1rem;
+    cursor: pointer;
     transition:
       background-color 300ms var(--ease-spring),
       color 300ms var(--ease-spring),
+      border-color 300ms var(--ease-spring),
       transform 300ms var(--ease-spring);
   }
   .focus-cta:hover,
   .focus-cta:focus-visible {
-    background: #f7f5f0;
-    color: #16150f;
+    background: var(--c-brand);
+    border-color: var(--c-brand);
+    color: var(--c-brand-fg);
     transform: translateY(-1px);
     outline: none;
   }
   .focus-cta:focus-visible {
-    box-shadow: 0 0 0 2px #f7f5f0;
-  }
-
-  /* The fixed navbar pill floats over the photo. Panel text keeps clear of it via panel padding,
-     the photo itself runs under it to the top edge. */
-
-  /* Viewfinder corner brackets on the focused panel. */
-  .viewfinder {
-    position: absolute;
-    inset: clamp(1rem, 4vh, 3rem) clamp(1rem, 5vw, 4rem) 9rem;
-    z-index: 3;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 400ms var(--ease-spring);
-  }
-  .focus-panel[data-focused] .viewfinder {
-    opacity: 0.7;
-  }
-  .corner {
-    position: absolute;
-    width: clamp(1.25rem, 3vw, 2.25rem);
-    height: clamp(1.25rem, 3vw, 2.25rem);
-    border: 2px solid rgb(247 245 240 / 0.85);
-  }
-  .corner.tl {
-    top: 0;
-    left: 0;
-    border-right: 0;
-    border-bottom: 0;
-  }
-  .corner.tr {
-    top: 0;
-    right: 0;
-    border-left: 0;
-    border-bottom: 0;
-  }
-  .corner.bl {
-    bottom: 0;
-    left: 0;
-    border-right: 0;
-    border-top: 0;
-  }
-  .corner.br {
-    bottom: 0;
-    right: 0;
-    border-left: 0;
-    border-top: 0;
+    box-shadow: 0 0 0 2px var(--c-page), 0 0 0 4px var(--c-brand);
   }
 
   /* Progress bar on the bottom edge of the viewport: a 2px track with a fill at (focused + 1) / 4. */
@@ -726,45 +749,14 @@ const panels: Panel[] = [
   .focus-progress-track {
     height: 2px;
     width: 100%;
-    /* Theme independent: the bar sits over the photograph, not over the paper, so the track
-       is a faint light veil and the fill is light ink at high alpha. Reads on photo and scrim
-       in both themes. */
-    background: rgb(247 245 240 / 0.25);
+    background: var(--c-border);
   }
   .focus-progress-fill {
     display: block;
     height: 100%;
     width: calc(var(--progress, 0.25) * 100%);
-    background: rgb(247 245 240 / 0.9);
+    background: var(--c-brand);
     transition: width 400ms var(--ease-spring);
-  }
-  /* Vignette: one radial gradient over the whole viewport. It sits above the photographs and
-     scrims (z 1, later in the DOM) and below the text (z 2) and the ruler. The focused panel
-     reads as the lit centre while the blurred neighbours sink into the dark edges. Theme
-     independent, since it darkens the photograph, not the paper. Tuned for portrait first. */
-  .focus-vignette {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse 78% 58% at 50% 40%,
-      transparent 0%,
-      transparent 30%,
-      rgb(8 7 6 / 0.5) 66%,
-      rgb(8 7 6 / 0.9) 100%
-    );
-  }
-  @media (min-width: 768px) {
-    .focus-vignette {
-      background: radial-gradient(
-        ellipse 72% 80% at 50% 42%,
-        transparent 0%,
-        transparent 38%,
-        rgb(8 7 6 / 0.45) 72%,
-        rgb(8 7 6 / 0.85) 100%
-      );
-    }
   }
   .focus-track[data-dragging] {
     scroll-snap-type: none;
@@ -773,13 +765,13 @@ const panels: Panel[] = [
 
   /* Focus-scale ruler. Fixed at the bottom of the viewport, above the 2px progress bar.
      The strip is one wide element: stop i sits at 50cqw + i * step, and the only per-frame
-     write is the --p custom property feeding a transform (no layout). Mono type, light ink
-     on the photograph in both themes, red needle fixed at the centre. */
+     write is the --p custom property feeding a transform (no layout). Mono type, ink on
+     paper in both themes, red needle fixed at the centre. */
   .focus-ruler {
     --step: 8rem;
     --needle: #ff4a2e;
-    --ink: rgb(247 245 240 / 0.92);
-    --ink-dim: rgb(247 245 240 / 0.6);
+    --ink: var(--c-fg);
+    --ink-dim: var(--c-muted-fg);
     position: fixed;
     inset-inline: 0;
     bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
@@ -816,10 +808,9 @@ const panels: Panel[] = [
     background:
       linear-gradient(90deg, var(--ink) 0 1px, transparent 1px) calc(50cqw - 0.5px) 2.75rem /
         var(--step) 0.9rem repeat-x,
-      linear-gradient(90deg, rgb(247 245 240 / 0.55) 0 1px, transparent 1px)
+      linear-gradient(90deg, var(--c-muted-fg) 0 1px, transparent 1px)
         calc(50cqw - 0.5px) 2.75rem / calc(var(--step) / 6) 0.45rem repeat-x,
-      linear-gradient(rgb(247 245 240 / 0.45), rgb(247 245 240 / 0.45)) 0 2.75rem / 100% 1px
-        no-repeat;
+      linear-gradient(var(--c-muted-fg), var(--c-muted-fg)) 0 2.75rem / 100% 1px no-repeat;
   }
   .ruler-stop {
     position: absolute;
@@ -844,7 +835,6 @@ const panels: Panel[] = [
     text-transform: uppercase;
     white-space: nowrap;
     color: var(--ink-dim);
-    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
   }
   .ruler-dot {
     position: absolute;
@@ -863,18 +853,17 @@ const panels: Panel[] = [
     inset-inline: 0;
     font-size: 0.8125rem;
     color: var(--ink-dim);
-    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
   }
   .ruler-stop[data-focused] .ruler-label,
   .ruler-stop[data-focused] .ruler-num {
-    color: #fff;
+    color: var(--c-fg);
   }
   .ruler-stop[data-focused] .ruler-dot {
     width: 0.65rem;
     height: 0.65rem;
     top: 1.7rem;
-    background: #fff;
-    border-color: #fff;
+    background: var(--c-fg);
+    border-color: var(--c-fg);
   }
   .ruler-needle {
     position: absolute;
@@ -903,7 +892,6 @@ const panels: Panel[] = [
     font-size: 0.75rem;
     letter-spacing: 0.14em;
     color: var(--ink);
-    text-shadow: 0 1px 6px rgb(8 7 6 / 0.8);
     pointer-events: none;
   }
   .ruler-readout [data-focus-value] {
@@ -923,8 +911,8 @@ const panels: Panel[] = [
     border-radius: 999px;
     font-size: 0.75rem;
     letter-spacing: 0.1em;
-    color: #16150f;
-    background: rgb(247 245 240 / 0.92);
+    color: var(--c-page);
+    background: var(--c-fg);
     opacity: 0;
     transition: opacity 150ms linear;
   }
@@ -937,14 +925,6 @@ const panels: Panel[] = [
     }
     :global(html[data-overlay-open]) .focus-chip {
       display: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    /* Blur is motion-adjacent: under reduced motion every photo is sharp, JS state or not. */
-    .focus-panel[data-focus-state='neighbour'] .focus-photo {
-      filter: none;
-      transform: none;
     }
   }
 </style>

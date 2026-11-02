@@ -18,7 +18,7 @@ const { route, depth = 0 } = Astro.props;
 const figures = await getFigures(route);
 
 const boxes: FigureBox[] = figures.map((f) => ({ id: f.id, w: f.data.size[0], h: f.data.size[1] }));
-const { mobile, desktop, rotation } = layoutFigures(route, boxes);
+const { mobile, tablet, desktop, rotation } = layoutFigures(route, boxes);
 
 const px = (n: number) => `${n.toFixed(2)}px`;
 const pct = (n: number) => `${n.toFixed(2)}%`;
@@ -36,12 +36,14 @@ const fade = 1 - 0.18 * Math.min(depth, 2);
     >
       {figures.map((f) => {
         const m = mobile.get(f.id);
+        const t = tablet.get(f.id);
         const d = desktop.get(f.id);
         const [w, h] = f.data.size;
         const vb = Math.max(w, h);
         const rot = rotation.get(f.id) ?? 0;
         const style = [
           m && `--mx:${pct(m.x)};--my:${pct(m.y)};--mw:${px(m.w)};--msw:${((2.6 * vb) / m.span).toFixed(2)}`,
+          t && `--tx:${pct(t.x)};--ty:${pct(t.y)};--tw:${px(t.w)};--tsw:${((2.6 * vb) / t.span).toFixed(2)}`,
           d && `--dx:${pct(d.x)};--dy:${pct(d.y)};--dw:${px(d.w)};--dsw:${((2.6 * vb) / d.span).toFixed(2)}`,
           `--r:${rot}deg`,
         ]
@@ -57,6 +59,7 @@ const fade = 1 - 0.18 * Math.min(depth, 2);
             data-tone={f.data.tone}
             data-peak={(f.data.weight * 0.62 * fade * (f.data.paths.length ? 1 : 0.7)).toFixed(3)}
             data-m={m ? '' : undefined}
+            data-t={t ? '' : undefined}
             data-d={d ? '' : undefined}
           >
             <svg viewBox={`0 0 ${w} ${h}`} overflow="visible">
@@ -85,19 +88,23 @@ const fade = 1 - 0.18 * Math.min(depth, 2);
         const field = document.currentScript.previousElementSibling;
         if (!field || !field.hasAttribute('data-figure-field')) return;
         const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-        const wide = matchMedia('(min-width: 768px)');
+        const tablet = matchMedia('(min-width: 640px) and (max-width: 1023px)');
+        const wide = matchMedia('(min-width: 1024px)');
         const all = [...field.querySelectorAll('[data-figure]')];
         const alive = new Set();
         const last = new WeakMap();
         const anims = new WeakMap();
         let timer = 0;
 
+        /** The layout key of the current viewport: mobile, tablet or desktop. */
+        const layoutKey = () => (wide.matches ? 'data-d' : tablet.matches ? 'data-t' : 'data-m');
+
         // oxlint-disable-next-line unicorn/consistent-function-scoping -- the script is a closed IIFE, there is no outer scope to hoist to
         const rand = (a, b) => a + Math.random() * (b - a);
         // oxlint-disable-next-line unicorn/consistent-function-scoping -- see rand
         const sign = () => (Math.random() < 0.5 ? -1 : 1);
         const cap = () => (wide.matches ? 10 : 6);
-        const pool = () => all.filter((el) => el.hasAttribute(wide.matches ? 'data-d' : 'data-m') && !alive.has(el));
+        const pool = () => all.filter((el) => el.hasAttribute(layoutKey()) && !alive.has(el));
 
         /** Fade one figure in and out over 3.5s to 5s. Only opacity and transform (plus the dash offset of `draw`). */
         const spawn = (el) => {
@@ -230,7 +237,25 @@ const fade = 1 - 0.18 * Math.min(depth, 2);
   .figure:not([data-m]) {
     display: none;
   }
-  @media (min-width: 768px) {
+  /* Tablet: 640px up to 1023px gets its own scatter, so the copy-safe zone matches the
+     middle viewport instead of being stretched from the phone layout. */
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .figure {
+      left: var(--tx);
+      top: var(--ty);
+      width: var(--tw);
+    }
+    .figure:not([data-t]) {
+      display: none;
+    }
+    .figure[data-t] {
+      display: block;
+    }
+    [data-strokes] {
+      stroke-width: var(--tsw, 2.6);
+    }
+  }
+  @media (min-width: 1024px) {
     .figure {
       left: var(--dx);
       top: var(--dy);
