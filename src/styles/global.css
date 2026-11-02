@@ -115,68 +115,155 @@
   }
 }
 
-/* ---------- Page transitions: cross-document aperture iris (no router, no JS) ---------- */
-/* The new page is revealed through an 8-blade iris: a clip-path polygon that opens from a small
-   aperture to full frame. Reduced motion falls back to the plain crossfade. */
+/* ---------- Page transitions: cross-document view transition (no router, no JS) ---------- */
+/* One minimal transition for every navigation: the old page fades out, the new page fades in and
+   the content settles upward. The move is carried by the `page-main` layer, so the swap reads as
+   content arriving rather than a full-screen wipe. The nav chip and the shutter keep their own
+   layers and do not fade, so they persist instead of flashing through the crossfade. */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
     navigation: auto;
   }
-  header:has(> nav) {
+  header[data-site-nav] {
     view-transition-name: site-nav;
   }
-  ::view-transition-group(root) {
-    animation-duration: 480ms;
-    animation-timing-function: var(--ease-spring);
+  main {
+    view-transition-name: page-main;
   }
-  ::view-transition-old(root) {
-    animation: iris-out 260ms var(--ease-spring) both;
+  [data-shutter] {
+    view-transition-name: shutter;
   }
-  ::view-transition-new(root) {
-    animation: iris-in 480ms var(--ease-spring) both;
-  }
-  ::view-transition-group(site-nav) {
+  /* No group motion: the layers do not move or resize, only fade and settle. */
+  ::view-transition-group(*) {
     animation-duration: 0s;
   }
-}
-/* 8-blade aperture. Each frame interpolates the polygon vertices between a small regular
-   octagon and the full frame, which reads as blades opening. */
-@keyframes iris-in {
-  from {
-    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
+  ::view-transition-old(root) {
+    animation: vt-out 200ms var(--ease-spring) both;
   }
-  40% {
-    clip-path: polygon(38% 12%, 88% 38%, 62% 88%, 12% 62%, 38% 12%, 88% 38%, 62% 88%, 12% 62%);
+  ::view-transition-new(root) {
+    animation: vt-in 260ms var(--ease-spring) both;
+  }
+  ::view-transition-old(page-main) {
+    animation: vt-out 200ms var(--ease-spring) both;
+  }
+  /* The settle: the new content arrives 8px low and rises into place. */
+  ::view-transition-new(page-main) {
+    animation: vt-in-main 280ms var(--ease-spring) both;
+  }
+  /* The nav chip and the shutter are identical on both pages: keep them out of the crossfade so
+     they never flash, and never show the outgoing snapshot. */
+  ::view-transition-old(site-nav),
+  ::view-transition-old(shutter) {
+    display: none;
+  }
+  ::view-transition-new(site-nav),
+  ::view-transition-new(shutter) {
+    animation: none;
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-in-main {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- Overlay drawer (ActionOverlay): sheet below 640px, docked panel from 640px ---------- */
+/* The dock is a plain Radix dialog, which has no animations of its own: without site CSS the panel
+   and its scrim pop in and out instantly. vaul injects its own 500ms slide for the sheet, but the
+   root sets an inline `transition: transform` that overrides keyframes on the transform property
+   while it animates opacity, and vaul only marks itself `data-vaul-animate` from the second open.
+   Site CSS takes over both variants: the shared spring (340ms), a slide on the panel, a fade on the
+   scrim. Radix Presence keeps a closing panel mounted until the `animationend` of the animation
+   named on the node, so the exit keyframes below must keep the `animation-name` short form.
+   Transform/opacity only, so no layout property is touched mid-animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .overlay-panel {
+    animation-duration: 340ms;
+    animation-timing-function: var(--ease-spring);
+  }
+  .overlay-panel-dock {
+    animation-name: dock-in;
+  }
+  .overlay-panel-dock[data-state='closed'] {
+    animation-name: dock-out;
+  }
+  .overlay-panel-sheet {
+    animation-name: sheet-in !important;
+  }
+  .overlay-panel-sheet[data-state='closed'] {
+    animation-name: sheet-out !important;
+  }
+  .overlay-scrim {
+    animation: overlay-scrim-in 340ms var(--ease-spring) both;
+  }
+  .overlay-scrim[data-state='closed'] {
+    animation-name: overlay-scrim-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay-panel {
+    animation: overlay-fade 120ms linear both !important;
+  }
+  .overlay-scrim {
+    animation-duration: 120ms !important;
+  }
+}
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+@keyframes dock-out {
+  to {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
   }
   to {
-    clip-path: polygon(
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%,
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%
-    );
+    opacity: 1;
   }
 }
-@keyframes iris-out {
+@keyframes overlay-scrim-in {
   from {
-    clip-path: polygon(
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%,
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%
-    );
+    opacity: 0;
   }
+}
+@keyframes overlay-scrim-out {
   to {
-    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
+    opacity: 0;
   }
+}
+.overlay-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(28 16 18 / 0.6);
 }
 
 /* Nav chip links: collapsed by default once JS is ready, shown statically without JS.

@@ -41,11 +41,28 @@ function isOverlay(value: unknown): value is Overlay {
 /**
  * Island root for the hero overlays. `overlay` is URL state, so a deep link opens the panel
  * directly and Back closes it. `panel` stays owned by the slider script and is never touched here.
+ *
+ * The URL is cleared the moment the close starts, but the island keeps rendering the shell until
+ * the exit animation finishes (`onExitComplete`), so the slide/fade out actually plays instead of
+ * vanishing with the unmount.
  */
 function Overlays() {
   const [{ overlay }, setState] = useQueryStates(urlStateParsers);
   const [mounted, setMounted] = useState(false);
+  // The last non-null overlay; the shell renders it while the exit animation plays.
+  const [rendered, setRendered] = useState<Overlay | null>(null);
+  const [showPanel, setShowPanel] = useState(false);
   const active = isOverlay(overlay) ? overlay : null;
+
+  // Track the last overlay so the shell can keep its copy on screen during the exit animation.
+  useEffect(() => {
+    if (active !== null) setRendered(active);
+  }, [active]);
+
+  // The open prop flips after the URL, so Radix starts the exit animation on this state.
+  useEffect(() => {
+    setShowPanel(active !== null);
+  }, [active]);
 
   // The island renders nothing until it is mounted, so the server HTML and the first client
   // render agree and no hydration mismatch is logged. `data-overlay-ready` on <html> is the
@@ -73,6 +90,12 @@ function Overlays() {
     void setState({ overlay: null }, { history: 'replace' });
   };
 
+  // Once the exit animation has run the stub copy can be dropped.
+  const exitComplete = () => {
+    setRendered(null);
+    setShowPanel(false);
+  };
+
   // While a panel is open the hero track must not scroll or take focus.
   useEffect(() => {
     const root = document.documentElement;
@@ -96,15 +119,16 @@ function Overlays() {
     return release;
   }, [active]);
 
-  if (!mounted || active === null) return null;
-  const stub = STUBS[active];
+  if (!mounted || rendered === null) return null;
+  const stub = STUBS[rendered];
 
   return (
     <ActionOverlay
-      open
+      open={showPanel}
       onOpenChange={(open) => {
         if (!open) close();
       }}
+      onExitComplete={exitComplete}
       title={stub.title()}
       description={stub.description()}
     >
