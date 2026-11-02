@@ -276,6 +276,9 @@ function panelFor(route: PanelRoute): Panel {
      * so the blur follows the finger continuously and is sharp exactly on a stop. The navbar,
      * the ruler and the shutter are outside this layer, so they stay sharp. JS-gated (the
      * custom property is only written here) and off under reduced motion.
+     *
+     * The opacity dip is deliberately small: the off-focus panels stay in the DOM, so a deep
+     * dip would push their text below the WCAG AA contrast ratio.
      */
     const paintFocus = () => {
       const p = position();
@@ -284,7 +287,7 @@ function panelFor(route: PanelRoute): Panel {
         // 0 at the stop, 1 half-way between two stops.
         const t = Math.min(1, distance);
         el.style.setProperty('--focus-blur', `${(t * 7).toFixed(2)}px`);
-        el.style.setProperty('--focus-dim', (t * 0.55).toFixed(3));
+        el.style.setProperty('--focus-dim', (t * 0.12).toFixed(3));
       });
     };
 
