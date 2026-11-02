@@ -7,13 +7,10 @@ import { useSoundReady } from '@/lib/sound/use-sound-ready';
 import { Providers } from './Providers';
 
 const LABELS: Record<SoundName, string> = {
-  'slider-detent': 'slider detent tick',
-  'slider-settle': 'slider settle click',
-  'shutter-fire': 'shutter fire (click-clack)',
-  'shutter-release': 'shutter release',
-  'locale-commit': 'locale commit',
-  'panel-open': 'panel open whoosh',
-  'panel-close': 'panel close tick',
+  'slider-detent': 'slider detent tick (slider-0 3.415-3.475s)',
+  'slider-settle': 'slider settle landing (slider-2 3.37-3.60s)',
+  'shutter-fire': 'shutter fire (shutter-1 3.48-3.70s)',
+  'shutter-release': 'shutter release (shutter-0 3.49-3.72s)',
 };
 
 /** Each slice gets its own playback rate, so the owner can judge the pitch in isolation. */
@@ -22,9 +19,6 @@ const RATES: Record<SoundName, number> = {
   'slider-settle': 1,
   'shutter-fire': 1,
   'shutter-release': 1,
-  'locale-commit': 1,
-  'panel-open': 1,
-  'panel-close': 1,
 };
 
 /**

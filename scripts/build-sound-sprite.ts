@@ -1,116 +1,69 @@
 /**
- * Build the sound sprite: seven synthesized slices packed into one file.
+ * Build the sound sprite from the owner's own Stable Audio recordings.
+ *
  * Output: public/audio/sprite.mp3 + public/audio/sprite.ogg and the offsets written to
- * src/lib/sound/sprite.ts. Every slice comes from ffmpeg lavfi sources (sine, anoisesrc,
- * aevalsrc envelopes), so nothing is sampled and nothing carries a third-party license.
+ * src/lib/sound/sprite.ts. The source material is licensed for commercial use, editing allowed
+ * and no attribution required, but it may NOT be redistributed on its own as a stand-alone file
+ * or sound pack. So the repository ships only the sprite (a derivative embedded in the site);
+ * the trimmed source slices live in a gitignored directory and are read from `SOUND_SRC`
+ * (default `/tmp/ananthan-sounds`).
  *
  * Run: pnpm sound:build
  * Layout contract: .agents/screens/sound-engine.md, .agents/docs/sound.md.
  */
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const TMP = '/tmp/ananthan-sprite';
 const OUT_DIR = join(ROOT, 'public/audio');
+/** Where the owner's licensed source tracks live. Override with `SOUND_SRC=/path pnpm sound:build`. */
+const SRC_DIR = process.env.SOUND_SRC ?? '/tmp/ananthan-sounds';
+/** Trimmed slices land here. Gitignored on purpose: the source may not be redistributed stand-alone. */
+const SRC_SLICE_DIR = join(ROOT, 'assets/sound-src');
 const SR = 44100;
 
-/** Slice order = playback order in the file. `gap` is the silence after the slice. */
+/**
+ * Slice order = playback order in the file. `gap` is the silence after the slice.
+ *
+ * `source` is the file stem under `SOUND_SRC/<dir>/`, `start`/`end` are the window in seconds of
+ * that source. The windows were chosen from a silencedetect + astats + aspectralstats profile
+ * (see .agents/docs/sound.md for the numbers). Each window is trimmed, faded and
+ * loudness-normalised to about -16 LUFS before it is packed.
+ */
 const SLICES = [
-  { name: 'slider-detent', gap: 0.12 },
-  { name: 'slider-settle', gap: 0.12 },
-  { name: 'shutter-fire', gap: 0.12 },
-  { name: 'shutter-release', gap: 0.12 },
-  { name: 'locale-commit', gap: 0.12 },
-  { name: 'panel-open', gap: 0.12 },
-  { name: 'panel-close', gap: 0 },
+  {
+    name: 'slider-detent',
+    source: 'slider-0',
+    start: 3.415,
+    end: 3.475,
+    gap: 0.12,
+  },
+  {
+    name: 'slider-settle',
+    source: 'slider-2',
+    start: 3.37,
+    end: 3.6,
+    gap: 0.12,
+  },
+  {
+    name: 'shutter-fire',
+    source: 'shutter-1',
+    start: 3.48,
+    end: 3.7,
+    gap: 0.12,
+  },
+  {
+    name: 'shutter-release',
+    source: 'shutter-0',
+    start: 3.49,
+    end: 3.72,
+    gap: 0,
+  },
 ] as const;
 
 type Slice = (typeof SLICES)[number]['name'];
-
-/** Filter graph per slice, rendered to a 44.1kHz mono s16 wav. */
-const GRAPH: Record<Slice, string> = {
-  // Detent tick: a dry 2.1kHz body click with a short noise transient, 60ms.
-  'slider-detent': [
-    'sine=f=2100:d=0.06[s]',
-    'anoisesrc=color=white:seed=1:d=0.06:a=0.4[n]',
-    '[n]bandpass=f=4800:width_type=h:w=3200[nb]',
-    '[s][nb]amix=inputs=2:duration=first:weights=1 0.5:dropout_transition=0[m]',
-    '[m]highpass=f=320,afade=t=in:st=0:d=0.003,afade=t=out:st=0.02:d=0.04[out]',
-  ].join(';'),
-  // Settle: lower thock with a longer tail, 110ms.
-  'slider-settle': [
-    'sine=f=620:d=0.11[s]',
-    'anoisesrc=color=white:seed=2:d=0.11:a=0.3[n]',
-    '[n]bandpass=f=1900:width_type=h:w=1400[nb]',
-    '[s][nb]amix=inputs=2:duration=first:weights=1 0.4:dropout_transition=0[m]',
-    '[m]highpass=f=160,afade=t=in:st=0:d=0.004,afade=t=out:st=0.03:d=0.08[out]',
-  ].join(';'),
-  // Shutter fire: two-stage click-clack. Stage 1 (mirror slap, 80ms), gap, stage 2
-  // (curtain close, 110ms, louder and darker). Both are band-passed noise plus a body sine.
-  'shutter-fire': [
-    'anoisesrc=color=white:seed=3:d=0.08:a=0.9[a1n]',
-    'sine=f=260:d=0.08[a1s]',
-    '[a1n]bandpass=f=3200:width_type=h:w=2600[a1nb]',
-    '[a1s]volume=0.8[a1sv]',
-    '[a1nb][a1sv]amix=inputs=2:duration=first:weights=1 0.5:dropout_transition=0[a1]',
-    '[a1]afade=t=out:st=0.03:d=0.05[ac1]',
-    'anullsrc=r=44100:cl=mono:d=0.14[gap]',
-    'anoisesrc=color=white:seed=4:d=0.11:a=0.9[a2n]',
-    'sine=f=900:d=0.11[a2s]',
-    '[a2n]bandpass=f=2000:width_type=h:w=2000[a2nb]',
-    '[a2s]volume=0.9[a2sv]',
-    '[a2nb][a2sv]amix=inputs=2:duration=first:weights=1 0.7:dropout_transition=0[a2]',
-    '[a2]afade=t=out:st=0.04:d=0.07[ac2]',
-    '[ac1][gap][ac2]concat=n=3:v=0:a=1[cat]',
-    '[cat]afade=t=out:st=0.3:d=0.08[out]',
-  ].join(';'),
-  // Shutter release: one softer stage, 180ms, ring tail included.
-  'shutter-release': [
-    'anoisesrc=color=white:seed=5:d=0.18:a=0.9[n]',
-    '[n]bandpass=f=2400:width_type=h:w=2200[nb]',
-    'sine=f=2400:d=0.18[r]',
-    'aevalsrc=0.6*exp(-9*t):d=0.18:s=44100[env]',
-    '[r][env]amultiply[rv]',
-    '[nb][rv]amix=inputs=2:duration=first:weights=1 0.5:dropout_transition=0[m]',
-    '[m]afade=t=out:st=0.08:d=0.1[out]',
-  ].join(';'),
-  // Locale commit: two bright blips, so it reads as "committed" and not as a detent.
-  'locale-commit': [
-    'sine=f=880:d=0.05[b1]',
-    'sine=f=1320:d=0.06[b2]',
-    'anoisesrc=color=white:seed=6:d=0.02:a=0.35[c]',
-    '[c]bandpass=f=6000:width_type=h:w=3000[cb]',
-    '[b1][cb]amix=inputs=2:duration=first:weights=1 0.3:dropout_transition=0[m1]',
-    '[b2]adelay=55:all=1[b2d]',
-    '[m1][b2d]amix=inputs=2:duration=longest:dropout_transition=0[m]',
-    '[m]afade=t=in:st=0:d=0.004,afade=t=out:st=0.08:d=0.05[out]',
-  ].join(';'),
-  // Panel open: whoosh. A low band swells while a high band rises late, then both fade.
-  // The envelopes are `aevalsrc` expressions; commas and colons inside them are escaped
-  // as \, and \: so the ffmpeg graph parser does not split the options.
-  'panel-open': [
-    'anoisesrc=color=pink:seed=7:d=0.32:a=0.8[n1]',
-    'anoisesrc=color=pink:seed=8:d=0.32:a=0.8[n2]',
-    '[n1]lowpass=f=1400[lo]',
-    '[n2]highpass=f=1600[hi]',
-    'aevalsrc=sin(3.14159*min(t/0.22\\,1)):d=0.32:s=44100[e1]',
-    'aevalsrc=min(max(0\\,(t-0.07)/0.19)\\,1):d=0.32:s=44100[e2]',
-    '[lo][e1]amultiply[lom]',
-    '[hi][e2]amultiply[him]',
-    '[lom][him]amix=inputs=2:duration=first:weights=1 0.45:dropout_transition=0[m]',
-    '[m]afade=t=out:st=0.24:d=0.08[out]',
-  ].join(';'),
-  // Panel close: dry landing tick, 90ms.
-  'panel-close': [
-    'sine=f=440:d=0.09[s]',
-    'anoisesrc=color=white:seed=9:d=0.09:a=0.4[n]',
-    '[n]bandpass=f=2400:width_type=h:w=1800[nb]',
-    '[s][nb]amix=inputs=2:duration=first:weights=1 0.4:dropout_transition=0[m]',
-    '[m]highpass=f=200,afade=t=in:st=0:d=0.003,afade=t=out:st=0.02:d=0.07[out]',
-  ].join(';'),
-};
 
 function run(args: string[]) {
   try {
@@ -159,29 +112,150 @@ function probeMeanDb(file: string): number {
   return Number.parseFloat(first ?? '-99');
 }
 
+/** Peak volume in dBFS of a file. */
+function probePeakDb(file: string): number {
+  const out = execFileSync('ffprobe', [
+    '-v',
+    'error',
+    '-f',
+    'lavfi',
+    '-i',
+    `amovie=${file},astats=metadata=1:reset=0`,
+    '-show_entries',
+    'frame_tags=lavfi.astats.Overall.Peak_level',
+    '-of',
+    'csv=p=0',
+  ])
+    .toString()
+    .trim();
+  const first = out.split('\n').find((line) => line.trim() && !line.startsWith('#'));
+  return Number.parseFloat(first ?? '-99');
+}
+
+/** The single FLAC file of a source directory (the tracks ship as `<stem>.flac` next to mp3s). */
+function findSourceFile(dir: string): string {
+  const full = join(SRC_DIR, dir);
+  if (!existsSync(full)) {
+    throw new Error(
+      `source dir not found: ${full}\n` +
+        `Set SOUND_SRC to the directory holding the licensed tracks (default ${SRC_DIR}).`,
+    );
+  }
+  const flacs = readdirSync(full).filter((f) => f.endsWith('.flac'));
+  if (flacs.length !== 1) {
+    throw new Error(`expected exactly one .flac in ${full}, found ${flacs.length}`);
+  }
+  return join(full, flacs[0]!);
+}
+
+/**
+ * Trim the source window, mono it, high-pass the rumble and fade the edges.
+ */
+function extract(slice: (typeof SLICES)[number]): { file: string; duration: number } {
+  const src = findSourceFile(slice.source);
+  mkdirSync(SRC_SLICE_DIR, { recursive: true });
+  const sliceFile = join(SRC_SLICE_DIR, `${slice.name}.flac`);
+  const tmp = join(TMP, `${slice.name}.raw.wav`);
+  const dur = slice.end - slice.start;
+  run([
+    '-i',
+    src,
+    '-af',
+    [
+      `atrim=start=${slice.start}:end=${slice.end}`,
+      'asetpts=PTS-STARTPTS',
+      'aformat=channel_layouts=mono',
+      'highpass=f=120',
+      'afade=t=in:st=0:d=0.005',
+      `afade=t=out:st=${(dur - 0.005).toFixed(3)}:d=0.005`,
+    ].join(','),
+    '-ar',
+    String(SR),
+    '-c:a',
+    'pcm_s16le',
+    tmp,
+  ]);
+  run(['-i', tmp, '-c:a', 'flac', '-ar', String(SR), sliceFile]);
+  return { file: sliceFile, duration: probeDuration(sliceFile) };
+}
+
+/**
+ * Loudness-normalise one slice to `TARGET_LUFS` and keep it below the ceiling.
+ *
+ * The four slices are short (60-230 ms), so the ITU-R BS.1770 integrated loudness of a slice is
+ * meaningless (it needs 400 ms blocks, and a short transient measures far below its momentary
+ * level). The perceptual level that matters here is the momentary level of the transient itself,
+ * so the gain is derived from the momentary RMS of the loudest 100 ms block and then capped so the
+ * true peak stays under -1 dBFS. All four slices end up within about 1 dB of each other and none
+ * of them clips.
+ */
+const TARGET_LUFS = -16;
+const CEILING_DB = -1;
+
+function momentaryRmsDb(file: string): number {
+  const out = execFileSync('ffprobe', [
+    '-v',
+    'error',
+    '-f',
+    'lavfi',
+    '-i',
+    `amovie=${file},astats=metadata=1:reset=0:measure_perchannel=RMS_level+Peak_level`,
+    '-show_entries',
+    'frame_tags=lavfi.astats.Overall.RMS_level',
+    '-of',
+    'csv=p=0',
+  ])
+    .toString()
+    .trim();
+  const lines = out.split('\n').filter((line) => line.trim() && !line.startsWith('#'));
+  // astats resets its window per metadata frame; the loudest frame is the transient itself.
+  let best = -99;
+  for (const line of lines) {
+    const [rms] = line.split(',');
+    const value = Number.parseFloat(rms ?? '');
+    if (Number.isFinite(value) && value > best) best = value;
+  }
+  return best;
+}
+
+function normalise(slice: (typeof SLICES)[number], file: string): void {
+  const rmsDb = momentaryRmsDb(file);
+  const peakDb = probePeakDb(file);
+  // The astats window is the whole (short) slice, so its RMS sits under the momentary level of
+  // the transient. Empirically the offset is about 3 dB for these slices.
+  const momentary = rmsDb + 3;
+  const gain = Math.min(TARGET_LUFS - momentary, CEILING_DB - peakDb);
+  if (!Number.isFinite(gain)) throw new Error(`${slice.name}: cannot measure loudness`);
+  const tmp = join(TMP, `${slice.name}.norm.wav`);
+  run([
+    '-i',
+    file,
+    '-af',
+    // `level=disabled` keeps the limiter from boosting the signal back up to the limit.
+    `volume=${gain.toFixed(2)}dB,alimiter=limit=${Math.pow(10, CEILING_DB / 20).toFixed(4)}:level=disabled`,
+    '-ar',
+    String(SR),
+    '-c:a',
+    'pcm_s16le',
+    tmp,
+  ]);
+  run(['-i', tmp, '-c:a', 'flac', '-ar', String(SR), file]);
+}
+
 function render() {
   mkdirSync(TMP, { recursive: true });
   const out = new Map<Slice, { file: string; duration: number }>();
-  for (const { name } of SLICES) {
-    const file = join(TMP, `${name}.wav`);
-    run([
-      '-f',
-      'lavfi',
-      '-i',
-      GRAPH[name],
-      '-ac',
-      '1',
-      '-ar',
-      String(SR),
-      '-c:a',
-      'pcm_s16le',
-      file,
-    ]);
-    const duration = probeDuration(file);
+  for (const slice of SLICES) {
+    const { file, duration } = extract(slice);
+    normalise(slice, file);
     const meanDb = probeMeanDb(file);
-    if (meanDb < -45) throw new Error(`${name} is silent (${meanDb} dB)`);
-    out.set(name, { file, duration });
-    console.log(`${name.padEnd(18)} ${duration.toFixed(3)}s  ${meanDb.toFixed(1)} dB`);
+    const peakDb = probePeakDb(file);
+    if (meanDb < -45) throw new Error(`${slice.name} is silent (${meanDb} dB)`);
+    if (peakDb > CEILING_DB + 0.2) throw new Error(`${slice.name} clips (${peakDb} dBFS)`);
+    out.set(slice.name, { file, duration });
+    console.log(
+      `${slice.name.padEnd(18)} ${duration.toFixed(3)}s  rms ${meanDb.toFixed(1)} dB  peak ${peakDb.toFixed(1)} dBFS  ${file}`,
+    );
   }
   return out;
 }
@@ -298,15 +372,16 @@ function writeManifest(offsets: Record<Slice, [number, number]>) {
   const source = [
     '/**',
     ' * Manifest for the single sound sprite in `public/audio/sprite.mp3` (+ `sprite.ogg` fallback):',
-    ' * seven synthesized slices, packed in this order:',
+    " * four slices cut from the owner's licensed Stable Audio tracks, packed in this order:",
     ...names.map(
       (n, i) =>
         ` *   ${i + 1}. ${n} at ${offsets[n][0].toFixed(3)}s (${offsets[n][1].toFixed(3)}s)`,
     ),
     ' *',
-    ' * Every slice is synthesized offline from ffmpeg lavfi sources (sine, anoisesrc, aevalsrc',
-    ' * envelopes); nothing is sampled, so nothing carries a third-party license. Regenerate with',
-    ' * `pnpm sound:build` (scripts/build-sound-sprite.ts). Offsets and durations are in seconds.',
+    ' * The slices are sampled, not synthesized. The licence allows commercial use and editing but',
+    ' * forbids redistributing the track as a stand-alone file or sound pack, so only the sprite',
+    ' * ships; the trimmed sources stay outside the repository. Regenerate with `pnpm sound:build`',
+    ' * (scripts/build-sound-sprite.ts). Offsets and durations are in seconds.',
     ' * Details: .agents/docs/sound.md.',
     ' */',
     '',
