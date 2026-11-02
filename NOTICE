@@ -14,3 +14,17 @@ The dial detent sprite (the tail of public/sounds/sprite-*.ogg and sprite-*.m4a)
 by Kenney Vleugels, licensed CC0 1.0 (verified from the pack's License.txt).
 Slices were trimmed to about 22ms, pitched down 3 semitones, high-passed at 180Hz,
 given a presence boost near 3.5kHz and loudness-normalized.
+
+The UI sound sprite (public/audio/sprite.mp3 and sprite.ogg) is built from five Stable Audio 3
+tracks purchased for this project by the owner (Brioso custom-track licence, orders 78834404 and
+c6142acc, licensee quino@usebrioso.com, purchased 2026-11-02). The licence grants worldwide,
+perpetual, commercial use, including modification and derivative works, with no attribution
+required. It restricts redistribution of the track on its own as a stand-alone audio file, sound
+pack or music library, and registration with content-identification systems.
+
+The sprite is a derivative embedded in this site (a larger creative work), which is the licensed
+use. Only the sprite is committed. The trimmed source slices (assets/sound-src/) are gitignored
+and must stay that way, especially if this repository is ever made public: redistributing them
+stand-alone is exactly what the licence forbids. The sprite is rebuilt with `pnpm sound:build`
+(scripts/build-sound-sprite.ts), which reads the licensed masters from `SOUND_SRC`
+(default /tmp/ananthan-sounds). Offsets live in src/lib/sound/sprite.ts.

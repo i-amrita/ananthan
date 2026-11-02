@@ -4,6 +4,7 @@ import frauncesItalicUrl from '@fontsource/fraunces/files/fraunces-latin-400-ita
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
+import SoundGate from '@/components/astro/SoundGate.astro';
 import { FocusOverlaysIsland } from '@/components/react/FocusOverlays';
 import { ShutterButtonIsland } from '@/components/react/ShutterButton';
 import { StaticCopyIsland } from '@/components/react/StaticCopy';
@@ -99,6 +100,7 @@ const ogUrl = new URL(ogImage, Astro.site);
       document.documentElement.dir = 'ltr';
       // i18n:end
     </script>
+    <SoundGate />
   </head>
   <body>
     <a
