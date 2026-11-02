@@ -4,11 +4,18 @@ import { expect, type Page } from '@playwright/test';
 /** Fails on critical or serious axe violations. Lower impacts are returned for logging only. */
 export async function expectNoSeriousA11y(page: Page, context?: string) {
   // Entrance animations (.rise, item-in) fade rows in with stagger; measuring contrast mid-fade
-  // reports partial-opacity blends, so wait for every CSS animation to settle first.
+  // reports partial-opacity blends, so wait for every CSS animation to settle first. The figure field is
+  // aria-hidden decoration that animates forever by design, so it is excluded from the wait.
   await page.waitForFunction(() =>
     document
       .getAnimations()
       .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .filter(
+        (a) =>
+          !((a.effect as KeyframeEffect | null)?.target as Element | null)?.closest(
+            '[data-figure-field]',
+          ),
+      )
       .every((a) => a.playState === 'finished' || a.playState === 'idle'),
   );
   const { violations } = await new AxeBuilder({ page })
