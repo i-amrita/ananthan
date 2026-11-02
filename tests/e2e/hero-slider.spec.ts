@@ -12,7 +12,7 @@ test('the hero renders one panel per focus area', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('[data-focus-track]')).toBeVisible();
   await expect(page.locator('[data-focus-panel]')).toHaveCount(PANEL_COUNT);
-  await expect(page.locator('[data-focus-dot]')).toHaveCount(PANEL_COUNT);
+  await expect(page.locator('[data-focus-panel] .focus-photo img')).toHaveCount(PANEL_COUNT);
 });
 
 test('the first panel is focused on load and carries no panel param', async ({ page }) => {
@@ -56,17 +56,19 @@ test('End jumps to the last panel and Home back to the first', async ({ page }) 
   await expect(page).not.toHaveURL(/panel=/);
 });
 
-test('a dot button selects its panel', async ({ page }) => {
+test('the progress bar fills to (focused + 1) / 4', async ({ page }) => {
   await page.goto('/');
-  await page.locator('[data-focus-dot]').nth(2).click();
-  await expect(page.locator('[data-focus-panel]').nth(2)).toHaveAttribute('data-focused', '');
-  await expect(page).toHaveURL(/panel=2/);
+  await expect(page.locator('[data-focus-progress-fill]')).toHaveCSS('--progress', '0.25');
+  await page.locator('[data-focus-track]').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('[data-focus-progress-fill]')).toHaveCSS('--progress', '0.5');
+  await expect(page).toHaveURL(/panel=1/);
 });
 
 test('?panel= restores that panel on load', async ({ page }) => {
   await page.goto('/?panel=2');
   await expect(page.locator('[data-focus-panel]').nth(2)).toHaveAttribute('data-focused', '');
-  await expect(page.locator('[data-focus-dot]').nth(2)).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('[data-focus-progress-fill]')).toHaveCSS('--progress', '0.75');
 });
 
 test('?panel=9 is clamped to the last panel', async ({ page }) => {
