@@ -47,8 +47,20 @@ const MOBILE: Preset = {
   gap: 8,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.115 }, // navbar pill
-    { x: 0, y: 0.5, w: 1, h: 0.36 }, // the lower-left copy block and CTA
-    { x: 0, y: 0.84, w: 1, h: 0.16 }, // hint, dots and dock
+    { x: 0, y: 0.42, w: 1, h: 0.36 }, // the lower-left copy block and socials
+    { x: 0, y: 0.8, w: 1, h: 0.2 }, // hint, ruler and dock
+  ],
+};
+
+const TABLET: Preset = {
+  vw: 768,
+  vh: 1024,
+  span: [64, 110],
+  gap: 12,
+  safe: [
+    { x: 0, y: 0, w: 1, h: 0.09 }, // navbar pill
+    { x: 0, y: 0.45, w: 0.78, h: 0.38 }, // the lower-left copy block and socials
+    { x: 0, y: 0.86, w: 1, h: 0.14 }, // hint, ruler and dock
   ],
 };
 
@@ -59,8 +71,8 @@ const DESKTOP: Preset = {
   gap: 18,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.13 }, // navbar pill
-    { x: 0, y: 0.42, w: 0.62, h: 0.46 }, // the lower-left copy block and CTA
-    { x: 0, y: 0.86, w: 1, h: 0.14 }, // hint, dots and dock
+    { x: 0, y: 0.3, w: 0.5, h: 0.5 }, // the lower-left copy block and socials
+    { x: 0, y: 0.84, w: 1, h: 0.16 }, // hint, ruler and dock
   ],
 };
 
@@ -130,7 +142,8 @@ export function layoutFigures(route: string, boxes: FigureBox[]) {
   // Shuffle so which figures land first (and so are most likely to get a slot) varies per route.
   const order = boxes.toSorted(() => rand() - 0.5);
   const mobile = place(MOBILE, order, prng(hash(`m:${route}`)));
+  const tablet = place(TABLET, order, prng(hash(`t:${route}`)));
   const desktop = place(DESKTOP, order, prng(hash(`d:${route}`)));
   const rotation = new Map(boxes.map((b) => [b.id, Math.round((rand() - 0.5) * 36)]));
-  return { mobile, desktop, rotation };
+  return { mobile, tablet, desktop, rotation };
 }
