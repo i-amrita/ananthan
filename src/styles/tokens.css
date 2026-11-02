@@ -47,6 +47,13 @@
   --color-brand-strong: var(--c-brand-strong);
   --color-brand-hover: var(--c-brand-strong);
 
+  /* Camera chassis: device colours, the same in light and dark. */
+  --color-chassis: #66625d;
+  --color-chassis-lo: #1f1d1b;
+  --shadow-key: 0 6px 14px -4px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.12) inset;
+  --shadow-key-down: 0 1px 2px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.08) inset;
+  --ease-key: cubic-bezier(0.4, 0, 0.2, 1);
+
   --radius-key: 6px;
   --radius-card: 14px;
 
