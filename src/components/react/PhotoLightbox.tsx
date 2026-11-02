@@ -83,15 +83,21 @@ function Lightbox({ photos }: { photos: PhotoItem[] }) {
               data-photo-thumb
               data-photo-id={p.id}
             >
-              <img
-                src={p.image}
-                alt={p.alt}
-                width={p.width}
-                height={p.height}
-                loading="lazy"
-                decoding="async"
-                className="block h-full w-full object-cover"
-              />
+              <span className="photo-frame">
+                <i className="pf-c pf-tl" aria-hidden="true" />
+                <i className="pf-c pf-tr" aria-hidden="true" />
+                <i className="pf-c pf-bl" aria-hidden="true" />
+                <i className="pf-c pf-br" aria-hidden="true" />
+                <img
+                  src={p.image}
+                  alt={p.alt}
+                  width={p.width}
+                  height={p.height}
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-full w-full object-cover"
+                />
+              </span>
               <span className="block px-2 py-1.5 text-xs text-muted-foreground">{p.caption}</span>
             </button>
           </li>
