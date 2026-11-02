@@ -1,0 +1,10 @@
+motif: plus
+label: 'Plus cross'
+route: all
+weight: 0.8
+paths:
+  - 'M50,12 V88 M12,50 H88'
+size: [100, 100]
+motion: spin
+tone: coral
+order: 16

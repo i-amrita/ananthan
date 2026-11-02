@@ -43,7 +43,10 @@ export async function getPhotos(): Promise<PhotoEntry[]> {
 
 /** Figures for one route (`home`, `research`, `life`, `photography`). */
 export async function getFigures(route: string): Promise<FigureEntry[]> {
-  const all = await getCollection('figures', (f) => !f.data.draft && f.data.route === route);
+  const all = await getCollection(
+    'figures',
+    (f) => !f.data.draft && (f.data.route === route || f.data.route === 'all'),
+  );
   return all.toSorted((a, b) => a.data.order - b.data.order);
 }
 

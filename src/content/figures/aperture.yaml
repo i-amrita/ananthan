@@ -15,6 +15,6 @@ paths:
   - 'M100,100 L20,100'
   - 'M100,100 L37,37'
 size: [200, 200]
-position: { x: 60, y: 20 }
-delay: 0
+motion: spin
+tone: soft
 order: 0

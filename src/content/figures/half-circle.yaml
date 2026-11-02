@@ -1,0 +1,10 @@
+motif: half-circle
+label: 'Half circle'
+route: all
+weight: 0.55
+fills:
+  - 'M10,50 A40,40 0 0,1 90,50 Z'
+size: [100, 60]
+motion: spin
+tone: mustard
+order: 13

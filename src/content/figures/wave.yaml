@@ -1,0 +1,11 @@
+motif: wave
+label: 'Wave'
+route: all
+weight: 0.8
+paths:
+  - 'M4,16 q12,-16 24,0 t24,0 t24,0 t24,0'
+  - 'M4,34 q12,-16 24,0 t24,0 t24,0 t24,0'
+size: [110, 50]
+motion: draw
+tone: teal
+order: 17

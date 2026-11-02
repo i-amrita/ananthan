@@ -1,0 +1,10 @@
+motif: squiggle
+label: 'Squiggle'
+route: all
+weight: 0.8
+paths:
+  - 'M6,25 q12,-26 24,0 t24,0 t24,0 t24,0'
+size: [120, 50]
+motion: draw
+tone: coral
+order: 10
