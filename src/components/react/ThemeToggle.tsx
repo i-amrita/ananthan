@@ -1,4 +1,5 @@
 import type { MouseEvent } from 'react';
+import CircleHalf from '~icons/ph/circle-half-light';
 
 import { m, useLocale } from '@/lib/i18n';
 import type { Theme } from '@/lib/url-state';
@@ -63,7 +64,7 @@ const nextTheme = (): Theme =>
         ? 'light'
         : 'dark';
 
-/** Brand dot with a radar ping: toggles `?theme=` with a circular reveal. The ping is off under `prefers-reduced-motion`. */
+/** Half-filled circle icon: toggles `?theme=` with a circular reveal. */
 export function ThemeToggle() {
   useLocale();
   return (
@@ -80,15 +81,9 @@ export function ThemeToggle() {
           history.replaceState(history.state, '', url);
         });
       }}
-      className={cn(PILL_ITEM, 'size-7')}
+      className={cn(PILL_ITEM, 'size-11')}
     >
-      <span className="relative flex size-2.5">
-        <span
-          aria-hidden="true"
-          className="absolute inset-0 animate-ping rounded-full bg-brand/60 [animation-duration:1.6s] motion-reduce:animate-none"
-        />
-        <span className="relative size-2.5 rounded-full bg-brand" />
-      </span>
+      <CircleHalf className="size-5" aria-hidden="true" />
     </button>
   );
 }

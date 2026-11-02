@@ -5,30 +5,13 @@ import { m } from '@/lib/i18n';
 
 <header
   data-site-nav
-  class="sticky top-0 z-40 flex justify-center px-4 transition-transform duration-300 ease-(--ease-spring) data-[hidden]:-translate-y-[150%] motion-reduce:transition-none"
+  class="pointer-events-none fixed inset-x-0 top-0 z-40 flex justify-center px-3 pt-[calc(env(safe-area-inset-top)+0.75rem)]"
 >
   <nav
-    class="mt-3 flex h-9 w-max max-w-full items-center gap-1 rounded-full bg-surface px-1.5 shadow-[0_12px_32px_-12px_rgb(28_16_18/0.25)] ring-1 ring-fg/5 backdrop-blur"
+    class="pointer-events-auto flex w-max max-w-full flex-wrap items-center justify-center rounded-3xl bg-surface p-0.5 shadow-[0_12px_32px_-12px_rgb(28_16_18/0.4)] ring-1 ring-fg/20 backdrop-blur"
     aria-label={m.nav_primary()}
     data-i18n-aria="nav_primary"
   >
-    <NavbarActions pathname={Astro.url.pathname} client:idle />
+    <NavbarActions pathname={Astro.url.pathname} client:load />
   </nav>
 </header>
-
-<script>
-  // Hide the pill while scrolling down, bring it back on any upward scroll, near the top, or when it holds focus.
-  const header = document.querySelector<HTMLElement>('[data-site-nav]');
-  if (header) {
-    let last = window.scrollY;
-    const update = () => {
-      const y = window.scrollY;
-      const delta = y - last;
-      if (y < 24 || delta < -4 || header.matches(':focus-within')) header.removeAttribute('data-hidden');
-      else if (delta > 4 && y > 80) header.setAttribute('data-hidden', '');
-      last = y;
-    };
-    addEventListener('scroll', update, { passive: true });
-    header.addEventListener('focusin', () => header.removeAttribute('data-hidden'));
-  }
-</script>

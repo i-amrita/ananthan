@@ -8,18 +8,26 @@ import { cn } from '@/lib/utils';
 
 import { Providers } from './Providers';
 
-/** Shared look for navbar pill items: 28px visible, 44px hit area via `::after`, hairline focus ring. */
+/** Shared look for navbar chip items. 44px in the chip; the `::after` extends smaller items to a 44px hit area. */
 export const PILL_ITEM =
   'relative inline-flex items-center justify-center rounded-full text-muted-foreground outline-none transition-[color,background-color,transform] duration-300 ease-(--ease-spring) active:scale-90 motion-reduce:transition-colors motion-reduce:active:scale-100 after:absolute after:-inset-2 after:content-[""] hover:bg-fg/5 hover:text-fg focus-visible:ring-2 focus-visible:ring-brand aria-[current=page]:text-fg data-[state=open]:text-brand';
 
 /** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
-export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' }) {
+export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' | 'chip' }) {
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {variant === 'code' ? (
+        {variant === 'chip' ? (
+          <button
+            type="button"
+            aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}
+            className={cn(PILL_ITEM, 'size-11')}
+          >
+            <Languages className="size-5" aria-hidden="true" />
+          </button>
+        ) : variant === 'code' ? (
           <button
             type="button"
             aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}

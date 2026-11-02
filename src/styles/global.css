@@ -178,3 +178,30 @@
     clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
   }
 }
+
+/* Nav chip links: collapsed by default once JS is ready, shown statically without JS.
+   The group grows leftwards (max-width) rather than flying out; visibility keeps collapsed links out of the tab order. */
+[data-nav-links] {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  padding: 2px;
+  margin: -2px;
+  transition:
+    max-width 500ms var(--ease-spring),
+    opacity 300ms var(--ease-spring),
+    visibility 0s linear 500ms;
+}
+html[data-nav-open] [data-nav-links],
+html:not([data-nav-ready]) [data-nav-links] {
+  max-width: 32rem;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-links] {
+    transition: none;
+  }
+}
