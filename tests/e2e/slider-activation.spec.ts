@@ -1,9 +1,9 @@
 import { expect, type Page, test } from '@playwright/test';
 
 /**
- * Slider activation: a tap on the focused panel opens its overlay, a tap on a neighbour only
+ * Slider activation: a tap on the focused panel opens its drawer, a tap on a neighbour only
  * focuses it, Enter opens the focused panel, and a drag release never opens anything.
- * The intro panel has no page, so activating it advances to panel 1.
+ * The Intro panel has no drawer: activating it advances to panel 1.
  */
 
 test.use({ viewport: { width: 1280, height: 800 } });
@@ -38,7 +38,7 @@ test('flick to panel 2, tap to open, panel survives open and close', async ({ pa
 
   await page.mouse.click(640, 300);
   await expect(page.locator('[data-overlay-panel]')).toBeVisible();
-  await expect(page).toHaveURL(/overlay=life/);
+  await expect(page).toHaveURL(/overlay=photography/);
   await expect(page).toHaveURL(/panel=2/);
 
   await page.keyboard.press('Escape');
@@ -89,10 +89,20 @@ test('releasing a drag never opens an overlay', async ({ page }) => {
 test('tapping the intro advances to panel 1', async ({ page }) => {
   await ready(page, '/');
   await focused(page, 0);
-  await page.mouse.click(640, 300);
+  // The top area of the intro panel, clear of the social links and the tagline.
+  await page.mouse.click(640, 200);
   await focused(page, 1);
   await expect(page).toHaveURL(/panel=1/);
   await expect(page.locator('[data-overlay-panel]')).toHaveCount(0);
+});
+
+test('tapping a social link never opens a drawer', async ({ page }) => {
+  await ready(page, '/');
+  await page.locator('[data-focus-panel]').first().locator('.focus-social').first().click();
+  await expect(page.locator('[data-overlay-panel]')).toHaveCount(0);
+  await expect(page).not.toHaveURL(/overlay=/);
+  // The click lands on the real link target (off-site), so the page URL stays on the hero.
+  await expect(page).not.toHaveURL(/panel=/);
 });
 
 test('the live region announces the focused panel and the readout follows', async ({ page }) => {
@@ -107,7 +117,7 @@ test('the live region announces the focused panel and the readout follows', asyn
   await expect(live).toHaveText('Research');
   await expect(value).toHaveText('0.50');
   await page.keyboard.press('End');
-  await expect(live).toHaveText('Photography');
+  await expect(live).toHaveText('Life');
   await expect(value).toHaveText('1.00');
 });
 
