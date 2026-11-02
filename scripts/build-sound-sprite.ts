@@ -230,7 +230,8 @@ function pack(rendered: Map<Slice, { file: string; duration: number }>) {
     join(OUT_DIR, 'sprite.mp3'),
   ]);
   // The native `vorbis` encoder is still marked experimental in ffmpeg (`-strict -2`) and
-  // only accepts stereo, so the ogg fallback is stereo. It is a fallback, not the primary.
+  // only accepts stereo, so the ogg fallback is stereo. `-serial_offset 0` pins the ogg
+  // bitstream serial, which the muxer otherwise randomizes, so rebuilds stay byte-stable.
   run([
     '-i',
     wav,
@@ -244,15 +245,51 @@ function pack(rendered: Map<Slice, { file: string; duration: number }>) {
     '2',
     '-ar',
     String(SR),
+    '-f',
+    'ogg',
     join(OUT_DIR, 'sprite.ogg'),
   ]);
+  pinOggSerial(join(OUT_DIR, 'sprite.ogg'));
   return offsets;
+}
+
+/**
+ * The ogg muxer randomizes the bitstream serial (`-serial_offset` only offsets it), which makes
+ * every rebuild byte-different and churns git. This rewrites every page header's serial to a
+ * fixed value and recomputes each page CRC (Ogg uses CRC-32, polynomial 0x04c11db7, init 0, no
+ * reflection, no final xor), so rebuilds are byte-stable.
+ */
+function pinOggSerial(file: string, serial = 0x00000001) {
+  const pages = readFileSync(file);
+  for (let at = 0; at + 27 <= pages.length;) {
+    if (pages.subarray(at, at + 5).toString('latin1') !== 'OggS\0') {
+      throw new Error(`${file}: bad ogg page at ${at}`);
+    }
+    pages.writeUInt32LE(serial, at + 14);
+    pages.fill(0, at + 22, at + 26);
+    // The page ends after the 27-byte header, the segment table and the segment payloads.
+    const segments = pages[at + 26]!;
+    let end = at + 27 + segments;
+    for (let i = 0; i < segments; i++) end += pages[at + 27 + i]!;
+    let crc = 0;
+    for (let i = at; i < end; i++) {
+      crc ^= pages[i]! << 24;
+      for (let bit = 0; bit < 8; bit++)
+        crc = crc & 0x80000000 ? ((crc << 1) ^ 0x04c11db7) >>> 0 : (crc << 1) >>> 0;
+    }
+    pages.writeUInt32LE(crc >>> 0, at + 22);
+    at = end;
+  }
+  writeFileSync(file, pages);
 }
 
 function writeManifest(offsets: Record<Slice, [number, number]>) {
   const mp3 = readFileSync(join(OUT_DIR, 'sprite.mp3'));
   const ogg = readFileSync(join(OUT_DIR, 'sprite.ogg'));
-  // FNV-1a over the mp3 bytes: a short version stamp for cache busting the URLs.
+  // FNV-1a over the mp3 bytes: a short version stamp for cache busting the URLs. The stamp is
+  // part of the URL, so /audio/* can be served immutable (see public/_headers). The mp3 alone
+  // is enough: it is byte-reproducible, while the ogg container carries a random bitstream
+  // serial, so hashing both would churn the stamp on every rebuild.
   const hash = [...mp3]
     .reduce((a, b) => Math.imul(a ^ b, 16777619) >>> 0, 2166136261)
     .toString(16)
