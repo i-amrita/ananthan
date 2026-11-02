@@ -495,7 +495,9 @@ const panels: Panel[] = [
     rulerStops.forEach((s, i) => {
       s.setAttribute('role', 'button');
       s.setAttribute('tabindex', '0');
-      s.setAttribute('aria-label', s.dataset.label ?? '');
+      // The accessible name contains all the visible text (WCAG 2.5.3).
+      const text = s.textContent ?? '';
+      s.setAttribute('aria-label', text.replace(/\s+/g, ' ').trim());
       s.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
