@@ -14,8 +14,6 @@ paths:
   - 'M52,100 L88,100'
   - 'M52,164 L88,164'
 size: [140, 260]
-# Text column on /research is left aligned; this figure floats at the far right of the
-# viewport, clear of the copy at every breakpoint.
-position: { x: 82, y: 15 }
-delay: 0
+motion: drift
+tone: soft
 order: 0

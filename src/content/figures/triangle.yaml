@@ -1,0 +1,10 @@
+motif: triangle
+label: 'Triangle'
+route: all
+weight: 0.8
+paths:
+  - 'M50,10 L92,86 L8,86 Z'
+size: [100, 100]
+motion: spin
+tone: ink
+order: 15

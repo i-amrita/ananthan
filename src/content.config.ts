@@ -58,31 +58,41 @@ const courses = defineCollection({
 });
 
 /**
- * Ink-brush background figures. One YAML file per figure: adding a figure is a content drop, never a code change.
- * `paths` are SVG path data drawn inside the `size` viewBox.
+ * Background figures (ink motifs and Memphis shapes). One YAML file per figure: adding a figure is a content drop,
+ * never a code change. Geometry is drawn inside the `size` viewBox; `route: all` puts the figure on every route.
+ * The scatter position is NOT authored: FigureField lays figures out deterministically per route around the copy-safe zone.
  */
 const figures = defineCollection({
   loader: glob({ pattern: '**/*.yaml', base: './src/content/figures' }),
-  schema: z.object({
-    /** Motif name, used as the figure id and its `data-motif` hook. */
-    motif: z.string(),
-    /** Human label for the figure. */
-    label: z.string(),
-    route,
-    /** Ink weight, 0..1. Multiplies the stroke opacity. */
-    weight: z.number().min(0).max(1).default(0.8),
-    /** SVG path data, drawn inside the `size` viewBox. */
-    paths: z.array(z.string()).min(1),
-    /** viewBox width and height. */
-    size: z.tuple([z.number(), z.number()]),
-    /** Placement as a percentage of the field box. */
-    position: z.object({ x: z.number(), y: z.number() }),
-    /** Seconds before the draw-in starts. */
-    delay: z.number().default(0),
-    /** Render order inside the field. */
-    order: z.number().int().default(0),
-    draft: z.boolean().default(false),
-  }),
+  schema: z
+    .object({
+      /** Motif name, used as the figure id and its `data-motif` hook. */
+      motif: z.string(),
+      /** Human label for the figure. */
+      label: z.string(),
+      route: z.union([route, z.literal('all')]),
+      /** Ink weight, 0..1. Peak opacity while the figure is alive. */
+      weight: z.number().min(0).max(1).default(0.8),
+      /** Stroked SVG path data (round caps), drawn inside the `size` viewBox. */
+      paths: z.array(z.string()).default([]),
+      /** Filled SVG path data (solid shapes, dots), drawn inside the `size` viewBox. */
+      fills: z.array(z.string()).default([]),
+      /** viewBox width and height. */
+      size: z.tuple([z.number(), z.number()]),
+      /** `drift` slides and tilts, `spin` rotates, `pulse` breathes in scale, `draw` strokes itself in (needs `paths`). */
+      motion: z.enum(['drift', 'spin', 'pulse', 'draw']).default('drift'),
+      /** Colour token: ink tones or one of the three Memphis pops (see `--c-pop-*` in tokens.css). */
+      tone: z.enum(['ink', 'soft', 'coral', 'teal', 'mustard']).default('ink'),
+      /** Render order inside the field; also breaks ties in the layout. */
+      order: z.number().int().default(0),
+      draft: z.boolean().default(false),
+    })
+    .refine((f) => f.paths.length + f.fills.length > 0, {
+      message: 'a figure needs paths or fills',
+    })
+    .refine((f) => f.motion !== 'draw' || f.paths.length > 0, {
+      message: 'motion: draw needs stroked paths',
+    }),
 });
 
 /** Photographs. The image lives in `public/photos/`; `alt` is required. */

@@ -1,0 +1,13 @@
+motif: stacked-lines
+label: 'Stacked lines'
+route: all
+weight: 0.8
+paths:
+  - 'M6,8 H94'
+  - 'M6,24 H80'
+  - 'M6,40 H94'
+  - 'M6,56 H66'
+size: [100, 64]
+motion: draw
+tone: ink
+order: 20

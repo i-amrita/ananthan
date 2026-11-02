@@ -9,6 +9,6 @@ paths:
   - 'M20,140 L20,200'
   - 'M200,140 L200,200'
 size: [220, 300]
-position: { x: 70, y: 40 }
-delay: 4
+motion: draw
+tone: soft
 order: 1
