@@ -80,6 +80,9 @@ const ogUrl = new URL(ogImage, Astro.site);
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
       if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      // Nav chip before paint: `data-nav-ready` hides the no-JS static links, `?nav=open` seeds the expanded state.
+      document.documentElement.dataset.navReady = '';
+      if (new URLSearchParams(location.search).get('nav') === 'open') document.documentElement.dataset.navOpen = '';
       // i18n:start (locale before paint: html lang from ?locale=; all locales are LTR)
       const q = new URLSearchParams(location.search);
       // A locale chosen earlier is restored (replaceState, before islands hydrate) unless the URL already carries one.
