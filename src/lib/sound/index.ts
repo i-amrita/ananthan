@@ -18,3 +18,6 @@ export {
 } from './engine';
 export { armSoundGate, onSoundReady, type SoundReadyDetail } from './gate';
 export { SPRITE, SOUND_NAMES, SPRITE_HASH, type SoundName, spriteUrl } from './sprite';
+// Installs window.sound for the Astro-side scripts (the focus slider) and the e2e suite.
+import './global';
+export type { SoundGlobal } from './global';

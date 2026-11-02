@@ -4,10 +4,15 @@ import Navbar from '@/components/astro/Navbar.astro';
 import { SoundTestIsland } from '@/components/react/SoundTest';
 
 /**
- * Dev-only sound bench at `/dev/sound-test`. The `/dev/` prefix is dropped by the sitemap
- * filter in astro.config.mjs, and a production build renders a stub instead of the island,
- * so the page never ships its controls.
+ * Dev-only sound bench at `/dev/sound-test`. The `[...bench]` rest segment plus an empty
+ * `getStaticPaths()` in production means the route generates no page in the static build: the
+ * bench exists in the dev server and nowhere else.
  */
+export function getStaticPaths() {
+  if (import.meta.env.DEV) return [{ params: { bench: 'sound-test' } }];
+  return [];
+}
+
 const dev = import.meta.env.DEV;
 ---
 
