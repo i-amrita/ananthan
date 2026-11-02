@@ -1,32 +1,28 @@
 ---
 /**
- * Ink-brush background field: static SVGs queried from the `figures` collection, drawn with a
- * stroke-dashoffset animation. No JS, no build-time image processing.
- * Reduced motion freezes every figure at ~60% of the stroke and disables the cycle.
+ * Memphis-style background field. Every figure of the route is laid out ONCE, deterministically, around a copy-safe zone
+ * (one layout for phones, one for >=768px), rendered invisible, and a tiny inline scheduler fades a bounded number of
+ * them in and out at random (3.5s to 5s each, only opacity and transform animated).
+ * Reduced motion and no-JS get a static scattering at fixed low opacity. See .agents/docs/figures.md.
  */
 import { getFigures } from '@/lib/content';
+import { layoutFigures, type FigureBox } from '@/lib/figure-layout';
 
 interface Props {
   route: 'home' | 'research' | 'life' | 'photography';
-  /** Parallax depth. 0 sits still, 1 drifts furthest behind the content. */
+  /** Depth of the layer. 0 is the near layer, 1 and 2 render progressively softer, as if further behind the content. */
   depth?: number;
 }
 
 const { route, depth = 0 } = Astro.props;
 const figures = await getFigures(route);
 
-/**
- * Rough stroke length of a path, from the control points. Only needs to be in the right ballpark:
- * the draw-in is a dashoffset animation, so an over-estimate just means a slightly slower lead-in.
- */
-const pathLength = (d: string) => {
-  const nums = d.match(/-?\d+(?:\.\d+)?/g)?.map(Number) ?? [];
-  let total = 0;
-  for (let i = 2; i < nums.length; i += 2) {
-    total += Math.hypot((nums[i] ?? 0) - (nums[i - 2] ?? 0), (nums[i + 1] ?? 0) - (nums[i - 1] ?? 0));
-  }
-  return Math.max(200, Math.round(total * 1.3));
-};
+const boxes: FigureBox[] = figures.map((f) => ({ id: f.id, w: f.data.size[0], h: f.data.size[1] }));
+const { mobile, desktop, rotation } = layoutFigures(route, boxes);
+
+const px = (n: number) => `${n.toFixed(2)}px`;
+const pct = (n: number) => `${n.toFixed(2)}%`;
+const fade = 1 - 0.18 * Math.min(depth, 2);
 ---
 
 {
@@ -38,90 +34,226 @@ const pathLength = (d: string) => {
       data-route={route}
       data-depth={depth}
     >
-      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <filter id="ink-wobble">
-          <feTurbulence type="fractalNoise" baseFrequency="0.02 0.04" numOctaves="2" seed="7" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
       {figures.map((f) => {
+        const m = mobile.get(f.id);
+        const d = desktop.get(f.id);
         const [w, h] = f.data.size;
+        const vb = Math.max(w, h);
+        const rot = rotation.get(f.id) ?? 0;
+        const style = [
+          m && `--mx:${pct(m.x)};--my:${pct(m.y)};--mw:${px(m.w)};--msw:${((2.6 * vb) / m.span).toFixed(2)}`,
+          d && `--dx:${pct(d.x)};--dy:${pct(d.y)};--dw:${px(d.w)};--dsw:${((2.6 * vb) / d.span).toFixed(2)}`,
+          `--r:${rot}deg`,
+        ]
+          .filter(Boolean)
+          .join(';');
         return (
-          <svg
-            viewBox={`0 0 ${w} ${h}`}
-            class="figure absolute h-auto"
-            style={`left:${f.data.position.x}%; top:${f.data.position.y}%; width:clamp(160px, ${Math.round(w * 1.6)}px, 30vw);`}
+          <div
+            class="figure"
+            style={style}
             data-figure
             data-motif={f.data.motif}
+            data-motion={f.data.motion}
+            data-tone={f.data.tone}
+            data-peak={(f.data.weight * 0.62 * fade * (f.data.paths.length ? 1 : 0.7)).toFixed(3)}
+            data-m={m ? '' : undefined}
+            data-d={d ? '' : undefined}
           >
-            <g
-              filter="url(#ink-wobble)"
-              fill="none"
-              stroke="var(--c-ink)"
-              stroke-width="5"
-              stroke-linecap="round"
-              opacity={f.data.weight}
-            >
-              {f.data.paths.map((d) => {
-                const len = pathLength(d);
-                return (
-                  <path
-                    d={d}
-                    style={`--len:${len}; --delay:${f.data.delay}s;`}
-                    data-stroke
-                  />
-                );
-              })}
-            </g>
-          </svg>
+            <svg viewBox={`0 0 ${w} ${h}`} overflow="visible">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" data-strokes>
+                {f.data.paths.map((p) => (
+                  <path d={p} pathLength="1" data-stroke />
+                ))}
+              </g>
+              <g fill="currentColor" stroke="none">
+                {f.data.fills.map((p) => (
+                  <path d={p} />
+                ))}
+              </g>
+            </svg>
+          </div>
         );
       })}
     </div>
   )
 }
 
+{
+  figures.length > 0 && (
+    <script is:inline>
+      (() => {
+        const field = document.currentScript.previousElementSibling;
+        if (!field || !field.hasAttribute('data-figure-field')) return;
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+        const wide = matchMedia('(min-width: 768px)');
+        const all = [...field.querySelectorAll('[data-figure]')];
+        const alive = new Set();
+        const last = new WeakMap();
+        const anims = new WeakMap();
+        let timer = 0;
+
+        // oxlint-disable-next-line unicorn/consistent-function-scoping -- the script is a closed IIFE, there is no outer scope to hoist to
+        const rand = (a, b) => a + Math.random() * (b - a);
+        // oxlint-disable-next-line unicorn/consistent-function-scoping -- see rand
+        const sign = () => (Math.random() < 0.5 ? -1 : 1);
+        const cap = () => (wide.matches ? 10 : 6);
+        const pool = () => all.filter((el) => el.hasAttribute(wide.matches ? 'data-d' : 'data-m') && !alive.has(el));
+
+        /** Fade one figure in and out over 3.5s to 5s. Only opacity and transform (plus the dash offset of `draw`). */
+        const spawn = (el) => {
+          const peak = Number(el.dataset.peak) || 0.4;
+          const dur = rand(3500, 5000);
+          const motion = el.dataset.motion;
+          const sx = sign();
+          let from = 'translate(0,0) rotate(0deg) scale(1)';
+          let to = 'translate(0,0) rotate(0deg) scale(1)';
+          if (motion === 'drift') {
+            from = 'translate(0,0) rotate(0deg) scale(0.97)';
+            to = `translate(${sx * rand(8, 18)}px,${sign() * rand(6, 14)}px) rotate(${sign() * rand(4, 9)}deg) scale(1.03)`;
+          } else if (motion === 'spin') {
+            from = 'rotate(0deg) scale(0.94)';
+            to = `rotate(${sx * rand(35, 80)}deg) scale(1.05)`;
+          } else if (motion === 'pulse') {
+            from = 'scale(0.82)';
+            to = 'scale(1.1)';
+          } else {
+            from = 'scale(0.97)';
+            to = 'scale(1.02)';
+          }
+          el.style.willChange = 'opacity, transform';
+          const main = el.animate(
+            [
+              { opacity: 0, transform: from, offset: 0 },
+              { opacity: peak, offset: 0.4 },
+              { opacity: peak, offset: 0.6 },
+              { opacity: 0, transform: to, offset: 1 },
+            ],
+            { duration: dur, easing: 'ease-in-out' },
+          );
+          const extra = [];
+          if (motion === 'draw') {
+            for (const path of el.querySelectorAll('[data-stroke]')) {
+              extra.push(
+                path.animate(
+                  [{ strokeDashoffset: 1 }, { strokeDashoffset: 0, offset: 0.5 }, { strokeDashoffset: 0 }],
+                  { duration: dur, easing: 'ease-out', delay: rand(0, 300) },
+                ),
+              );
+            }
+          }
+          alive.add(el);
+          last.set(el, performance.now());
+          const done = () => {
+            alive.delete(el);
+            el.style.willChange = '';
+            for (const a of extra) a.cancel();
+          };
+          main.addEventListener('finish', done);
+          main.addEventListener('cancel', done);
+          anims.set(el, [main, ...extra]);
+        };
+
+        const tick = () => {
+          timer = 0;
+          if (document.hidden || reduce.matches) return;
+          if (alive.size < cap()) {
+            const now = performance.now();
+            // Prefer figures that have rested a while so the same few do not keep coming back.
+            const cands = pool().filter((el) => now - (last.get(el) ?? -1e9) > 6000);
+            const list = cands.length ? cands : pool();
+            if (list.length) spawn(list[Math.floor(Math.random() * list.length)]);
+          }
+          timer = setTimeout(tick, rand(250, 700));
+        };
+
+        const start = () => {
+          if (timer || document.hidden || reduce.matches) return;
+          field.setAttribute('data-live', '');
+          for (const el of alive) for (const a of anims.get(el)) a.play();
+          timer = setTimeout(tick, 0);
+        };
+        const stop = (clear) => {
+          clearTimeout(timer);
+          timer = 0;
+          for (const el of alive) for (const a of anims.get(el)) {
+            if (clear) a.cancel();
+            else a.pause();
+          }
+          if (clear) field.removeAttribute('data-live');
+        };
+
+        if (reduce.matches) return;
+        field.setAttribute('data-live', '');
+        start();
+        document.addEventListener('visibilitychange', () => (document.hidden ? stop(false) : start()));
+        reduce.addEventListener('change', () => (reduce.matches ? stop(true) : start()));
+      })();
+    </script>
+  )
+}
+
 <style>
-  /* One 14s cycle per figure: draw in, hold at ~85% opacity, fade out, restart. */
-  @media (prefers-reduced-motion: no-preference) {
-    [data-stroke] {
-      stroke-dasharray: var(--len);
-      stroke-dashoffset: var(--len);
-      animation: draw-in 14s var(--ease-spring) infinite both;
-      animation-delay: var(--delay, 0s);
+  .figure {
+    position: absolute;
+    color: var(--c-ink);
+    /* Static scattering (no-JS and reduced motion): fixed low opacity. */
+    opacity: calc(var(--peak, 0.3) * 0.5);
+    left: var(--mx);
+    top: var(--my);
+    width: var(--mw);
+  }
+  .figure svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    rotate: var(--r, 0deg);
+  }
+  .figure[data-tone='soft'] {
+    color: var(--c-ink-soft);
+  }
+  .figure[data-tone='coral'] {
+    color: var(--c-pop-coral);
+  }
+  .figure[data-tone='teal'] {
+    color: var(--c-pop-teal);
+  }
+  .figure[data-tone='mustard'] {
+    color: var(--c-pop-mustard);
+  }
+  /* Home sits over a photograph: lighter ink. */
+  [data-route='home'] .figure[data-tone='ink'] {
+    color: var(--c-ink-soft);
+  }
+  [data-strokes] {
+    stroke-width: var(--msw, 2.6);
+  }
+  .figure:not([data-m]) {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .figure {
+      left: var(--dx);
+      top: var(--dy);
+      width: var(--dw);
     }
-    @keyframes draw-in {
-      0% {
-        stroke-dashoffset: var(--len);
-        opacity: 0.9;
-      }
-      28% {
-        stroke-dashoffset: 0;
-        opacity: 0.85;
-      }
-      80% {
-        stroke-dashoffset: 0;
-        opacity: 0.85;
-      }
-      100% {
-        stroke-dashoffset: 0;
-        opacity: 0;
-      }
+    .figure:not([data-d]) {
+      display: none;
     }
-    /* Two-depth parallax: the far layer drifts a little slower than the near one. Pure CSS transform, no JS. */
-    [data-figure-field][data-depth='1'] .figure {
-      transform: translateY(calc(var(--scroll-y, 0px) * 0.08));
+    .figure[data-d] {
+      display: block;
     }
-    [data-figure-field][data-depth='2'] .figure {
-      transform: translateY(calc(var(--scroll-y, 0px) * 0.16));
+    [data-strokes] {
+      stroke-width: var(--dsw, 2.6);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    /* Frozen mid-draw at ~60% of the stroke, no cycling. */
-    [data-stroke] {
-      stroke-dasharray: var(--len) !important;
-      stroke-dashoffset: calc(var(--len) * 0.4) !important;
-      opacity: 0.6 !important;
-      animation: none !important;
+  /* Live: invisible until the scheduler fades a figure in. Opacity and transform are the only things animated. */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-live] .figure {
+      opacity: 0;
+    }
+    [data-live] .figure[data-motion='draw'] [data-stroke] {
+      stroke-dasharray: 1 1.02;
+      stroke-dashoffset: 1;
     }
   }
 </style>
