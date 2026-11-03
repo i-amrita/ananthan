@@ -18,6 +18,12 @@ function StaticCopy() {
     for (const el of document.querySelectorAll<HTMLElement>('[data-i18n]')) {
       el.textContent = t(el.dataset['i18n'] as MessageKey);
     }
+    for (const el of document.querySelectorAll<HTMLElement>('[data-i18n-label]')) {
+      el.dataset['label'] = t(el.dataset['i18nLabel'] as MessageKey);
+    }
+    for (const el of document.querySelectorAll<HTMLElement>('[data-i18n-title]')) {
+      el.title = t(el.dataset['i18nTitle'] as MessageKey);
+    }
     for (const el of document.querySelectorAll<HTMLElement>('[data-i18n-aria]')) {
       el.setAttribute('aria-label', t(el.dataset['i18nAria'] as MessageKey));
     }

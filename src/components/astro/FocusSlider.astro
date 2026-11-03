@@ -25,6 +25,7 @@ interface Panel {
   /** One-line tagline under the header. */
   tagline: string;
   /** Drawer route opened by the CTA. Absent on the Intro panel: no CTA there. */
+  keys: { label: string; header: string; tagline: string; cta?: string };
   cta?: { label: string; route: string };
 }
 
@@ -33,37 +34,42 @@ interface Panel {
     GitHub, no email, no portfolio link here. */
 const SOCIAL_ICONS = [
   {
+    key: 'socials_scholar',
     href: 'https://scholar.google.com/citations?user=cQZWTbMAAAAJ&hl=en&oi=ao',
     label: m.socials_scholar(),
     Icon: GraduationCap,
   },
-  { href: 'https://orcid.org/0000-0002-9767-9456', label: m.socials_orcid(), Icon: IdentificationCard },
-  { href: 'https://instagram.com/filmi.nambi', label: m.socials_instagram(), Icon: InstagramLogo },
+  { key: 'socials_orcid', href: 'https://orcid.org/0000-0002-9767-9456', label: m.socials_orcid(), Icon: IdentificationCard },
+  { key: 'socials_instagram', href: 'https://instagram.com/filmi.nambi', label: m.socials_instagram(), Icon: InstagramLogo },
 ] as const;
 
 /** The panel copy, keyed by route. `PANELS` fixes the order: Intro, Research, Photography, Life. */
 const CONTENT: Record<
   PanelRoute,
-  { label: string; header: string; tagline: string; cta?: { label: string; route: string } }
+  { label: string; header: string; tagline: string; keys: Panel['keys']; cta?: { label: string; route: string } }
 > = {
   home: {
+    keys: { label: 'hero_intro_label', header: 'hero_name', tagline: 'hero_intro_body' },
     label: m.hero_intro_label(),
     header: m.hero_name(),
     tagline: m.hero_intro_body(),
   },
   research: {
+    keys: { label: 'hero_research_label', header: 'hero_research_label', tagline: 'hero_research_body', cta: 'hero_cta_research' },
     label: m.hero_research_label(),
     header: m.hero_research_label(),
     tagline: m.hero_research_body(),
     cta: { label: m.hero_cta_research(), route: 'research' },
   },
   photography: {
+    keys: { label: 'hero_photography_label', header: 'hero_photography_label', tagline: 'hero_photography_body', cta: 'hero_cta_photography' },
     label: m.hero_photography_label(),
     header: m.hero_photography_label(),
     tagline: m.hero_photography_body(),
     cta: { label: m.hero_cta_photography(), route: 'photography' },
   },
   life: {
+    keys: { label: 'hero_life_label', header: 'hero_life_label', tagline: 'hero_life_body', cta: 'hero_cta_life' },
     label: m.hero_life_label(),
     header: m.hero_life_label(),
     tagline: m.hero_life_body(),
@@ -78,6 +84,7 @@ const panels: Panel[] = PANELS.map((p) => {
     label: c.label,
     header: c.header,
     tagline: c.tagline,
+    keys: c.keys,
     ...(c.cta ? { cta: c.cta } : {}),
   };
 });
@@ -89,6 +96,7 @@ const panels: Panel[] = PANELS.map((p) => {
   tabindex="0"
   role="group"
   aria-label={m.hero_panels()}
+  data-i18n-aria="hero_panels"
   data-panel-count={panels.length}
 >
   {
@@ -98,18 +106,19 @@ const panels: Panel[] = PANELS.map((p) => {
         data-focus-panel={i}
         data-route={p.route}
         data-label={p.label}
+        data-i18n-label={p.keys.label}
         aria-roledescription="panel"
       >
         <div class="focus-content" data-focus-content>
           {i === 0 ? (
-            <h1 class="focus-title font-display">{p.header}</h1>
+            <h1 class="focus-title font-display" data-i18n={p.keys.header}>{p.header}</h1>
           ) : (
-            <h2 class="focus-title font-display">{p.header}</h2>
+            <h2 class="focus-title font-display" data-i18n={p.keys.header}>{p.header}</h2>
           )}
-          <p class="focus-body">{p.tagline}</p>
+          <p class="focus-body" data-i18n={p.keys.tagline}>{p.tagline}</p>
           {i === 0 ? (
-            <ul class="focus-socials" aria-label={m.hero_social_aria()}>
-              {SOCIAL_ICONS.map(({ href, label, Icon }) => (
+            <ul class="focus-socials" aria-label={m.hero_social_aria()} data-i18n-aria="hero_social_aria">
+              {SOCIAL_ICONS.map(({ key, href, label, Icon }) => (
                 <li>
                   <a
                     href={href}
@@ -117,6 +126,8 @@ const panels: Panel[] = PANELS.map((p) => {
                     class="focus-social"
                     title={label}
                     aria-label={label}
+                    data-i18n-aria={key}
+                    data-i18n-title={key}
                   >
                     <Icon aria-hidden="true" className="size-5" />
                   </a>
@@ -128,7 +139,7 @@ const panels: Panel[] = PANELS.map((p) => {
             /* A real link so the panel works without JavaScript. With JS the click is
                intercepted and the drawer opens instead of a page navigation. */
             <a class="focus-cta" href={`/${p.cta.route}`} data-focus-cta={p.cta.route}>
-              {p.cta.label}
+              <span data-i18n={p.keys.cta}>{p.cta.label}</span>
               <span aria-hidden="true">→</span>
             </a>
           )}
@@ -149,7 +160,7 @@ const panels: Panel[] = PANELS.map((p) => {
     <div class="ruler-strip" data-ruler-strip>
       {
         panels.map((p, i) => (
-          <span class="ruler-stop" data-stop={i} data-label={p.label} style={`--i:${i};`}>
+          <span class="ruler-stop" data-stop={i} data-label={p.label} data-i18n-label={p.keys.label} style={`--i:${i};`}>
             <span class="ruler-dot" />
             <span class="ruler-num font-mono">{FOCUS_STOPS[i]}</span>
           </span>
@@ -165,7 +176,7 @@ const panels: Panel[] = PANELS.map((p) => {
 
 <p class="sr-only" data-focus-live aria-live="polite" aria-atomic="true"></p>
 
-<p class="sr-only" data-focus-hint>{m.hero_hint()}</p>
+<p class="sr-only" data-focus-hint data-i18n="hero_hint">{m.hero_hint()}</p>
 
 <span class="focus-chip font-mono" data-focus-chip aria-hidden="true">‹ ›</span>
 
