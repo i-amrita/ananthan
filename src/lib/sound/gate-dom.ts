@@ -76,19 +76,31 @@ function notify(): void {
 /**
  * Apply the gate to the held controls. Idempotent: it only writes when an attribute is wrong,
  * so the observer that calls it cannot loop.
+ *
+ * `aria-disabled` belongs to the gate alone. `inert` is shared with the drawer overlay, which
+ * freezes the hero track while a panel is open, so the gate leaves the attribute alone when
+ * another feature is the one holding the element.
  */
 function apply(): void {
   if (typeof document === 'undefined') return;
   const live = gateLive();
   for (const el of document.querySelectorAll<HTMLElement>(HELD_SELECTOR)) {
     if (live) {
-      if (el.hasAttribute('inert')) el.removeAttribute('inert');
-      if (el.hasAttribute('aria-disabled')) el.removeAttribute('aria-disabled');
+      if (el.getAttribute('aria-disabled') === 'true') el.removeAttribute('aria-disabled');
+      if (el.hasAttribute('inert') && !otherHold(el)) el.removeAttribute('inert');
     } else {
-      if (!el.hasAttribute('inert')) el.setAttribute('inert', '');
       if (el.getAttribute('aria-disabled') !== 'true') el.setAttribute('aria-disabled', 'true');
+      if (!el.hasAttribute('inert')) el.setAttribute('inert', '');
     }
   }
+}
+
+/**
+ * True when something other than the gate holds the element: the drawer overlay freezes the
+ * hero track while a panel is open, and that hold outlives the sound gate.
+ */
+function otherHold(el: HTMLElement): boolean {
+  return el.hasAttribute('data-overlay-held');
 }
 
 let installed = false;
