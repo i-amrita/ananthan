@@ -207,8 +207,12 @@ function Overlays({ data }: { data: OverlayData }) {
   const [rendered, setRendered] = useState<Overlay | null>(null);
   const [showPanel, setShowPanel] = useState(false);
   const active = isOverlay(overlay) ? overlay : null;
+  // The offset the URL asks for. `scroll` is replace state, so it never creates its own history
+  // entry and Back/Forward re-run the restore through the overlay/panel entries around it.
+  const wantScroll = active === null ? null : (scroll ?? 0);
   /** Pending scroll restore: the offset the URL asked for, in px. */
   const pendingScroll = useRef<number | null>(null);
+  pendingScroll.current = wantScroll;
 
   // Track the last overlay so the shell can keep its copy on screen during the exit animation.
   useEffect(() => {
@@ -230,11 +234,6 @@ function Overlays({ data }: { data: OverlayData }) {
       delete document.documentElement.dataset.overlayReady;
     };
   }, []);
-
-  // A deep link asks for a scroll offset; queue it for the layout-effect once the drawer mounts.
-  useEffect(() => {
-    pendingScroll.current = active === null ? null : (scroll ?? 0);
-  }, [active, scroll]);
 
   // Opening from in-page code pushes a history entry, so Back closes the panel again.
   useEffect(() => {
@@ -348,6 +347,9 @@ function RestoreScroll({
         const max = el.scrollHeight - el.clientHeight;
         if (max < want && tries++ < 60) return false;
         el.scrollTop = want;
+        // Keep applying while images load: the masonry grows and the clamped offset can fall
+        // behind the requested one for a few frames.
+        if (tries++ < 60) timer = window.setTimeout(apply, 120);
         return true;
       };
       if (!apply()) {
@@ -362,10 +364,9 @@ function RestoreScroll({
           window.removeEventListener('load', retry);
         };
       }
-      return;
     }
-    // No deep-link offset: listen and write instead. The body may not be mounted yet, so poll
-    // for it before attaching the listener.
+    // A deep-link restore and the write-back listener must not fight: the listener only attaches
+    // after the restore settles (or when there is nothing to restore).
     const onScroll = () => {
       if (write) return;
       write = window.setTimeout(() => {
@@ -375,7 +376,7 @@ function RestoreScroll({
       }, 250);
     };
     const attach = () => {
-      el = body();
+      if (!el) el = body();
       if (!el) {
         if (tries++ < 60) timer = window.setTimeout(attach, 50);
         return;
