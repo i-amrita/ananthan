@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  SITE: https://amrita.nambiar.my
+  SITE: https://ananthan.nambiar.my
 
 jobs:
   verify:
@@ -27,14 +27,14 @@ jobs:
         run: |
           for i in $(seq 1 40); do
             code=$(curl -s -o /tmp/home.html -w '%{http_code}' --max-time 20 "$SITE/" || echo 000)
-            if [ "$code" = "200" ] && grep -q 'Amrita' /tmp/home.html; then
+            if [ "$code" = "200" ] && grep -q 'Ananthan' /tmp/home.html; then
               echo "Home is live (attempt $i)"
               exit 0
             fi
             echo "Attempt $i: HTTP $code, waiting 15s"
             sleep 15
           done
-          echo "::error::$SITE did not return 200 with 'Amrita' within 10 minutes"
+          echo "::error::$SITE did not return 200 with 'Ananthan' within 10 minutes"
           exit 1
       - name: Check agent-facing endpoints
         run: |

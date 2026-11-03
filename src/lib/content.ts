@@ -4,7 +4,7 @@
  */
 import { getCollection, type CollectionEntry } from 'astro:content';
 
-export const SITE_URL = 'https://annambiar.github.io';
+export const SITE_URL = 'https://ananthan.nambiar.my';
 export const SITE_NAME = 'Ananthan Nambiar';
 export const SITE_SUMMARY =
   'Ananthan Nambiar: computational biologist working on machine learning for biological systems, and a film photographer, dancer, rower, cook and environmentalist.';
@@ -99,33 +99,26 @@ export function photoMarkdown(p: PhotoEntry): string {
   return [`### ${d.caption}`, bullets(meta)].filter(Boolean).join('\n\n');
 }
 
-/** The `/research` companion: publications, then talks, then courses. */
 const section = (heading: string, items: string[], empty: string) =>
   [`## ${heading}`, items.length ? items.join('\n\n') : empty].join('\n\n');
 
+/** The `/research` companion: publications, then talks, then courses. Empty sections are omitted, like the page. */
 export async function researchMarkdown(): Promise<string> {
   const [publications, talks, courses] = await Promise.all([
     getPublications(),
     getTalks(),
     getCourses(),
   ]);
+  const sections: [string, string[]][] = [
+    ['Publications', publications.map((p) => publicationMarkdown(p))],
+    ['Talks', talks.map((t) => talkMarkdown(t))],
+    ['Courses', courses.map((c) => courseMarkdown(c))],
+  ];
   return [
     '# Research',
-    section(
-      'Publications',
-      publications.map((p) => publicationMarkdown(p)),
-      'No publications yet.',
-    ),
-    section(
-      'Talks',
-      talks.map((t) => talkMarkdown(t)),
-      'No talks yet.',
-    ),
-    section(
-      'Courses',
-      courses.map((c) => courseMarkdown(c)),
-      'No courses yet.',
-    ),
+    ...sections
+      .filter(([, items]) => items.length > 0)
+      .map(([h, items]) => `## ${h}\n\n${items.join('\n\n')}`),
   ].join('\n\n');
 }
 

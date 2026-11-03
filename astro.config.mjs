@@ -28,7 +28,7 @@ const searchIndexInDev = {
 };
 
 export default defineConfig({
-  site: 'https://annambiar.github.io',
+  site: 'https://ananthan.nambiar.my',
   output: 'static',
   integrations: [
     react({

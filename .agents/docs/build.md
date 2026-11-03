@@ -25,14 +25,14 @@ Runs on PRs and pushes to `develop` and `main`. Tooling comes from the local com
 
 ## Deploy
 
-Cloudflare's git integration builds and deploys. Production branch is `main`, preview branch is `develop`. No deploy workflow exists and the repo holds no Cloudflare secrets. `.github/workflows/deploy-check.yml` runs on pushes to `main` (and manually), polls https://amrita.nambiar.my for up to 10 minutes until it returns 200 with "Amrita" in the HTML, then requires `/llms.txt` and `/about.md` to return 200.
+Cloudflare's git integration builds and deploys. Production branch is `main`, preview branch is `develop`. No deploy workflow exists and the repo holds no Cloudflare secrets. `.github/workflows/deploy-check.yml` runs on pushes to `main` (and manually), polls https://ananthan.nambiar.my for up to 10 minutes until it returns 200 with "Amrita" in the HTML, then requires `/llms.txt` and `/about.md` to return 200.
 
 ## Running e2e locally
 
 - First time: `pnpm exec playwright install chromium`.
 - `pnpm test:e2e` builds, starts `pnpm preview` on :4322 (reusing one if already running) and runs the specs.
 - `SKIP_BUILD=1 pnpm test:e2e` skips the build when `dist/` is fresh.
-- `BASE_URL=https://amrita.nambiar.my pnpm test:e2e` runs against a deployed site with no local server.
+- `BASE_URL=https://ananthan.nambiar.my pnpm test:e2e` runs against a deployed site with no local server.
 - Each `tests/e2e/*.md` is a flow definition with a sibling `*.spec.ts` (enforced by `headings-sync.spec.ts`). Specs for unbuilt features use `test.fixme` with a `TODO(feature)` note; flip them to `test` as features land.
 - `tests/fixtures/axe.ts` exports `expectNoSeriousA11y(page)`.
 

@@ -77,7 +77,7 @@ export async function renderOg({ eyebrow, title, subtitle }: OgCard): Promise<Ui
           subtitle ? el('div', { fontSize: 34, color: MUTED, lineHeight: 1.3 }, subtitle) : null,
         ].filter(Boolean),
       ),
-      el('div', { fontFamily: 'Fraunces', fontSize: 26, color: MUTED }, 'annambiar.github.io'),
+      el('div', { fontFamily: 'Fraunces', fontSize: 26, color: MUTED }, 'ananthan.nambiar.my'),
     ],
   );
   const svg = await satori(tree as never, { ...OG_SIZE, fonts: await loadFonts() });

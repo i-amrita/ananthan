@@ -14,7 +14,7 @@
     "test:e2e": "playwright test -c tests/playwright.config.ts",
     "audit:site": "astro build --config astro.audit.config.mjs",
     "sound:build": "node --experimental-strip-types scripts/build-sound-sprite.ts",
-    "audit:links": "static-link-sentinel dist --site-url https://annambiar.github.io",
+    "audit:links": "static-link-sentinel dist --site-url https://ananthan.nambiar.my",
     "deploy": "pnpm build && wrangler deploy",
     "intl-ai:fill": "intl-ai fill",
     "intl-ai:check": "intl-ai check",

@@ -18,4 +18,4 @@ Conference-table page: scan to open the home page. Static, build-time SVG (uqr, 
            QR  llms.txt         <- footer, QR links here
 ```
 
-Encodes the absolute home URL `https://amrita.nambiar.my/` (from `Astro.site`). Companion: `/qr.md`.
+Encodes the absolute home URL `https://ananthan.nambiar.my/` (from `Astro.site`). Companion: `/qr.md`.

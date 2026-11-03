@@ -19,4 +19,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://annambiar.github.io/sitemap-index.xml
+Sitemap: https://ananthan.nambiar.my/sitemap-index.xml
