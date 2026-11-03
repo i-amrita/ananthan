@@ -118,5 +118,8 @@
   "nav_menu": "മെനു",
   "footer_qr": "QR",
   "qr_hint": "എന്റെ പേജ് തുറക്കാൻ സ്കാൻ ചെയ്യുക",
-  "qr_aria": "annambiar.github.io-ന്റെ QR കോഡ്"
+  "qr_aria": "annambiar.github.io-ന്റെ QR കോഡ്",
+  "photography_elsewhere_heading": "മറ്റിടങ്ങളിൽ",
+  "photography_placeholder_note": "PLACEHOLDER അടയാളം ചെയ്ത ഫ്രെയിമുകൾ അവന്റെ സ്വന്തം ഫയലുകൾക്കായി കാത്തിരിക്കുന്നു; മുകളിലുള്ള മറ്റ് ഓരോ ഫ്രെയിമും അവന്റേതാണ്.",
+  "photography_elsewhere_body": "കൂടുതൽ ചിത്രങ്ങളും നടക്കുന്ന ജോലികളും ബന്ധവും Instagram-ൽ."
 }

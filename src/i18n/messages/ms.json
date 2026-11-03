@@ -118,5 +118,8 @@
   "nav_menu": "Menu",
   "footer_qr": "QR",
   "qr_hint": "Imbas untuk buka halaman saya",
-  "qr_aria": "Kod QR untuk annambiar.github.io"
+  "qr_aria": "Kod QR untuk annambiar.github.io",
+  "photography_elsewhere_heading": "Di tempat lain",
+  "photography_placeholder_note": "Rangka yang ditandakan PLACEHOLDER sedang menunggu fail milik jurugambar sendiri; setiap bingkai lain di atas adalah miliknya.",
+  "photography_elsewhere_body": "Lebih banyak bingkai, kerja dalam pembikinan dan kenalan berada di Instagram."
 }

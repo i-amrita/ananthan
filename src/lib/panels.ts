@@ -70,53 +70,23 @@ function trimTitle(title: string): string {
 }
 
 /**
- * The photography drawer masonry: the photos collection (placeholder frames today, the owner's
- * real frames later) plus the real scans in `public/photos/` that the hero panels used. The
- * scans are owner-supplied stills; neutral alt text, no claims.
+ * The photography drawer masonry: the selected frames of the photos collection. The /photography
+ * page lists the full set (non-draft); the drawer is the selection the owner marks `teaser`.
+ * Placeholder frames and not-yet-described scans are only ever marked draft until the owner
+ * supplies the real frames and alt text.
  */
 export async function getPhotoTeasers(): Promise<PhotoTeaser[]> {
   const collection = await getPhotos();
-  const fromCollection: PhotoTeaser[] = collection.map((p) => ({
-    id: p.id,
-    src: p.data.image,
-    alt: p.data.alt,
-    width: p.data.width,
-    height: p.data.height,
-  }));
-  return [...SCAN_PHOTOS, ...fromCollection];
+  return collection
+    .filter((p) => p.data.teaser)
+    .map((p) => ({
+      id: p.id,
+      src: p.data.image,
+      alt: p.data.alt,
+      width: p.data.width,
+      height: p.data.height,
+    }));
 }
-
-/** Real owner-supplied scans already in `public/photos/`, reused for the drawer masonry. */
-const SCAN_PHOTOS: PhotoTeaser[] = [
-  {
-    id: 'scan-2024-09-15',
-    src: '/photos/2024-09-15-1.webp',
-    alt: 'Colour photograph of a row of houses beside railway tracks under a cloudy sky.',
-    width: 1000,
-    height: 660,
-  },
-  {
-    id: 'scan-2024-10-10',
-    src: '/photos/2024-10-10-1.webp',
-    alt: 'Black-and-white photograph of a bearded person sitting on a chair in a glass-walled lobby.',
-    width: 1080,
-    height: 720,
-  },
-  {
-    id: 'scan-2024-10-16-1',
-    src: '/photos/2024-10-16-1.webp',
-    alt: 'Black-and-white photograph of a laboratory bench with a benchtop centrifuge and glassware by a window.',
-    width: 1080,
-    height: 720,
-  },
-  {
-    id: 'scan-2024-10-16-3',
-    src: '/photos/2024-10-16-3.webp',
-    alt: 'Black-and-white photograph of a seated person holding an ear of corn.',
-    width: 1080,
-    height: 720,
-  },
-];
 
 /** Counts for the research panel lead line. Facts only, straight from the collections. */
 export async function getResearchCounts() {

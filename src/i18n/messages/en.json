@@ -118,5 +118,8 @@
   "search_type_talk": "Talk",
   "footer_qr": "QR",
   "qr_hint": "Scan to open my page",
-  "qr_aria": "QR code for annambiar.github.io"
+  "qr_aria": "QR code for annambiar.github.io",
+  "photography_elsewhere_heading": "Elsewhere",
+  "photography_placeholder_note": "Frames marked PLACEHOLDER are waiting for the photographer’s own files; every other frame above is one of his.",
+  "photography_elsewhere_body": "More frames, work in progress and contact live on Instagram."
 }
