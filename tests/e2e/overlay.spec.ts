@@ -80,6 +80,9 @@ test('the overlay marks the document and freezes the hero track', async ({ page 
   await expect(page.locator('html')).toHaveAttribute('data-overlay-open', '');
   const track = page.locator('[data-focus-track]');
   await expect(track).toHaveAttribute('inert', '');
+  // The sound gate holds the track too, so the gate has to settle before the drawer can give
+  // it back: the track is only released once nothing holds it.
+  await expect(page.locator('html')).toHaveAttribute('data-sound-ready', '');
   await page.keyboard.press('Escape');
   await expect(page.locator('html')).not.toHaveAttribute('data-overlay-open', '');
   await expect(track).not.toHaveAttribute('inert', '');

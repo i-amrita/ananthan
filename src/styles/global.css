@@ -115,6 +115,93 @@
   }
 }
 
+/* ---------- Sound gate: the landing holds the slider and the shutter until the sprite is decoded ---------- */
+/* Keyed on <html> so the state is correct before hydration and never flashes. `data-sound-armed`
+   is set by the pre-paint inline script, so with no JavaScript nothing is held and the slider
+   stays a plain scroll container with real links. `data-sound-muted` releases the hold without
+   waiting for the sprite: the site must work silently, and muted users never see a skeleton.
+   `data-sound-ready="failed"` releases it too: a missing sprite must not break the site. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) {
+  /* Slider: the track is a scroll container without JS; with JS it is held. `inert` also blocks
+     focus, so the keyboard cannot land in a control that does not work yet. */
+  [data-focus-track],
+  [data-focus-ruler] {
+    pointer-events: none;
+    user-select: none;
+  }
+  /* Shutter: the island is `client:idle`, so the attribute guard keeps it unreachable before and
+     after hydration. */
+  [data-shutter] {
+    pointer-events: none;
+  }
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] {
+  cursor: progress;
+}
+
+/* Skeleton, minimal and token-based. The ruler drops its minor ticks and its needle: the geometry
+   of the strip and the labels does not move, so nothing shifts when the gate opens. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .focus-ruler {
+  --ink: var(--c-muted-fg);
+  --ink-dim: var(--c-muted-fg);
+  opacity: 0.55;
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .ruler-strip {
+  background:
+    linear-gradient(90deg, var(--c-muted-fg) 0 1px, transparent 1px) calc(50cqw - 0.5px) 2.75rem /
+      var(--step) 0.9rem repeat-x,
+    linear-gradient(var(--c-muted-fg), var(--c-muted-fg)) 0 2.75rem / 100% 1px no-repeat;
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .ruler-needle {
+  opacity: 0;
+}
+/* The shutter cap becomes a plain muted disc: same 44px, no iris, no locale code. The barrel keeps
+   its shape. The label sits on the barrel via aria-label, so hiding the ring keeps the a11y name. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
+  [data-shutter]
+  [data-locale-ring] {
+  opacity: 0;
+}
+/* The iris blades go as well, so the cap reads as one plain disc instead of a half-open
+   aperture waiting for a locale that is not there yet. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
+  [data-shutter]
+  [data-shutter-iris] {
+  opacity: 0;
+}
+/* A single slow breathe on the cap: at most one pulse per 1.4s, and static under reduced motion.
+   The cap keeps its size, so the breathe moves nothing. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] > span {
+    animation: shutter-skeleton 1400ms var(--ease-key) infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: the skeleton is static. No breathe, no shimmer, no transition. */
+  html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] > span {
+    animation: none !important;
+  }
+}
+@keyframes shutter-skeleton {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* The gate releases with the same transition as the rest of the chrome. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sound-armed] .focus-ruler {
+    transition: opacity 300ms var(--ease-spring);
+  }
+  html[data-sound-armed] [data-shutter] > span {
+    transition: opacity 300ms var(--ease-spring);
+  }
+}
+
 /* ---------- Page transitions: cross-document view transition (no router, no JS) ---------- */
 /* One minimal transition for every navigation: the old page fades out, the new page fades in and
    the content settles upward. The move is carried by the `page-main` layer, so the swap reads as

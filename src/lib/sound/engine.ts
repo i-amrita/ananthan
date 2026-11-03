@@ -48,6 +48,35 @@ let timeoutTimer: ReturnType<typeof setTimeout> | undefined;
 
 const listeners = new Set<() => void>();
 
+/**
+ * Every `play()` call, in order, whatever the outcome. The e2e suite reads it through
+ * `window.sound.calls()`: it proves the right slice was requested at the right moment without
+ * touching `AudioContext` (which is autoplay-gated and therefore unreliable to assert on).
+ */
+const callLog: { name: SoundName; at: number }[] = [];
+
+/** The calls requested so far, oldest first. */
+export function soundCalls(): readonly { name: SoundName; at: number }[] {
+  return callLog;
+}
+
+/** Clear the call log. Used by the e2e suite between assertions. */
+export function resetSoundCalls(): void {
+  callLog.length = 0;
+}
+
+/**
+ * The mute state as a subscribable store. `setMuted` notifies, so a React island re-renders when
+ * the user unmutes mid-session.
+ */
+const muteListeners = new Set<() => void>();
+
+/** Subscribe to mute changes. Returns the unsubscribe function. */
+export function subscribeMuted(cb: () => void): () => void {
+  muteListeners.add(cb);
+  return () => void muteListeners.delete(cb);
+}
+
 /** True when the URL carries `?mute=1`. Read on every check, so it survives a history change. */
 function urlMuted(): boolean {
   if (typeof window === 'undefined') return false;
@@ -98,6 +127,7 @@ function applyMutedAttribute(): void {
   if (typeof document === 'undefined') return;
   if (isMuted()) document.documentElement.dataset.soundMuted = '';
   else delete document.documentElement.dataset.soundMuted;
+  for (const listener of muteListeners) listener();
 }
 
 function emit(): void {
@@ -245,6 +275,7 @@ function canPlay(): boolean {
  */
 export function play(name: SoundName, options: PlayOptions = {}): void {
   try {
+    callLog.push({ name, at: typeof performance === 'undefined' ? 0 : performance.now() });
     playNow(name, options);
   } catch {
     // A failed sound must never break the interaction that triggered it.

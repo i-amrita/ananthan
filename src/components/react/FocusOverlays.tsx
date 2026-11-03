@@ -250,13 +250,17 @@ function Overlays({ data }: { data: OverlayData }) {
     setShowPanel(false);
   };
 
-  // While a panel is open the hero track must not scroll or take focus.
+  // While a panel is open the hero track must not scroll or take focus. The hold is marked on
+  // the track, so the sound gate (which shares the `inert` attribute) knows the freeze is not
+  // its own and leaves it alone.
   useEffect(() => {
     const root = document.documentElement;
     const track = document.querySelector<HTMLElement>('[data-focus-track]');
     const release = () => {
       delete root.dataset.overlayOpen;
       if (track) {
+        track.removeAttribute('data-overlay-held');
+        // The sound gate puts `inert` back if it is still holding the track.
         track.removeAttribute('inert');
         track.style.removeProperty('overflow');
       }
@@ -267,6 +271,7 @@ function Overlays({ data }: { data: OverlayData }) {
     }
     root.dataset.overlayOpen = '';
     if (track) {
+      track.setAttribute('data-overlay-held', '');
       track.setAttribute('inert', '');
       track.style.overflow = 'hidden';
     }
