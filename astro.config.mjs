@@ -27,6 +27,17 @@ const searchIndexInDev = {
   },
 };
 
+/**
+ * onnxruntime-web's 27 MB wasm is emitted into `_astro/` by Vite, which exceeds Cloudflare Pages' 25 MiB file limit.
+ * transformers.js loads the runtime from jsDelivr by default, so the bundled copy is a dead fallback. Drop it.
+ */
+const dropOrtWasm = {
+  name: 'drop-ort-wasm',
+  generateBundle(_options, bundle) {
+    for (const key of Object.keys(bundle)) if (/ort-wasm.*\.wasm$/.test(key)) delete bundle[key];
+  },
+};
+
 export default defineConfig({
   site: 'https://ananthan.nambiar.my',
   output: 'static',
@@ -67,6 +78,7 @@ export default defineConfig({
       // `~icons/ph/<name>` imports compile to React components at build time (also used, SSR-only, inside .astro files).
       Icons({ compiler: 'jsx', jsx: 'react' }),
       searchIndexInDev,
+      dropOrtWasm,
       // Compiles src/i18n/messages/*.json into src/i18n/paraglide (gitignored) at dev start and build.
       // `custom-query` is defined in src/lib/i18n.ts and reads `?locale=`; falls back to `en`.
       paraglideVitePlugin({
