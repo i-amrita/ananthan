@@ -144,7 +144,12 @@ export function ThemeToggle() {
       }}
       className={cn(PILL_ITEM, 'size-11')}
     >
-      <span ref={morphRef} className="grid size-5 place-items-center" aria-hidden="true">
+      <span
+        ref={morphRef}
+        className="grid size-5 place-items-center"
+        aria-hidden="true"
+        data-theme-icon
+      >
         {theme === 'dark' ? <MoonStars className="size-5" /> : <Sun className="size-5" />}
       </span>
     </button>
