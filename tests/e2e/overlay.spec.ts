@@ -196,6 +196,7 @@ test.describe('deep links restore panel, overlay and scroll', () => {
     // Each overlay asks for an offset inside its own scroll range on a phone.
     const scroll = overlay === 'research' ? 400 : overlay === 'photography' ? 60 : 150;
     test(`?overlay=${overlay}&panel=1&scroll=${scroll} restores all three`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
       await page.goto(`/?panel=1&overlay=${overlay}&scroll=${scroll}`);
       const panel = page.locator('[data-overlay-panel]');
       await expect(panel).toBeVisible();
