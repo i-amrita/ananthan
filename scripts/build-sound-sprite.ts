@@ -35,16 +35,16 @@ const SR = 44100;
 const SLICES = [
   {
     name: 'slider-detent',
-    source: 'slider-0',
-    start: 3.415,
-    end: 3.475,
+    source: 'slider-1',
+    start: 1.655,
+    end: 1.715,
     gap: 0.12,
   },
   {
     name: 'slider-settle',
-    source: 'slider-2',
-    start: 3.37,
-    end: 3.6,
+    source: 'slider-1',
+    start: 3.435,
+    end: 3.685,
     gap: 0.12,
   },
   {
