@@ -22,10 +22,17 @@ const URLS = [
 async function expectNoSerious(page: Page, label: string) {
   // Let the entrance animations settle (the shared axe fixture logic, inlined to keep this file
   // self-contained): mid-fade contrast is measured against a partially blended background.
+  // The figure-field scheduler deliberately runs endless decorative spawns on the landing, so
+  // those never reach finished/idle — exclude them from the settle wait and let axe blur-tolerate
+  // them instead (they sit behind the content and are excluded from a11y checks by aria-hidden).
   await page.waitForFunction(() =>
     document
       .getAnimations()
-      .filter((a) => a.effect?.getComputedTiming().iterations !== Infinity)
+      .filter(
+        (a) =>
+          a.effect?.getComputedTiming().iterations !== Infinity &&
+          !(a.effect as KeyframeEffect | null)?.target?.closest?.('[data-figure-field]'),
+      )
       .every((a) => a.playState === 'finished' || a.playState === 'idle'),
   );
   const { violations } = await new AxeBuilder({ page })
