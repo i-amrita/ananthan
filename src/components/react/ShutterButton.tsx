@@ -89,7 +89,6 @@ function Shutter() {
           type="button"
           aria-label={`${code} ${m.locale_switch_label()}`}
           data-shutter
-          data-gated={!live || undefined}
           onPointerDown={press}
           onPointerUp={release}
           className={cn(

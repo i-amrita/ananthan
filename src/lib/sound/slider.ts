@@ -15,6 +15,11 @@
  * - A settle only follows a detent. The settle is the landing of a crossing, so it can never
  *   play before the detent that earned it: the order is always detent, then settle.
  *
+ * The baseline is the stop the slider rested on when the page settled, not the stop it happens
+ * to rest on when the user grabs it. That matters for the wheel: the browser has already
+ * applied the scroll delta by the time the wheel event reaches the script, so arming on the
+ * wheel would otherwise capture the destination as the baseline and swallow the first tick.
+ *
  * Contract: `.agents/docs/sound.md`, spec `.agents/screens/sound-wiring.md`.
  */
 
@@ -55,17 +60,6 @@ export function createSliderSound(
   stops: readonly number[],
   options: SliderSoundOptions,
 ): SliderSound {
-  let armed = false;
-  /** The stop index the last detent was played for. -1 means "none yet". */
-  let lastDetentStop = -1;
-  /** The last time a detent played, for the rate limit. */
-  let lastDetentAt = -Infinity;
-  /** True when a detent has fired since the last settle, i.e. a crossing is waiting to land. */
-  let crossing = false;
-  let settleTimer: ReturnType<typeof setTimeout> | undefined;
-  /** The stop the pending settle belongs to, so a stale timer cannot settle on the wrong one. */
-  let pendingSettleStop = -1;
-
   /** The stop index nearest to the current position. */
   const nearestStop = (): number => {
     const p = options.position();
@@ -80,6 +74,24 @@ export function createSliderSound(
     });
     return best;
   };
+
+  /** True once the user has taken hold of the slider. */
+  let armed = false;
+  /**
+   * The stop the focus rested on the last time the controller looked. This is seeded with the
+   * stop the slider starts on, so the very first crossing after the user takes hold of it is a
+   * crossing and not a baseline.
+   */
+  let lastStop = nearestStop();
+  /** The stop index the last detent was played for. -1 means "none yet". */
+  let lastDetentStop = -1;
+  /** The last time a detent played, for the rate limit. */
+  let lastDetentAt = -Infinity;
+  /** True when a detent has fired since the last settle, i.e. a crossing is waiting to land. */
+  let crossing = false;
+  let settleTimer: ReturnType<typeof setTimeout> | undefined;
+  /** The stop the pending settle belongs to, so a stale timer cannot settle on the wrong one. */
+  let pendingSettleStop = -1;
 
   /** The distance between two adjacent stops, used to scale the settle tolerance. */
   const step = (): number => {
@@ -117,9 +129,13 @@ export function createSliderSound(
     if (!armed) return;
     const now = Date.now();
     const stop = nearestStop();
-    // A crossing: the nearest stop changed. The first crossing after arming also plays, so the
-    // user hears the slider respond to their first move.
-    detent(stop, now);
+    // A crossing: the nearest stop changed from the last look. One detent per stop, however
+    // fast the crossing. Before the user takes hold of the slider, update() does not run, so
+    // the load-time stop stays the baseline.
+    if (stop !== lastStop) {
+      lastStop = stop;
+      detent(stop, now);
+    }
     clearSettle();
     // No crossing means no settle: the settle is the landing of a detent, never a sound on its
     // own. This is what keeps the order detent-then-settle structural rather than incidental.
@@ -133,19 +149,19 @@ export function createSliderSound(
       // The position must still rest on the same stop when the timer fires.
       if (nearestStop() !== settled || !onStop()) return;
       options.play('slider-settle');
-      // The crossing has landed. A settle re-arms the detent for that stop, so leaving and
-      // coming back ticks again.
+      // The crossing has landed. The detent for this stop stays spent, so resting on it does
+      // not tick again; leaving and coming back does, because the crossing changed the stop.
       crossing = false;
-      lastDetentStop = -1;
     }, SETTLE_DELAY_MS);
   };
 
   const arm = () => {
     if (armed) return;
     armed = true;
-    // The current stop is the baseline: no detent for it until the focus moves elsewhere.
-    lastDetentStop = nearestStop();
-    lastDetentAt = Date.now();
+    // Arming is not a detent, so it must not spend the rate limit: the first crossing of the
+    // gesture is often only a few milliseconds away (a wheel nudge scrolls before the next
+    // frame), and a rate limit spent here would swallow that first tick.
+    lastDetentAt = -Infinity;
     // Arming is not a crossing: resting on the baseline stop must not settle.
     crossing = false;
   };
