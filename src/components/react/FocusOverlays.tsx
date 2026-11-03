@@ -434,6 +434,9 @@ function RestoreScroll({
         return;
       }
       el.addEventListener('scroll', onScroll, { passive: true });
+      // The offset may have been set (a test, an anchor jump) before this listener attached, so
+      // no `scroll` event will fire for it; write the current offset once at attach time.
+      onScroll();
     };
     attach();
     return () => {
