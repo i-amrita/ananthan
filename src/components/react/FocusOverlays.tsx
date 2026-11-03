@@ -1,5 +1,5 @@
 import { useQueryStates } from 'nuqs';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { ActionOverlay } from '@/components/react/ActionOverlay';
 import { Providers } from '@/components/react/Providers';
@@ -201,12 +201,18 @@ function LifeDrawer({ data }: { data: OverlayData['life'] }) {
  * vanishing with the unmount.
  */
 function Overlays({ data }: { data: OverlayData }) {
-  const [{ overlay }, setState] = useQueryStates(urlStateParsers);
+  const [{ overlay, scroll }, setState] = useQueryStates(urlStateParsers);
   const [mounted, setMounted] = useState(false);
   // The last non-null overlay; the shell renders it while the exit animation plays.
   const [rendered, setRendered] = useState<Overlay | null>(null);
   const [showPanel, setShowPanel] = useState(false);
   const active = isOverlay(overlay) ? overlay : null;
+  // The offset the URL asks for. `scroll` is replace state, so it never creates its own history
+  // entry and Back/Forward re-run the restore through the overlay/panel entries around it.
+  const wantScroll = active === null ? null : (scroll ?? 0);
+  /** Pending scroll restore: the offset the URL asked for, in px. */
+  const pendingScroll = useRef<number | null>(null);
+  pendingScroll.current = wantScroll;
 
   // Track the last overlay so the shell can keep its copy on screen during the exit animation.
   useEffect(() => {
@@ -281,20 +287,113 @@ function Overlays({ data }: { data: OverlayData }) {
   if (!mounted || rendered === null) return null;
 
   return (
-    <ActionOverlay
-      open={showPanel}
-      onOpenChange={(open) => {
-        if (!open) close();
-      }}
-      onExitComplete={exitComplete}
-      title={OVERLAY_TITLES[rendered]()}
-      description={OVERLAY_DESCRIPTIONS[rendered]()}
-    >
-      {rendered === 'research' && <ResearchDrawer data={data.research} />}
-      {rendered === 'photography' && <PhotographyDrawer data={data.photography} />}
-      {rendered === 'life' && <LifeDrawer data={data.life} />}
-    </ActionOverlay>
+    <RestoreScroll target={pendingScroll} active={active !== null} setState={setState}>
+      <ActionOverlay
+        open={showPanel}
+        onOpenChange={(open) => {
+          if (!open) close();
+        }}
+        onExitComplete={exitComplete}
+        title={OVERLAY_TITLES[rendered]()}
+        description={OVERLAY_DESCRIPTIONS[rendered]()}
+      >
+        {rendered === 'research' && <ResearchDrawer data={data.research} />}
+        {rendered === 'photography' && <PhotographyDrawer data={data.photography} />}
+        {rendered === 'life' && <LifeDrawer data={data.life} />}
+      </ActionOverlay>
+    </RestoreScroll>
   );
+}
+
+/**
+ * P7 scroll persistence. The panel element is the scroll container (`overflow-y-auto` on the
+ * dock, the sheet body on mobile), so the offset is read from and written to it.
+ *
+ * Restore is the race: at mount the drawer has been laid out by the browser but the images
+ * inside it (the photography masonry) have no intrinsic height yet, so the requested offset may
+ * be beyond the current scroll range. The restore retries on each `load`/`resize` until the
+ * panel is scrollable to the target or the budget runs out. Writing happens throttled and with
+ * `history: replace`, so Back does not step through every scroll pixel.
+ */
+function RestoreScroll({
+  target,
+  active,
+  setState,
+  children,
+}: {
+  target: React.RefObject<number | null>;
+  active: boolean;
+  setState: ReturnType<typeof useQueryStates<typeof urlStateParsers>>[1];
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    if (!active) return;
+    const body = () => document.querySelector<HTMLElement>('[data-overlay-body]');
+    let tries = 0;
+    let timer = 0;
+    let el: HTMLElement | null = null;
+    /** Throttle handle for writing the drawer scroll offset back to the URL. */
+    let write = 0;
+
+    const want = target.current;
+    if (want && want > 0) {
+      // The drawer body is portalled and mounts a tick after the URL flips, and the content
+      // inside it (the photography masonry) has no intrinsic height until the images load, so
+      // the requested offset may be past the end of the scroll range. Retry until the body is
+      // long enough (or the budget runs out) and then apply the offset.
+      const apply = () => {
+        el = body();
+        if (!el) return false;
+        const max = el.scrollHeight - el.clientHeight;
+        if (max < want && tries++ < 60) return false;
+        el.scrollTop = want;
+        // Keep applying while images load: the masonry grows and the clamped offset can fall
+        // behind the requested one for a few frames.
+        if (tries++ < 60) timer = window.setTimeout(apply, 120);
+        return true;
+      };
+      if (!apply()) {
+        const retry = () => {
+          if (apply()) return;
+          timer = window.setTimeout(retry, 100);
+        };
+        timer = window.setTimeout(retry, 100);
+        window.addEventListener('load', retry, { once: true });
+        return () => {
+          window.clearTimeout(timer);
+          window.removeEventListener('load', retry);
+        };
+      }
+    }
+    // A deep-link restore and the write-back listener must not fight: the listener only attaches
+    // after the restore settles (or when there is nothing to restore).
+    const onScroll = () => {
+      if (write) return;
+      write = window.setTimeout(() => {
+        write = 0;
+        const top = Math.round(el?.scrollTop ?? 0);
+        void setState({ scroll: top > 4 ? top : null }, { history: 'replace' });
+      }, 250);
+    };
+    const attach = () => {
+      if (!el) el = body();
+      if (!el) {
+        if (tries++ < 60) timer = window.setTimeout(attach, 50);
+        return;
+      }
+      el.addEventListener('scroll', onScroll, { passive: true });
+    };
+    attach();
+    return () => {
+      el?.removeEventListener('scroll', onScroll);
+      window.clearTimeout(timer);
+      window.clearTimeout(write);
+    };
+    // `active` is the gate: the effect reruns when the drawer opens or closes.
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- target/setState are stable refs/setters
+  }, [active]);
+
+  return <>{children}</>;
 }
 
 /** The one overlay island, mounted once from `Base.astro`. */

@@ -608,12 +608,23 @@ function panelFor(route: PanelRoute): Panel {
     });
 
     // Restore the panel named in the URL, if any. Out-of-range values clamp to the ends.
+    // The deep link (?panel=&overlay=&scroll=) must land on the panel before the drawer island
+    // mounts its scroll restore, so the offset applies to a drawer over the right panel. Wait
+    // for two frames so the scroll-snap track has laid out, then jump instantly (no smooth
+    // scroll, no sound: `armSound` is never called on this path).
     const wanted = Number(new URL(location.href).searchParams.get('panel'));
     if (Number.isInteger(wanted) && wanted !== 0) {
       requestAnimationFrame(() => {
-        goTo(wanted);
-        paintRuler();
-        paintFocus();
+        requestAnimationFrame(() => {
+          const next = Math.max(0, Math.min(count - 1, wanted));
+          const panel = panels[next];
+          if (!panel) return;
+          track.scrollLeft = panel.offsetLeft;
+          index = next;
+          paintRuler();
+          paintFocus();
+          paint();
+        });
       });
     } else {
       paintRuler();
