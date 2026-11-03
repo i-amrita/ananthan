@@ -2,6 +2,7 @@ import { useQueryStates } from 'nuqs';
 import { useEffect, useRef, useState } from 'react';
 
 import { ActionOverlay } from '@/components/react/ActionOverlay';
+import { TILE_IMG, TileDots, tileRatio } from '@/components/react/photo-masonry';
 import { Providers } from '@/components/react/Providers';
 import { m } from '@/lib/i18n';
 import type { PhotoTeaser, ResearchTeaser, ResearchTopic } from '@/lib/panels';
@@ -150,11 +151,11 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
   return (
     <div className="flex flex-col gap-5">
       <ReadMore overlay="photography" label={m.overlay_photography_page()} />
-      <ul className="columns-2 gap-3" data-photo-masonry>
-        {data.photos.map((p) => (
+      <ul className="columns-2 gap-4" data-photo-masonry>
+        {data.photos.map((p, i) => (
           <li
             key={p.id}
-            className="mb-3 break-inside-avoid"
+            className="mb-5 break-inside-avoid"
             {...(p.placeholder ? { 'data-photo-placeholder': '' } : {})}
           >
             <img
@@ -164,12 +165,13 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
               height={p.height}
               loading="lazy"
               decoding="async"
-              style={{ aspectRatio: `${p.width} / ${Math.round(p.height * 0.9)}` }}
-              className="block h-auto w-full rounded-card border border-border bg-surface-muted object-cover object-top"
+              style={{ aspectRatio: tileRatio(i) }}
+              className={TILE_IMG}
               data-photo-tile
             />
+            <TileDots />
             {p.placeholder && (
-              <span className="mt-1 block text-xs tracking-wide text-muted-foreground uppercase">
+              <span className="block text-xs tracking-wide text-muted-foreground uppercase">
                 {m.overlay_photography_placeholder()}
               </span>
             )}

@@ -1,6 +1,7 @@
 import { useQueryStates } from 'nuqs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { TILE_IMG, TileDots, tileRatio } from '@/components/react/photo-masonry';
 import { m, useLocale } from '@/lib/i18n';
 import { urlStateParsers } from '@/lib/url-state';
 
@@ -108,7 +109,7 @@ function Lightbox({ photos, instagram }: { photos: PhotoItem[]; instagram?: stri
   return (
     <>
       <ul
-        className="columns-2 gap-3 sm:columns-3 [&>li]:mb-3 [&>li]:break-inside-avoid"
+        className="columns-2 gap-4 sm:columns-3 [&>li]:mb-5 [&>li]:break-inside-avoid"
         data-photo-grid
       >
         {photos.map((p, i) => (
@@ -117,29 +118,22 @@ function Lightbox({ photos, instagram }: { photos: PhotoItem[]; instagram?: stri
               type="button"
               onClick={() => open(i)}
               aria-label={`${m.photography_open()}: ${p.caption || p.alt}`}
-              className="group block w-full cursor-zoom-in overflow-hidden rounded-card border border-border bg-surface-muted text-left transition-[transform,border-color] duration-300 ease-(--ease-spring) hover:-translate-y-0.5 hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="group block w-full cursor-zoom-in overflow-hidden rounded-3xl text-left transition-transform duration-300 ease-(--ease-spring) hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
               data-photo-thumb
               data-photo-id={p.id}
             >
-              <span className="photo-frame">
-                <i className="pf-c pf-tl" aria-hidden="true" />
-                <i className="pf-c pf-tr" aria-hidden="true" />
-                <i className="pf-c pf-bl" aria-hidden="true" />
-                <i className="pf-c pf-br" aria-hidden="true" />
-                <img
-                  src={p.image}
-                  alt={p.alt}
-                  width={p.width}
-                  height={p.height}
-                  loading={i < 2 ? 'eager' : 'lazy'}
-                  decoding="async"
-                  className="block h-auto w-full object-cover"
-                />
-              </span>
-              {p.caption && (
-                <span className="block px-2 py-1.5 text-xs text-muted-foreground">{p.caption}</span>
-              )}
+              <img
+                src={p.image}
+                alt={p.alt}
+                width={p.width}
+                height={p.height}
+                loading={i < 2 ? 'eager' : 'lazy'}
+                decoding="async"
+                style={{ aspectRatio: tileRatio(i) }}
+                className={TILE_IMG}
+              />
             </button>
+            <TileDots />
           </li>
         ))}
       </ul>
