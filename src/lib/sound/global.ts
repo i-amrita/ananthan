@@ -15,7 +15,9 @@ import {
   isSoundDecoded,
   mutedByUrl,
   play,
+  resetSoundCalls,
   setMuted,
+  soundCalls,
   type PlayOptions,
   type SoundStatus,
 } from './engine';
@@ -43,6 +45,10 @@ export interface SoundGlobal {
   mutedByUrl: () => boolean;
   /** Mute or unmute, and remember the choice. */
   setMuted: (value: boolean) => void;
+  /** Every `play()` call so far, oldest first. The e2e hook for "did it ask for that slice?". */
+  calls: () => readonly { name: string; at: number }[];
+  /** Clear the call log. The e2e hook for "ignore what came before". */
+  resetCalls: () => void;
 }
 
 declare global {
@@ -63,5 +69,7 @@ if (typeof window !== 'undefined') {
     isMuted,
     mutedByUrl,
     setMuted,
+    calls: soundCalls,
+    resetCalls: resetSoundCalls,
   };
 }
