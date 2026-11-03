@@ -10,7 +10,7 @@ test('/?locale=es sets html lang and translates the nav', async ({ page }) => {
   await page.goto('/?locale=es&nav=open');
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
-  await expect(page.getByRole('link', { name: 'Investigación' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Investigación', exact: true })).toBeVisible();
 });
 
 test('/?locale=ml translates the nav and sets lang', async ({ page }) => {
@@ -22,7 +22,7 @@ test('/?locale=ml translates the nav and sets lang', async ({ page }) => {
 test('/?locale=hi translates the research route headings', async ({ page }) => {
   await page.goto('/research?locale=hi');
   await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
-  await expect(page.getByRole('heading', { name: 'प्रकाशनें' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'प्रकाशन', exact: true })).toBeVisible();
 });
 
 test('the locale switch keeps the other URL params', async ({ page }) => {

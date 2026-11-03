@@ -3,650 +3,1039 @@ version = 1
 [entries.action_close]
 value = "बंद करें"
 source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.action_theme]
 value = "थीम बदलें"
 source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.error_back_home]
 value = "होम पर वापस जाएँ"
 source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.error_not_found]
 value = "पेज नहीं मिला"
 source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.footer_license]
-value = "स्रोत PolyForm Noncommercial 1.0.0 के तहत उपलब्ध"
+value = "सोर्स PolyForm Noncommercial 1.0.0 के अंतर्गत उपलब्ध है"
 source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
+
+[entries.footer_qr]
+value = "QR"
+source_hash = "45e7a1c379c71e4da5ab94440dd4aa11f6965d70"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
+
+[entries.hero_cta_life]
+value = "लाइफ खोलें"
+source_hash = "349743bbd3c4c8a31d3fe8ae31f2da698617e4ac"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
+
+[entries.hero_cta_photography]
+value = "फोटोग्राफी खोलें"
+source_hash = "21c7639a0523f4a230e3d7d6821e4508ea106660"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
+
+[entries.hero_cta_research]
+value = "रिसर्च खोलें"
+source_hash = "dbdb27d07653d7dc46b0dbcfce6ea0191a9dad88"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_enter]
-value = "प्रवेश"
+value = "प्रवेश करें"
 source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_hint]
-value = "फोकस बदलने के लिए स्क्रॉल करें, खींचें, या तीर कुंजियाँ इस्तेमाल करें।"
+value = "फोकस बदलने के लिए स्क्रॉल करें, ड्रैग करें, या एरो कीज़ का उपयोग करें।"
 source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_intro_body]
-value = "मैं जैविक तंत्रों के लिए व्याख्या-योग्य मशीन लर्निंग मॉडल बनाता हूँ, और अपने बैग में कैमरा रखता हूँ।"
+value = "मैं जैविक प्रणालियों के लिए व्याख्या-योग्य मशीन लर्निंग मॉडल बनाता हूँ, और अपने बैग में कैमरा भी रखता हूँ।"
 source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_intro_label]
 value = "परिचय"
 source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_life_body]
 value = "लैब के बाहर मैं क्या करता हूँ: फोटोग्राफी, नृत्य, रोइंग, पाक-कला और पर्यावरणवाद।"
 source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_life_label]
-value = "जीवन"
+value = "लाइफ"
 source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_name]
 value = "अनंतन नंबियार"
 source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_next]
 value = "अगला पैनल"
 source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_panels]
 value = "फोकस पैनल"
 source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_photography_body]
-value = "कैमरे से ली गई कुछ तस्वीरें। पूरा पोर्टफोलियो, और हर फोटो का कॉपीराइट, मेरी पोर्टफोलियो साइट पर है।"
+value = "कैमरे से निकले कुछ चित्र। पूरा पोर्टफोलियो और हर फोटो का कॉपीराइट मेरी पोर्टफोलियो साइट पर है।"
 source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_photography_label]
 value = "फोटोग्राफी"
 source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:32:52Z"
 
 [entries.hero_previous]
 value = "पिछला पैनल"
 source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.hero_research_body]
-value = "प्रकाशनें, व्याख्यान और पाठ्यक्रम। प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।"
+value = "प्रकाशन, व्याख्यान और पाठ्यक्रम। प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।"
 source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.hero_research_label]
 value = "अनुसंधान"
 source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_research_topic_biology]
+value = "प्रयोगशाला में जीव विज्ञान: रोगज़नक जांच के लिए समूह परीक्षण और औद्योगिक यीस्ट की तनाव प्रतिक्रिया।"
+source_hash = "3f4c59e8bd1f8c0b6f15c612f1888e19e48f982c"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_research_topic_diversity]
+value = "दस्तावेज़ एम्बेडिंग से विविधता मापना: उत्पाद विविधता और खुला नवाचार।"
+source_hash = "3c29a62e81afa88740ad70bedda5c562414fed9a"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_research_topic_language]
+value = "जीवन की भाषा: प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।"
+source_hash = "504998ee50cbe14919c78ddcf01c1b2f2cce2928"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_research_topic_variants]
+value = "प्रोटीन अनुक्रम का वेरिएंट प्रभाव भविष्यवाणी और कार्यात्मक एनोटेशन।"
+source_hash = "5f15519b79a9bee871e19715a6452dc6a71f4f66"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_research_topics_heading]
+value = "विषय"
+source_hash = "07e4f9c27860c8f452d481954e498a807cd27a98"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.hero_social_aria]
+value = "सामाजिक लिंक"
+source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.hero_subtitle]
-value = "कंप्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग। लैब के बाहर: फिल्म फोटोग्राफी, नृत्य, रोइंग, पाक-कला और पर्यावरणवाद।"
+value = "कम्प्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग। प्रयोगशाला के बाहर: फिल्म फोटोग्राफी, नृत्य, रोइंग, पाककला और पर्यावरणवाद।"
 source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
+
+[entries.language_label]
+value = "भाषा"
+source_hash = "89b86ab0e66f527166d98df92ddbcf5416ed58f6"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_bio]
-value = "मैं यूनिवर्सिटी ऑफ़ वॉशिंगटन में कंप्यूटेशनल बायोलॉजिस्ट हूँ, और कंप्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग पर काम करता हूँ। मेरा काम एक ऐसे विचार पर टिका है जो मेरे शोध-पत्रों, व्याख्यानों और थीसिस में बार-बार लौटता है: जीवन की भाषा।"
+value = "मैं वाशिंगटन विश्वविद्यालय में एक कम्प्यूटेशनल बायोलॉजिस्ट हूं, जो कम्प्यूटेशनल बायोलॉजी के लिए मशीन लर्निंग पर काम करता हूं। मेरा काम एक ऐसे विचार पर आधारित है जो मेरे पेपरों, मेरे व्याख्यानों और मेरे शोध प्रबंध में बार-बार सामने आता है: जीवन की भाषा।"
 source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_bio_heading]
 value = "परिचय"
 source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_career]
-value = "मलेशिया, फिर रीड कॉलेज, फिर यूनिवर्सिटी ऑफ़ इलिनॉय अर्बाना-शैम्पेन, फिर मेयो क्लिनिक, फिर यूनिवर्सिटी ऑफ़ वॉशिंगटन।"
+value = "मलेशिया, फिर रीड कॉलेज, फिर यूनिवर्सिटी ऑफ इलिनॉय अर्बाना-शैम्पेन, फिर मेयो क्लिनिक, फिर वाशिंगटन विश्वविद्यालय।"
 source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_career_heading]
 value = "करियर"
 source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_cooking]
-value = "पाक-कला"
+value = "पाककला"
 source_hash = "adc0752adbfda6b3ef82749db7442cd223b6747a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_cooking_body]
-value = "TODO(स्वामी): पाक-कला पर एक पंक्ति: क्या पकाते हैं, और किसके लिए।"
+value = "TODO(owner): पाककला पर एक पंक्ति: आप क्या पकाते हैं, और किसके लिए पकाते हैं।"
 source_hash = "e6b4d8c487bbe0a535a1de24054603a45138fcb7"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_dance]
 value = "नृत्य"
 source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_dance_body]
-value = "TODO(स्वामी): नृत्य के प्रकार और आवृत्ति पर एक पंक्ति।"
+value = "TODO(owner): किस तरह का नृत्य, और कितनी बार, इस पर एक पंक्ति।"
 source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_environment]
 value = "पर्यावरणवाद"
 source_hash = "e7e68b8a22930883f6263b11d6e6f8d1007e0e7f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:07Z"
 
 [entries.life_environment_body]
-value = "TODO(स्वामी): पर्यावरणवाद पर एक पंक्ति: किस पर काम करते हैं, और कहाँ।"
+value = "TODO(स्वामी): पर्यावरणवाद पर एक पंक्ति: आप किस पर काम करते हैं, और कहाँ।"
 source_hash = "031c51257414a9f6e08d6b9c3e6f0856e8f38a18"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_hobbies_heading]
 value = "शौक"
 source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_intro]
-value = "लैब के बाहर का जीवन।"
+value = "प्रयोगशाला के बाहर का जीवन।"
 source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_photography]
 value = "फोटोग्राफी"
 source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_photography_body]
-value = "फिल्म। पोर्टफोलियो nambiar4.myportfolio.com पर है।"
+value = "फ़िल्म। पोर्टफोलियो nambiar4.myportfolio.com पर है।"
 source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_rowing]
 value = "रोइंग"
 source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.life_rowing_body]
 value = "TODO(स्वामी): रोइंग पर एक पंक्ति: स्कलिंग या स्वीप, कहाँ, और कितने समय से।"
 source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.locale_next_label]
+value = "अगली भाषा"
+source_hash = "f40e3f809c0c54515d5d3ced1193f7b6692842f5"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.locale_switch_label]
 value = "भाषा चुनें"
 source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.nav_collapse]
+value = "नेविगेशन लिंक छिपाएँ"
+source_hash = "cfa42c2c15c1764c8bebf581eb150fb3e216e2fb"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.nav_expand]
+value = "नेविगेशन लिंक दिखाएँ"
+source_hash = "853443739536d5ae9ef49707af7b7c5225954d01"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_home]
 value = "होम"
 source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_life]
 value = "जीवन"
 source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.nav_menu]
+value = "मेनू"
+source_hash = "57f5f5efbc5990f5230aa95359042338b856707b"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_photography]
 value = "फोटोग्राफी"
 source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_primary]
-value = "मुख्य"
+value = "प्राथमिक"
 source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_research]
 value = "अनुसंधान"
 source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
 
 [entries.nav_search]
-value = "खोज"
+value = "खोजें"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.overlay_close]
+value = "पैनल बंद करें"
+source_hash = "fa0b7b3ac0f067447f742c4d92d265496e0a6fbd"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.overlay_draft_tag]
+value = "ड्राफ़्ट"
+source_hash = "0e7766b460fd2a39a2fd81d4a3a636b033b52be4"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:19Z"
+
+[entries.overlay_life_bio_heading]
+value = "परिचय"
+source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_life_career_heading]
+value = "करियर"
+source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_life_description]
+value = "जब मैं लैब में नहीं होता तब मैं क्या करता हूँ: फ़ोटोग्राफ़ी, नृत्य, नौकायन, पाककला और पर्यावरणवाद।"
+source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_life_hobbies_heading]
+value = "शौक"
+source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_life_read_more]
+value = "और देखें"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_life_title]
+value = "जीवन"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_description]
+value = "कैमरे से निकले कुछ फ़्रेम। पूरा पोर्टफ़ोलियो और हर तस्वीर का कॉपीराइट मेरी पोर्टफ़ोलियो साइट पर है।"
+source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_instagram]
+value = "Instagram पर और फ़्रेम"
+source_hash = "b876ea4bc59c4c362ad62311a379d5ad1eafadd4"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_page]
+value = "फ़ोटोग्राफ़ी पेज खोलें"
+source_hash = "555aa5e7638dc07949b39d2476c70c7a1221b544"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_placeholder]
+value = "प्लेसहोल्डर फ़्रेम"
+source_hash = "240eab94e4589d57a7e33d7523ae9c8a476d9f3a"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_read_more]
+value = "और देखें"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_photography_title]
+value = "फ़ोटोग्राफ़ी"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_description]
+value = "प्रकाशन, व्याख्यान और पाठ्यक्रम। प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।"
+source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_empty]
+value = "यहाँ अभी कुछ नहीं है।"
+source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_publications]
+value = "प्रकाशन"
+source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_read_more]
+value = "और देखें"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_talks]
+value = "व्याख्यान"
+source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
+
+[entries.overlay_research_title]
+value = "अनुसंधान"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
 
 [entries.photography_counter]
 value = "{total} में से {index}"
 source_hash = "ef7e316e05fa6cd771be6c5b773559b84ae0b2f1"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
 
 [entries.photography_cta]
-value = "पूरा पोर्टफोलियो देखें"
+value = "पूरा पोर्टफ़ोलियो देखें"
 source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:33Z"
 
 [entries.photography_elsewhere_body]
-value = "अधिक तस्वीरें, चालू काम और संपर्क Instagram पर हैं।"
+value = "अधिक तस्वीरें, चल रहे काम और संपर्क Instagram पर उपलब्ध हैं।"
 source_hash = "143b9ae168f1c9e5fff732152a9e18a672f59cdb"
 origin = "ai"
-reviewed = true
-updated_at = "2026-11-03T01:45:55Z"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_elsewhere_heading]
 value = "अन्यत्र"
 source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
 origin = "ai"
-reviewed = true
-updated_at = "2026-11-03T01:42:46Z"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_intro]
-value = "कैमरे से ली गई कुछ तस्वीरें। पूरा पोर्टफोलियो, और इस पेज की हर फोटो का कॉपीराइट, nambiar4.myportfolio.com पर है।"
+value = "कैमरे से निकली कुछ तस्वीरें। पूरा पोर्टफोलियो, और इस पेज की हर तस्वीर का कॉपीराइट, nambiar4.myportfolio.com पर है।"
 source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_lightbox_label]
 value = "फोटो व्यूअर"
 source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_next]
-value = "अगली फोटो"
+value = "अगली तस्वीर"
 source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_open]
 value = "खोलें"
 source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_placeholder]
-value = "प्लेसहोल्डर फ्रेम। उनकी अपनी तस्वीरें इसे बदल देंगी।"
+value = "प्लेसहोल्डर फ़्रेम। इसकी जगह उनकी अपनी तस्वीरें आएँगी।"
 source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_placeholder_note]
-value = "PLACEHOLDER से चिह्नित फ़्रेम उसकी अपनी फ़ाइलों की प्रतीक्षा कर रहे हैं; ऊपर का हर दूसरा फ़्रेम उसका है।"
+value = "PLACEHOLDER चिह्नित फ़्रेम फोटोग्राफर की अपनी फ़ाइलों की प्रतीक्षा में हैं; ऊपर के बाकी सभी फ़्रेम उन्हीं के हैं।"
 source_hash = "06104a7634327dc1e7b87985715fc9dfaf9ac471"
 origin = "ai"
-reviewed = true
-updated_at = "2026-11-03T01:43:48Z"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.photography_prev]
-value = "पिछली फोटो"
+value = "पिछली तस्वीर"
 source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
+
+[entries.qr_aria]
+value = "annambiar.github.io के लिए QR कोड"
+source_hash = "5af1e6e5ea26832918a06c3991ccf36a68b4af96"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
+
+[entries.qr_hint]
+value = "मेरा पेज खोलने के लिए स्कैन करें"
+source_hash = "ae683dfcccbb93b735517e87aa66eddead494767"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_course_kind_course]
-value = "पाठ्यक्रम"
+value = "कोर्स"
 source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_course_kind_tutorial]
 value = "ट्यूटोरियल"
 source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_course_kind_workshop]
-value = "कार्यशाला"
+value = "वर्कशॉप"
 source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_courses]
-value = "पाठ्यक्रम"
+value = "कोर्स"
 source_hash = "a16536d78dc34897436003938234d72482a1d526"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_empty]
 value = "यहाँ अभी कुछ नहीं है।"
 source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_intro]
-value = "प्रकाशनें, व्याख्यान और पाठ्यक्रम। काम प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण पर केंद्रित है।"
+value = "प्रकाशन, व्याख्यान और कोर्स। कार्य प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण पर है।"
 source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_kind_book]
 value = "पुस्तक"
 source_hash = "f69f233005f15802770fd26fbf7ead52ec13d9e6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_kind_editorial]
 value = "संपादकीय"
 source_hash = "a58b1ef1f0bf8cc5474e1e5464f7098c37c9e16e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_kind_paper]
-value = "शोध-पत्र"
+value = "शोध पत्र"
 source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:47Z"
 
 [entries.research_kind_preprint]
 value = "प्रीप्रिंट"
 source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_publications]
-value = "प्रकाशनें"
+value = "प्रकाशन"
 source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_read]
 value = "खोलें"
 source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_talk_kind_invited]
 value = "आमंत्रित"
 source_hash = "53469df1c48ff6abdcf1b528fd8c8ac2baf05099"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_talk_kind_poster]
 value = "पोस्टर"
 source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_talk_kind_talk]
 value = "व्याख्यान"
 source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.research_talks]
 value = "व्याख्यान"
 source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_description]
-value = "प्रकाशनें, व्याख्यान और पेज खोजें।"
+value = "प्रकाशन, व्याख्यान और पृष्ठ खोजें।"
 source_hash = "59fbebea55c698c4659f813880533e77a553f43e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_empty]
-value = '"{query}" से कुछ मेल नहीं खाया। कम या अलग शब्द आज़माएँ।'
+value = '"{query}" के लिए कुछ नहीं मिला। कम या अलग शब्द आज़माएँ।'
 source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_found]
-value = "मैंने यह पाया"
+value = "मुझे यह मिला है"
 source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_hint]
-value = "खोजने के लिए कम से कम 2 अक्षर लिखें।"
+value = "खोजने के लिए कम से कम 2 अक्षर टाइप करें।"
 source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_loading]
 value = "खोज मॉडल लोड हो रहा है..."
 source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_mode_ai]
 value = "AI"
 source_hash = "560040c54a3bfeaf24c4a4096cee1de719cd87cd"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_mode_keyword]
 value = "कीवर्ड"
 source_hash = "a3926e039fd753c472f6e172496fda0574369261"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_no_index]
-value = "खोज इंडेक्स pnpm build से बनता है। इसे चलाएँ, फिर pnpm dev दोबारा शुरू करें या pnpm preview इस्तेमाल करें।"
+value = "खोज अनुक्रम pnpm build द्वारा बनाया जाता है। इसे चलाएँ, फिर pnpm dev पुनः आरंभ करें या pnpm preview का उपयोग करें।"
 source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_pill_ai]
 value = "AI खोज"
 source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_pill_keyword]
 value = "कीवर्ड खोज"
 source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_pill_warming]
 value = "AI खोज (मॉडल लोड हो रहा है...)"
 source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_placeholder]
-value = "प्रकाशनें, व्याख्यान, पेज खोजें"
+value = "प्रकाशन, व्याख्यान, पृष्ठ खोजें"
 source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_results]
 value = "{query} के लिए {count} परिणाम"
 source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:54Z"
 
 [entries.search_type_page]
-value = "पेज"
+value = "पृष्ठ"
 source_hash = "fb06270f7c212baabc8749ffc36e49dc8f321548"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.search_type_publication]
 value = "प्रकाशन"
 source_hash = "e00441c49bf6cb62a4a537860a47c6b85de694f6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.search_type_talk]
 value = "व्याख्यान"
 source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_aria]
-value = "सोशल लिंक्स"
+value = "सामाजिक लिंक"
 source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_email]
 value = "ईमेल"
 source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_github]
 value = "GitHub"
 source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_instagram]
 value = "Instagram"
 source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_orcid]
 value = "ORCID"
 source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_portfolio]
 value = "फोटोग्राफी पोर्टफोलियो"
 source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
 
 [entries.socials_scholar]
 value = "Google Scholar"
 source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:33:57Z"
