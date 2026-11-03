@@ -145,3 +145,67 @@ test('an unknown overlay value opens nothing', async ({ page }) => {
   await page.goto('/?overlay=nope');
   await expect(page.locator('[data-overlay-panel]')).toHaveCount(0);
 });
+
+/**
+ * P7 deep links: the full state triple — slider panel, drawer, drawer scroll offset — must
+ * restore exactly from `?panel=&overlay=&scroll=`. The scroll restore is the racy part: the
+ * panel content (especially the photography masonry) has to be laid out with real image
+ * dimensions before the offset exists to scroll to, so the restore retries until the panel is
+ * tall enough or gives up. `scroll` is `replace` state, so Back and Forward move through the
+ * history of panel/overlay without stacking scroll entries.
+ */
+test.describe('deep links restore panel, overlay and scroll', () => {
+  for (const overlay of ['research', 'photography', 'life'] as const) {
+    test(`?overlay=${overlay}&panel=1&scroll=400 restores all three`, async ({ page }) => {
+      await page.goto(`/?panel=1&overlay=${overlay}&scroll=400`);
+      const panel = page.locator('[data-overlay-panel]');
+      await expect(panel).toBeVisible();
+      // The slider must have carried the focus to panel 1.
+      await expect(page.locator('[data-focus-panel="1"]')).toHaveAttribute('data-focused', '');
+      // The drawer body scrolled to the requested offset (± a few px of snap/rounding).
+      await expect
+        .poll(
+          async () =>
+            page.evaluate(() => {
+              const el = document.querySelector<HTMLElement>('[data-overlay-body]');
+              return el ? Math.round(el.scrollTop) : -1;
+            }),
+          { timeout: 5000 },
+        )
+        .toBeGreaterThanOrEqual(380);
+      // And the scroll param survives in the URL.
+      await expect(page).toHaveURL(new RegExp(`overlay=${overlay}&scroll=400`));
+    });
+  }
+
+  test('scroll updates replace, so Back returns to the pre-scroll URL', async ({ page }) => {
+    await page.goto('/?panel=1&overlay=research');
+    await expect(page.locator('[data-overlay-panel]')).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-overlay-ready', '');
+    // Scroll the drawer body; the island writes the offset with `history: replace`.
+    await page.evaluate(() => {
+      const el = document.querySelector<HTMLElement>('[data-overlay-body]');
+      el!.scrollTop = 400;
+    });
+    await expect(page).toHaveURL(/overlay=research&scroll=\d+/);
+    await page.goBack();
+    await expect(page.locator('[data-overlay-panel]')).toBeVisible();
+    await expect(page).not.toHaveURL(/scroll=/);
+  });
+
+  test('Back closes the drawer and Forward reopens it with the scroll restored', async ({
+    page,
+  }) => {
+    await page.goto('/?panel=1&overlay=research&scroll=300');
+    await expect(page.locator('[data-overlay-panel]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-overlay-panel]')).toBeHidden();
+    await page.goBack();
+    await expect(page.locator('[data-overlay-panel]')).toBeVisible();
+    await expect
+      .poll(async () =>
+        page.evaluate(() => document.querySelector('[data-overlay-body]')?.scrollTop ?? -1),
+      )
+      .toBeGreaterThan(250);
+  });
+});
