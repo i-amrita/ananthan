@@ -4,7 +4,7 @@
  */
 import type { OverlayData } from '@/components/react/FocusOverlays';
 import { m } from '@/lib/i18n';
-import { getPhotoTeasers, getResearchTeasers } from '@/lib/panels';
+import { getPhotoTeasers, getResearchTeasers, getResearchTopics } from '@/lib/panels';
 
 const HOBBIES = [
   {
@@ -24,9 +24,13 @@ const HOBBIES = [
 
 /** Drawer content for the research, photography and life panels. */
 export async function getOverlayData(): Promise<OverlayData> {
-  const [research, photos] = await Promise.all([getResearchTeasers(), getPhotoTeasers()]);
+  const [research, topics, photos] = await Promise.all([
+    getResearchTeasers(),
+    getResearchTopics(),
+    getPhotoTeasers(),
+  ]);
   return {
-    research,
+    research: { ...research, topics },
     photography: {
       photos,
       // The owner's Instagram, the URL the owner supplied in the steer.

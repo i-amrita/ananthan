@@ -5,6 +5,7 @@
  * page cannot drift either — only the projection differs (drawer vs page).
  */
 import { getCourses, getPhotos, getPublications, getTalks } from '@/lib/content';
+import { m } from '@/lib/i18n';
 
 /** The four panels, in the fixed order: Intro, Research, Photography, Life. */
 export const PANELS = [
@@ -41,6 +42,14 @@ export interface PhotoTeaser {
   alt: string;
   width: number;
   height: number;
+  /** True for the marked placeholder frames, which only ship when the real scans are too few. */
+  placeholder?: boolean;
+}
+
+/** One research topic line, shared between the hero panel, the drawer and the page. */
+export interface ResearchTopic {
+  key: string;
+  text: string;
 }
 
 /** Publications and talks feed the research drawer (the /research page keeps the fuller layout). */
@@ -82,8 +91,22 @@ export async function getPhotoTeasers(): Promise<PhotoTeaser[]> {
     alt: p.data.alt,
     width: p.data.width,
     height: p.data.height,
+    placeholder: p.data.image.includes('frame-'),
   }));
-  return [...SCAN_PHOTOS, ...fromCollection];
+  // Real scans first. Placeholders only pad the masonry while there are fewer than six real
+  // photographs, and they keep their PLACEHOLDER marking when they do.
+  const real = fromCollection.filter((p) => !p.placeholder);
+  const placeholders = real.length >= 6 ? [] : fromCollection.filter((p) => p.placeholder);
+  return [...SCAN_PHOTOS, ...real, ...placeholders];
+}
+
+export async function getResearchTopics(): Promise<ResearchTopic[]> {
+  return [
+    { key: 'hero_research_topic_language', text: m.hero_research_topic_language() },
+    { key: 'hero_research_topic_variants', text: m.hero_research_topic_variants() },
+    { key: 'hero_research_topic_diversity', text: m.hero_research_topic_diversity() },
+    { key: 'hero_research_topic_biology', text: m.hero_research_topic_biology() },
+  ];
 }
 
 /** Real owner-supplied scans already in `public/photos/`, reused for the drawer masonry. */
