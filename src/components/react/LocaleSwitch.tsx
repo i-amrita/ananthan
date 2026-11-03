@@ -45,6 +45,7 @@ export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'c
           // both the collapsed and the expanded state, and opens the picker.
           <button
             type="button"
+            data-locale-chip
             aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}
             className={cn(PILL_ITEM, 'h-7 px-2 font-mono text-xs uppercase')}
           >

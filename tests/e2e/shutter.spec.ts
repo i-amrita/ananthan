@@ -56,10 +56,12 @@ test('the shutter shows no locale code and names the action', async ({ page }) =
 test('the chip follows a shutter flip immediately', async ({ page }) => {
   await page.goto('/research');
   await hydrated(page);
-  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
+  const chip = page
+    .getByRole('navigation')
+    .getByRole('button', { name: /Elegir idioma|Choose language/ });
   await page.locator('[data-shutter]').click();
   await expect(page).toHaveURL(/locale=ms/);
-  await expect(chip).toHaveAttribute('aria-label', 'MS Choose language');
+  await expect(chip).toHaveAttribute('aria-label', 'MS Elegir idioma');
   await expect(chip).toContainText('ms');
 });
 

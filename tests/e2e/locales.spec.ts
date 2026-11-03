@@ -37,8 +37,10 @@ test('the locale switch keeps the other URL params', async ({ page }) => {
 test('the nav chip shows the current code and opens the picker', async ({ page }) => {
   await page.goto('/?locale=es');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
-  await expect(chip).toHaveAttribute('aria-label', 'ES Choose language');
+  const chip = page
+    .getByRole('navigation')
+    .getByRole('button', { name: /Elegir idioma|Choose language/ });
+  await expect(chip).toHaveAttribute('aria-label', 'ES Elegir idioma');
   await expect(chip).toContainText('es');
   await chip.click();
   await expect(page.getByRole('listbox')).toBeVisible();
@@ -48,7 +50,9 @@ test('the nav chip shows the current code and opens the picker', async ({ page }
 test('the chip shows the code in the expanded nav too', async ({ page }) => {
   await page.goto('/?locale=ms&nav=open');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
+  const chip = page
+    .getByRole('navigation')
+    .getByRole('button', { name: /Elegir idioma|Choose language/ });
   await expect(chip).toBeVisible();
   await expect(chip).toContainText('ms');
 });
