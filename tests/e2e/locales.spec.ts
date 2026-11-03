@@ -50,9 +50,8 @@ test('the nav chip shows the current code and opens the picker', async ({ page }
 test('the chip shows the code in the expanded nav too', async ({ page }) => {
   await page.goto('/?locale=ms&nav=open');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  const chip = page
-    .getByRole('navigation')
-    .getByRole('button', { name: /Elegir idioma|Choose language/ });
+  // The label carries the code prefix, so match on the structural hook rather than locale text.
+  const chip = page.getByRole('navigation').locator('[data-locale-chip]');
   await expect(chip).toBeVisible(); // ms renders 'Pilih bahasa'
   await expect(chip).toContainText('ms');
 });

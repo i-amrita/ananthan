@@ -47,7 +47,7 @@ export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'c
             type="button"
             data-locale-chip
             aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}
-            className={cn(PILL_ITEM, 'h-7 px-2 font-mono text-xs uppercase')}
+            className={cn(PILL_ITEM, 'h-11 min-w-11 px-2.5 font-mono text-xs uppercase')}
           >
             {locale}
           </button>

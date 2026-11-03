@@ -56,9 +56,8 @@ test('the shutter shows no locale code and names the action', async ({ page }) =
 test('the chip follows a shutter flip immediately', async ({ page }) => {
   await page.goto('/research');
   await hydrated(page);
-  const chip = page
-    .getByRole('navigation')
-    .getByRole('button', { name: /Elegir idioma|Choose language/ });
+  // The label carries the code prefix, so match on the structural hook rather than locale text.
+  const chip = page.getByRole('navigation').locator('[data-locale-chip]');
   await page.locator('[data-shutter]').click();
   await expect(page).toHaveURL(/locale=ms/);
   await expect(chip).toHaveAttribute('aria-label', 'MS Pilih bahasa');
