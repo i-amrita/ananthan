@@ -121,9 +121,8 @@
    content arriving rather than a full-screen wipe. The nav chip and the shutter keep their own
    layers and do not fade, so they persist instead of flashing through the crossfade. */
 @media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
+  /* The opt-in itself is inline in `Base.astro` head: the rule must be parsed by the time the
+     cross-document navigation commits, which an external stylesheet cannot guarantee. */
   header[data-site-nav] {
     view-transition-name: site-nav;
   }
@@ -191,6 +190,9 @@
   .overlay-panel {
     animation-duration: 340ms;
     animation-timing-function: var(--ease-spring);
+    /* `both` keeps the exit keyframes' final state until Radix unmounts the panel, so the sheet
+       does not snap back into place for a frame before it disappears. */
+    animation-fill-mode: both;
   }
   .overlay-panel-dock {
     animation-name: dock-in;
@@ -212,8 +214,13 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: opacity only, short. The panel must still fade out on close, or the
+     unmount would be an abrupt pop. */
   .overlay-panel {
     animation: overlay-fade 120ms linear both !important;
+  }
+  .overlay-panel[data-state='closed'] {
+    animation-name: overlay-fade-out !important;
   }
   .overlay-scrim {
     animation-duration: 120ms !important;
@@ -247,6 +254,14 @@
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes overlay-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 @keyframes overlay-scrim-in {
