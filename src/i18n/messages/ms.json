@@ -95,6 +95,8 @@
   "overlay_research_description": "Penerbitan, syarahan dan kursus. Model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik.",
   "overlay_research_read_more": "Lagi",
   "overlay_research_publications": "Penerbitan",
+  "overlay_draft_tag": "draf",
+  "overlay_photography_placeholder": "Rangka tempat letak",
   "overlay_research_talks": "Syarahan",
   "overlay_research_empty": "Belum ada apa-apa di sini.",
   "overlay_photography_title": "Fotografi",
@@ -121,5 +123,10 @@
   "hero_cta_research": "Buka penyelidikan",
   "hero_cta_photography": "Buka fotografi",
   "language_label": "Bahasa",
-  "locale_next_label": "Bahasa seterusnya"
+  "locale_next_label": "Bahasa seterusnya",
+  "hero_research_topics_heading": "Topik",
+  "hero_research_topic_language": "Bahasa kehidupan: model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik.",
+  "hero_research_topic_variants": "Ramalan kesan varian dan anotasi fungsi urutan protein.",
+  "hero_research_topic_diversity": "Mengukur kepelbagaikan dengan pelekoran dokumen: kepelbagaikan produk dan població terbuka.",
+  "hero_research_topic_biology": "Biologi di makmal: ujian kumpulan untuk saringan patogen dan tindak balas stres yeast industri."
 }

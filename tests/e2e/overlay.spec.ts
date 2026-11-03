@@ -29,12 +29,15 @@ test('?overlay=research opens a docked panel on a desktop', async ({ page }) => 
   await expect(page.locator('[data-overlay-scrim]')).toBeVisible();
 });
 
-test('the research drawer lists the publications and talks', async ({ page }) => {
+test('the research drawer lists the topics, then the publications and talks', async ({ page }) => {
   await page.goto('/?overlay=research');
   const panel = page.locator('[data-overlay-panel]');
   await expect(panel).toBeVisible();
-  await expect(panel.getByRole('heading', { name: 'Publications' })).toBeVisible();
-  await expect(panel.getByRole('heading', { name: 'Talks' })).toBeVisible();
+  // The topics section comes first and reuses the hero panel keys.
+  const topics = panel.locator('[data-research-topics] li');
+  await expect(panel.getByRole('heading', { name: 'Topics' })).toBeVisible();
+  await expect(topics).toHaveCount(4);
+  await expect(topics.first()).toContainText('protein language models');
   // Titles are trimmed to ~80 chars; the full title travels in the `title` attribute.
   const titles = await panel.locator('li a[title]').evaluateAll((els) =>
     els.map((e) => ({
@@ -50,6 +53,13 @@ test('the research drawer lists the publications and talks', async ({ page }) =>
   expect(titles.some((t) => t.text.endsWith('…'))).toBe(true);
 });
 
+test('the research page shows the same topics as the drawer', async ({ page }) => {
+  await page.goto('/research');
+  const topics = page.locator('[data-research-topics] li');
+  await expect(topics).toHaveCount(4);
+  await expect(topics.first()).toContainText('protein language models');
+});
+
 test('the photography drawer shows the frames, the Instagram CTA and the page link', async ({
   page,
 }) => {
@@ -57,6 +67,26 @@ test('the photography drawer shows the frames, the Instagram CTA and the page li
   const panel = page.locator('[data-overlay-panel]');
   await expect(panel).toBeVisible();
   expect(await panel.locator('[data-photo-tile]').count()).toBeGreaterThan(3);
+  // Real photographs come before the marked placeholder frames.
+  const tiles = panel.locator('[data-photo-masonry] li');
+  const firstPlaceholder = await tiles.evaluateAll((els) =>
+    els.findIndex((e) => e.hasAttribute('data-photo-placeholder')),
+  );
+  const firstPlaceholderMissing = firstPlaceholder === -1;
+  if (!firstPlaceholderMissing) {
+    for (let i = 0; i < firstPlaceholder; i++) {
+      await expect(tiles.nth(i).locator('[data-photo-tile]')).toHaveAttribute(
+        'src',
+        /^(?!.*frame-).*/,
+      );
+    }
+  }
+  // Placeholders only appear while there are fewer than six real photos, and they stay marked.
+  const placeholderCount = await panel.locator('[data-photo-placeholder]').count();
+  if (placeholderCount > 0) {
+    expect(await panel.locator('[data-photo-tile]').count()).toBeLessThan(10);
+    await expect(panel.locator('[data-photo-placeholder]').first()).toContainText(/placeholder/i);
+  }
   await expect(page.locator('[data-overlay-instagram]')).toHaveAttribute(
     'href',
     'https://www.instagram.com/filmi.nambi',
@@ -73,6 +103,11 @@ test('the life drawer carries the same content as the life page', async ({ page 
   await expect(panel.getByRole('heading', { name: 'Career' })).toBeVisible();
   await expect(panel.getByText('Rowing', { exact: true })).toBeVisible();
   await expect(page.locator('[data-overlay-read-more]')).toHaveAttribute('href', '/life');
+  // Owner TODO entries render as muted drafts with a draft tag, never as plain copy.
+  const drafts = panel.locator('[data-draft]');
+  expect(await drafts.count()).toBeGreaterThan(0);
+  await expect(drafts.first().locator('[data-draft-tag]')).toHaveText(/draft/i);
+  await expect(drafts.first().locator('dd')).not.toContainText('TODO(');
 });
 
 test('the overlay marks the document and freezes the hero track', async ({ page }) => {

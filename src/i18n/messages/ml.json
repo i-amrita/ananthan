@@ -95,6 +95,8 @@
   "overlay_research_description": "പ്രസിദ്ധീകരണങ്ങൾ, പ്രഭാഷണങ്ങൾ, കോഴ്സുകൾ. പ്രോട്ടീൻ ഭാഷാ മോഡലുകൾ, ജീൻ നിയന്ത്രണം, മൾട്ടി-ഒമിക് ഡാറ്റ സംയോജനം.",
   "overlay_research_read_more": "കൂടുതൽ",
   "overlay_research_publications": "പ്രസിദ്ധീകരണങ്ങൾ",
+  "overlay_draft_tag": "ഡ്രാഫ്റ്റ്",
+  "overlay_photography_placeholder": "പ്ലേസ്‌ഹോൾഡർ ഫ്രെയിം",
   "overlay_research_talks": "പ്രഭാഷണങ്ങൾ",
   "overlay_research_empty": "ഇവിടെ ഇതുവരെ ഒന്നുമില്ല.",
   "overlay_photography_title": "ഫോട്ടോഗ്രാഫി",
@@ -121,5 +123,10 @@
   "hero_cta_research": "ഗവേഷണം തുറക്കുക",
   "hero_cta_photography": "ഫോട്ടോഗ്രാഫി തുറക്കുക",
   "language_label": "ഭാഷ",
-  "locale_next_label": "അടുത്ത ഭാഷ"
+  "locale_next_label": "അടുത്ത ഭാഷ",
+  "hero_research_topics_heading": "വിഷയങ്ങൾ",
+  "hero_research_topic_language": "ജീവന്റെ ഭാഷ: പ്രോട്ടീൻ ഭാഷാ മോഡലുകൾ, ജീൻ നിയന്ത്രണം, മൾട്ടി-ഒമിക് ഡാറ്റ സംയോജനം.",
+  "hero_research_topic_variants": "വേരിയന്റ് ഇഫക്റ്റ് പ്രവാഹനം, പ്രോട്ടീൻ സീക്വൻസിന്റെ ഫംക്ഷണൽ അനൊട്ടേഷൻ.",
+  "hero_research_topic_diversity": "ഡോക്യുമെന്റ് എംബഡിംഗുകൾ ഉപയോഗിച്ച് വൈവിധ്യം അളെയ്ക്കുക: ഉൽപ്പന്ത വൈവിധ്യവും തുറന്ന സേവന നവാക്കാദവും.",
+  "hero_research_topic_biology": "ബെഞ്ചിലെ ബയോളജി: പാതോജൻ സ്ക്രീനിംഗിനുള്ള ഗ്രൂപ്പ് ടെസ്റ്റിംഗ്, വ്യാവസായ യീസ്റ്റിന്റെ സ്ട്രെസ് റെസ്പോൺസ്."
 }

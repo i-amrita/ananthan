@@ -46,6 +46,8 @@
   "overlay_photography_instagram": "More frames on Instagram",
   "overlay_photography_page": "Open the photography page",
   "overlay_research_publications": "Publications",
+  "overlay_draft_tag": "draft",
+  "overlay_photography_placeholder": "Placeholder frame",
   "overlay_research_talks": "Talks",
   "overlay_research_empty": "Nothing here yet.",
   "overlay_life_hobbies_heading": "Hobbies",
@@ -121,5 +123,10 @@
   "hero_cta_research": "Open research",
   "hero_cta_photography": "Open photography",
   "language_label": "Language",
-  "locale_next_label": "Next language"
+  "locale_next_label": "Next language",
+  "hero_research_topics_heading": "Topics",
+  "hero_research_topic_language": "The language of life: protein language models, gene regulation and multi-omic data integration.",
+  "hero_research_topic_variants": "Variant effect prediction and functional annotation of protein sequence.",
+  "hero_research_topic_diversity": "Measuring diversity with document embeddings: product diversity and open-ended innovation.",
+  "hero_research_topic_biology": "Biology at the bench: group testing for pathogen screening and the stress response of industrial yeast."
 }

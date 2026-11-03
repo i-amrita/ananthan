@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { ActionOverlay } from '@/components/react/ActionOverlay';
 import { Providers } from '@/components/react/Providers';
 import { m } from '@/lib/i18n';
-import type { PhotoTeaser, ResearchTeaser } from '@/lib/panels';
+import type { PhotoTeaser, ResearchTeaser, ResearchTopic } from '@/lib/panels';
 import { type Overlay, urlStateParsers } from '@/lib/url-state';
 
 /** Drawer content, projected at build time from the same collections the pages use. */
 export interface OverlayData {
   research: {
+    topics: ResearchTopic[];
     publications: ResearchTeaser[];
     talks: ResearchTeaser[];
   };
@@ -23,6 +24,15 @@ export interface OverlayData {
     bio: string;
     career: string;
   };
+}
+
+/**
+ * A body string that is still an owner TODO. The `TODO(owner): ` marker is stripped, so the
+ * placeholder reads as a muted draft note with a draft tag, never as finished copy.
+ */
+function draftBody(body: string): { draft: boolean; text: string } {
+  const match = /^TODO\([^)]*\):\s*(.*)$/s.exec(body);
+  return match?.[1] !== undefined ? { draft: true, text: match[1] } : { draft: false, text: body };
 }
 
 /** Event a non-React script (the slider) fires to open a panel. Detail is the overlay name. */
@@ -93,11 +103,25 @@ function researchRow(item: ResearchTeaser) {
   );
 }
 
-/** Research drawer: publications and talks, titles trimmed with the full title in `title`. */
+/** Research drawer: the topics, then publications and talks, titles trimmed with the full title in `title`. */
 function ResearchDrawer({ data }: { data: OverlayData['research'] }) {
   return (
     <div className="flex flex-col gap-6">
       <ReadMore overlay="research" />
+      {data.topics.length > 0 && (
+        <section className="flex flex-col gap-2">
+          <h3 className="font-key text-xs tracking-wide text-muted-foreground uppercase">
+            {m.hero_research_topics_heading()}
+          </h3>
+          <ul className="flex flex-col gap-2" data-research-topics>
+            {data.topics.map((t) => (
+              <li key={t.key} className="text-sm leading-relaxed text-fg">
+                {t.text}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {data.publications.length > 0 && (
         <section className="flex flex-col gap-2">
           <h3 className="font-key text-xs tracking-wide text-muted-foreground uppercase">
@@ -128,7 +152,11 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
       <ReadMore overlay="photography" label={m.overlay_photography_page()} />
       <ul className="columns-2 gap-3 sm:columns-3" data-photo-masonry>
         {data.photos.map((p) => (
-          <li key={p.id} className="mb-3 break-inside-avoid">
+          <li
+            key={p.id}
+            className="mb-3 break-inside-avoid"
+            {...(p.placeholder ? { 'data-photo-placeholder': '' } : {})}
+          >
             <img
               src={p.src}
               alt={p.alt}
@@ -136,9 +164,14 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
               height={p.height}
               loading="lazy"
               decoding="async"
-              className="block w-full rounded-card border border-border bg-surface-muted"
+              className="block h-auto w-full rounded-card border border-border bg-surface-muted object-cover"
               data-photo-tile
             />
+            {p.placeholder && (
+              <span className="mt-1 block text-xs tracking-wide text-muted-foreground uppercase">
+                {m.overlay_photography_placeholder()}
+              </span>
+            )}
           </li>
         ))}
       </ul>
@@ -168,12 +201,31 @@ function LifeDrawer({ data }: { data: OverlayData['life'] }) {
           {m.overlay_life_hobbies_heading()}
         </h3>
         <dl className="flex flex-col gap-3">
-          {data.hobbies.map((h) => (
-            <div key={h.key} className="flex flex-col gap-0.5">
-              <dt className="font-display text-lg">{h.title}</dt>
-              <dd className="text-sm leading-relaxed text-muted-foreground">{h.body}</dd>
-            </div>
-          ))}
+          {data.hobbies.map((h) => {
+            const { draft, text } = draftBody(h.body);
+            return (
+              <div
+                key={h.key}
+                className="flex flex-col gap-0.5"
+                {...(draft ? { 'data-draft': '' } : {})}
+              >
+                <dt className="font-display text-lg">{h.title}</dt>
+                <dd
+                  className={`text-sm leading-relaxed ${draft ? 'text-muted-foreground/60 italic' : 'text-muted-foreground'}`}
+                >
+                  {draft && (
+                    <span
+                      data-draft-tag
+                      className="mr-2 inline-block rounded-full border border-border px-2 py-0.5 align-middle text-[10px] tracking-wide text-muted-foreground uppercase not-italic"
+                    >
+                      {m.overlay_draft_tag()}
+                    </span>
+                  )}
+                  {text}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
       </section>
       <section className="flex flex-col gap-2">

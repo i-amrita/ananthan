@@ -2,11 +2,13 @@
 import ProseLayout from '@/components/astro/ProseLayout.astro';
 import { m } from '@/lib/i18n';
 import { getCourses, getPublications, getTalks } from '@/lib/content';
+import { getResearchTopics } from '@/lib/panels';
 
-const [publications, talks, courses] = await Promise.all([
+const [publications, talks, courses, topics] = await Promise.all([
   getPublications(),
   getTalks(),
   getCourses(),
+  getResearchTopics(),
 ]);
 
 const formatDate = (d: Date) =>
@@ -40,6 +42,17 @@ const courseKindLabel = (kind: string) =>
   route="research"
 >
   <p data-i18n="research_intro">{m.research_intro()}</p>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="font-display text-2xl" id="topics" data-i18n="hero_research_topics_heading">
+      {m.hero_research_topics_heading()}
+    </h2>
+    <ul class="flex flex-col gap-2" data-research-topics>
+      {topics.map((t) => (
+        <li class="leading-relaxed" data-i18n={t.key}>{t.text}</li>
+      ))}
+    </ul>
+  </section>
 
   <section class="flex flex-col gap-4">
     <h2 class="font-display text-2xl" id="publications" data-i18n="research_publications">
