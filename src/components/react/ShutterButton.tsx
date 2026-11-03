@@ -89,6 +89,7 @@ function Shutter() {
           type="button"
           aria-label={`${code} ${m.locale_switch_label()}`}
           data-shutter
+          suppressHydrationWarning
           onPointerDown={press}
           onPointerUp={release}
           className={cn(
