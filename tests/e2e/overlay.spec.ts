@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test';
  * `panel` belongs to the slider script, so opening and closing a panel must never touch it.
  */
 
-const PHONE = { width: 375, height: 812 };
+const PHONE = { width: 375, height: 560 };
 const DESKTOP = { width: 1280, height: 800 };
 
 test.use({ viewport: PHONE });
@@ -194,9 +194,9 @@ test.describe('deep links restore panel, overlay and scroll', () => {
     // The life and photography drawers are shorter than 400px on a phone, so each overlay asks
     // for an offset inside its own scroll range.
     // Each overlay asks for an offset inside its own scroll range on a phone.
-    const scroll = overlay === 'research' ? 400 : overlay === 'photography' ? 60 : 150;
+    const scroll = overlay === 'research' ? 400 : overlay === 'photography' ? 40 : 150;
     test(`?overlay=${overlay}&panel=1&scroll=${scroll} restores all three`, async ({ page }) => {
-      await page.setViewportSize({ width: 375, height: 812 });
+      await page.setViewportSize({ width: 375, height: 560 });
       await page.goto(`/?panel=1&overlay=${overlay}&scroll=${scroll}`);
       const panel = page.locator('[data-overlay-panel]');
       await expect(panel).toBeVisible();
