@@ -2,6 +2,8 @@ import { useRef, useState } from 'react';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { LOCALE_NAMES, LOCALES, m, useLocale } from '@/lib/i18n';
+import { play } from '@/lib/sound';
+import { useSoundGateLive } from '@/lib/sound/use-sound-gate';
 import { cn } from '@/lib/utils';
 
 import { useExclusiveOpen } from './LocaleSwitch';
@@ -38,20 +40,41 @@ function Shutter() {
   const [open, setOpen] = useExclusiveOpen();
   const [blink, setBlink] = useState(false);
   const timers = useRef<number[]>([]);
+  // The gate: the shutter stays silent while the sprite loads. `live` is true once the sprite
+  // is decoded or has failed (the site works without sound), or the site is muted (a muted site
+  // never waits for the sprite). The hold itself (`inert`, `aria-disabled`, the skeleton look)
+  // is not React's job: the DOM gate in `sound/gate-dom.ts` owns those attributes, keyed on the
+  // same `<html>` state the CSS reads, so a React flush lag cannot strand the control inert.
+  const live = useSoundGateLive();
 
   const code = locale.toUpperCase();
   const angle = LOCALES.indexOf(locale) * STEP_DEG;
 
+  /** The shutter fires on the press; it releases on the gesture or on the commit. */
+  const press = () => {
+    if (live) play('shutter-fire');
+  };
+
+  const release = () => {
+    if (live) play('shutter-release', { gain: 0.8 });
+  };
+
   const choose = (next: (typeof LOCALES)[number]) => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) {
+      if (live) play('shutter-release');
       void setLocale(next);
       setOpen(false);
       return;
     }
     setBlink(true);
     timers.current.push(
-      window.setTimeout(() => void setLocale(next), BLINK_MS / 2),
+      // The commit sound lands with the locale change at the blink midpoint, so the blades and
+      // the sound close together.
+      window.setTimeout(() => {
+        if (live) play('shutter-release');
+        void setLocale(next);
+      }, BLINK_MS / 2),
       window.setTimeout(() => {
         setBlink(false);
         setOpen(false);
@@ -66,6 +89,9 @@ function Shutter() {
           type="button"
           aria-label={`${code} ${m.locale_switch_label()}`}
           data-shutter
+          data-gated={!live || undefined}
+          onPointerDown={press}
+          onPointerUp={release}
           className={cn(
             'group fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 grid size-14 place-items-center rounded-full',
             'bg-linear-to-b from-chassis to-chassis-lo ring-1 ring-white/15 shadow-key outline-none',

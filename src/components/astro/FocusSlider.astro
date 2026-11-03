@@ -203,6 +203,9 @@ function panelFor(route: PanelRoute): Panel {
 <span class="focus-chip font-mono" data-focus-chip aria-hidden="true">‹ ›</span>
 
 <script>
+  import { installGate } from '@/lib/sound/gate-dom';
+  import { createSliderSound } from '@/lib/sound/slider';
+
   /**
    * Behaviour on top of the native scroll-snap track: arrow keys, drag with momentum, the
    * `?panel=` URL state, the focus-scale ruler, the depth-of-field blur and tap / Enter activation.
@@ -249,6 +252,24 @@ function panelFor(route: PanelRoute): Panel {
       const w = track.clientWidth || 1;
       return Math.max(0, Math.min(count - 1, track.scrollLeft / w));
     };
+
+    /**
+     * Sound: one detent per stop crossing, one settle when the gesture rests on a stop.
+     * The controller is inert until the user takes hold of the slider, so the initial focus and
+     * a programmatic restore from the URL never make a sound.
+     */
+    const sliderSound = createSliderSound(
+      Array.from({ length: count }, (_, i) => i),
+      {
+        play: (name) => window.sound?.play(name),
+        position,
+      },
+    );
+
+    // The gate: the track and the ruler are held (`inert`, `aria-disabled`, the skeleton look)
+    // until the sprite is decoded. The DOM gate owns the attributes, keyed on the same `<html>`
+    // state the CSS reads, so the hold is already correct before this script runs.
+    installGate();
 
     /** Ruler step in px: distance between two adjacent stops. */
     const stepPx = () => {
@@ -355,15 +376,19 @@ function panelFor(route: PanelRoute): Panel {
     track.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
+        armSound();
         goTo(index + 1);
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
+        armSound();
         goTo(index - 1);
       } else if (e.key === 'Home') {
         e.preventDefault();
+        armSound();
         goTo(0);
       } else if (e.key === 'End') {
         e.preventDefault();
+        armSound();
         goTo(count - 1);
       } else if ((e.key === 'Enter' || e.key === ' ') && e.target === track) {
         e.preventDefault();
@@ -397,6 +422,7 @@ function panelFor(route: PanelRoute): Panel {
 
     track.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return;
+      armSound();
       startX = e.clientX;
       startY = e.clientY;
       startT = performance.now();
@@ -480,6 +506,7 @@ function panelFor(route: PanelRoute): Panel {
 
       rulerView.addEventListener('pointerdown', (e) => {
         if (e.button !== 0) return;
+        armSound();
         rDragging = true;
         rStartX = rLastX = e.clientX;
         rStartT = rLastT = performance.now();
@@ -530,6 +557,7 @@ function panelFor(route: PanelRoute): Panel {
       s.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
+          armSound();
           goTo(i);
         }
       });
@@ -546,10 +574,25 @@ function panelFor(route: PanelRoute): Panel {
           paintRuler();
           paintFocus();
           paint();
+          // One detent per stop crossing, one settle when the movement stops. The controller is
+          // inert until the user takes hold of the slider, so the load and the URL restore are
+          // silent.
+          sliderSound.update();
         });
       },
       { passive: true },
     );
+
+    /**
+     * Take hold of the slider. Every real gesture arms the sound: a drag on the track, a drag on
+     * the ruler, a wheel, or a key. Until one of them happens, nothing sounds, so the initial
+     * focus and the `?panel=` restore stay silent.
+     */
+    const armSound = () => sliderSound.arm();
+
+    // A wheel over the track scrolls it natively, so the scroll handler carries the sound. The
+    // wheel event is what arms it: nothing else fires before the first scroll.
+    track.addEventListener('wheel', armSound, { passive: true });
 
     matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
       reduced = e.matches;
@@ -577,6 +620,7 @@ function panelFor(route: PanelRoute): Panel {
       paintFocus();
       paint();
     }
+
   }
 </script>
 

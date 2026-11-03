@@ -105,6 +105,22 @@ const ogUrl = new URL(ogImage, Astro.site);
       if (l && ['ms', 'hi', 'es', 'ml'].includes(l)) document.documentElement.lang = l;
       document.documentElement.dir = 'ltr';
       // i18n:end
+      // Sound gate: the document is "armed" as soon as JavaScript runs, so the CSS can hold the
+      // shutter and the focus slider until the sprite is decoded. The mute state is resolved
+      // here as well: `?mute=1` and the stored preference never wait for the sprite.
+      document.documentElement.dataset.soundArmed = '';
+      try {
+        if (q.get('mute') === '1' || localStorage.getItem('sound-muted') === '1') {
+          document.documentElement.dataset.soundMuted = '';
+        }
+      } catch {}
+      // Safety net: if the sound bundle never loads, the gate must still settle, otherwise the
+      // held controls would stay dead for the life of the page. The attribute is the gate's one
+      // source of truth, and the DOM gate watches it, so this releases the controls too.
+      setTimeout(() => {
+        const root = document.documentElement;
+        if (!root.hasAttribute('data-sound-ready')) root.dataset.soundReady = 'failed';
+      }, 7000);
     </script>
     <SoundGate />
   </head>
