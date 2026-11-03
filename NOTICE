@@ -6,7 +6,7 @@ The key sound sprite (the first 2s of public/sounds/sprite-*.ogg and sprite-*.m4
 keythm's public/sounds/sound.ogg: individual keypresses were cut out, trimmed,
 loudness-normalized and re-encoded (Ogg Opus and AAC). It is a modified work.
 
-Modifications by Amrita Nambiar, 2026.
+Modifications by Ananthan Nambiar, 2026.
 Original copyright: 2026 AAYUSH BHARTI
 
 The dial detent sprite (the tail of public/sounds/sprite-*.ogg and sprite-*.m4a) is built from Kenney's
