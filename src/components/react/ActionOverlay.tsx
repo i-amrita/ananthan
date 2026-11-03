@@ -97,7 +97,16 @@ export function ActionOverlay({
     return (
       <Dialog.Root open={open} onOpenChange={onOpenChange}>
         <Dialog.Portal>
-          <Dialog.Overlay className="overlay-scrim" data-overlay-scrim />
+          <Dialog.Overlay
+            className="overlay-scrim"
+            data-overlay-scrim
+            onWheel={(e) => {
+              // The page behind is frozen, so a wheel over the dimmed area scrolls the drawer instead of doing nothing.
+              document
+                .querySelector<HTMLElement>('[data-overlay-body]')
+                ?.scrollBy({ top: e.deltaY });
+            }}
+          />
           <Dialog.Content
             className="overlay-panel overlay-panel-dock fixed inset-y-0 right-0 z-50 flex w-[26rem] max-w-[92vw] flex-col border-l border-fg/15 bg-surface text-fg shadow-lift outline-none"
             data-overlay-panel
@@ -110,7 +119,10 @@ export function ActionOverlay({
                 {description}
               </Dialog.Description>,
             )}
-            <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-7 sm:px-7" data-overlay-body>
+            <div
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pb-7 sm:px-7"
+              data-overlay-body
+            >
               {children}
             </div>
           </Dialog.Content>

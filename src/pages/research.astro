@@ -54,14 +54,12 @@ const courseKindLabel = (kind: string) =>
     </ul>
   </section>
 
+  {publications.length > 0 && (
   <section class="flex flex-col gap-4">
     <h2 class="font-display text-2xl" id="publications" data-i18n="research_publications">
       {m.research_publications()}
     </h2>
     {
-      publications.length === 0 ? (
-        <p class="text-muted-foreground">{m.research_empty()}</p>
-      ) : (
         <ul class="flex flex-col gap-3">
           {publications.map((p) => (
             <li id={p.id} class="flex flex-col gap-1 scroll-mt-24">
@@ -78,16 +76,14 @@ const courseKindLabel = (kind: string) =>
             </li>
           ))}
         </ul>
-      )
     }
   </section>
+  )}
 
+  {talks.length > 0 && (
   <section class="flex flex-col gap-4">
     <h2 class="font-display text-2xl" id="talks" data-i18n="research_talks">{m.research_talks()}</h2>
     {
-      talks.length === 0 ? (
-        <p class="text-muted-foreground">{m.research_empty()}</p>
-      ) : (
         <ul class="flex flex-col gap-3">
           {talks.map((t) => (
             <li id={t.id} class="flex flex-col gap-1 scroll-mt-24">
@@ -110,16 +106,14 @@ const courseKindLabel = (kind: string) =>
             </li>
           ))}
         </ul>
-      )
     }
   </section>
+  )}
 
+  {courses.length > 0 && (
   <section class="flex flex-col gap-4">
     <h2 class="font-display text-2xl" id="courses" data-i18n="research_courses">{m.research_courses()}</h2>
     {
-      courses.length === 0 ? (
-        <p class="text-muted-foreground">{m.research_empty()}</p>
-      ) : (
         <ul class="flex flex-col gap-3">
           {courses.map((c) => (
             <li id={c.id} class="flex flex-col gap-1 scroll-mt-24">
@@ -142,7 +136,7 @@ const courseKindLabel = (kind: string) =>
             </li>
           ))}
         </ul>
-      )
     }
   </section>
+  )}
 </ProseLayout>
