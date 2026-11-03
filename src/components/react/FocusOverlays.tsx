@@ -164,7 +164,7 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
               height={p.height}
               loading="lazy"
               decoding="async"
-              style={{ aspectRatio: `${p.width} / ${Math.round(p.height * 0.94)}` }}
+              style={{ aspectRatio: `${p.width} / ${Math.round(p.height * 0.9)}` }}
               className="block h-auto w-full rounded-card border border-border bg-surface-muted object-cover object-top"
               data-photo-tile
             />
