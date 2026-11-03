@@ -18,11 +18,6 @@
   "hero_research_body": "Publications, talks and courses. Protein language models, gene regulation and multi-omic data integration.",
   "hero_life_body": "What I do when I am not in the lab: photography, dance, rowing, cooking and environmentalism.",
   "hero_photography_body": "A few frames from the camera. The full portfolio, and the copyright for every photo, lives on my portfolio site.",
-  "hero_research_topics_heading": "Topics",
-  "hero_research_topic_language": "The language of life: protein language models, gene regulation and multi-omic data integration.",
-  "hero_research_topic_variants": "Variant effect prediction and functional annotation of protein sequence.",
-  "hero_research_topic_diversity": "Measuring diversity with document embeddings: product diversity and open-ended innovation.",
-  "hero_research_topic_biology": "Biology at the bench: group testing for pathogen screening and the stress response of industrial yeast.",
   "hero_social_aria": "Social links",
   "hero_hint": "Scroll, drag, or use the arrow keys to change focus.",
   "hero_next": "Next panel",
@@ -118,5 +113,8 @@
   "search_type_talk": "Talk",
   "footer_qr": "QR",
   "qr_hint": "Scan to open my page",
-  "qr_aria": "QR code for annambiar.github.io"
+  "qr_aria": "QR code for annambiar.github.io",
+  "hero_cta_research": "Open research",
+  "hero_cta_photography": "Open photography",
+  "hero_cta_life": "Open life"
 }

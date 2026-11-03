@@ -20,9 +20,6 @@ export type PanelRoute = (typeof PANELS)[number]['route'];
 /** Panel index for a route key. */
 export const panelIndex = (route: PanelRoute) => PANELS.findIndex((p) => p.route === route);
 
-/** Focus-distance stops, text only. One per panel, in panel order. */
-export const FOCUS_STOPS = ['0.30', '0.50', '0.70', '1.00'] as const;
-
 /** Drawer teaser: one research item as the drawer lists it. */
 export interface ResearchTeaser {
   /** Title trimmed to ~80 chars with an ellipsis. */
