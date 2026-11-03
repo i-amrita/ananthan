@@ -11,7 +11,7 @@
  * Without JavaScript the track is still a real scroll container with real links.
  */
 import { m } from '@/lib/i18n';
-import { PANELS, type PanelRoute } from '@/lib/panels';
+import { FOCUS_STOPS, PANELS, type PanelRoute } from '@/lib/panels';
 import GraduationCap from '~icons/ph/graduation-cap-light';
 import IdentificationCard from '~icons/ph/identification-card-light';
 import InstagramLogo from '~icons/ph/instagram-logo-light';
@@ -150,14 +150,17 @@ const panels: Panel[] = PANELS.map((p) => {
       {
         panels.map((p, i) => (
           <span class="ruler-stop" data-stop={i} data-label={p.label} style={`--i:${i};`}>
-            <span class="ruler-label font-mono">{p.label}</span>
             <span class="ruler-dot" />
+            <span class="ruler-num font-mono">{FOCUS_STOPS[i]}</span>
           </span>
         ))
       }
     </div>
     <span class="ruler-needle" aria-hidden="true"></span>
   </div>
+  <p class="ruler-readout font-mono" aria-hidden="true">
+    <span data-focus-value>{FOCUS_STOPS[0]}</span> m
+  </p>
 </div>
 
 <p class="sr-only" data-focus-live aria-live="polite" aria-atomic="true"></p>
@@ -183,9 +186,12 @@ const panels: Panel[] = PANELS.map((p) => {
     const ruler = document.querySelector<HTMLElement>('[data-focus-ruler]');
     const rulerView = document.querySelector<HTMLElement>('[data-ruler-viewport]');
     const rulerStops = [...document.querySelectorAll<HTMLElement>('[data-stop]')];
+    const readout = document.querySelector<HTMLElement>('[data-focus-value]');
     const live = document.querySelector<HTMLElement>('[data-focus-live]');
     const chip = document.querySelector<HTMLElement>('[data-focus-chip]');
     const count = panels.length;
+    // Focus distance per panel, text only. Mirrors the stops rendered in the markup.
+    const stopValues = ['0.30', '0.50', '0.70', '1.00'];
     // Same literal as `OPEN_OVERLAY_EVENT` in FocusOverlays.tsx (the island is not imported here).
     const OPEN_OVERLAY_EVENT = 'ananthan:open-overlay';
     const TAP_MAX_MOVE = 6;
@@ -239,9 +245,18 @@ const panels: Panel[] = PANELS.map((p) => {
       return a && b ? b.offsetLeft - a.offsetLeft || 1 : 1;
     };
 
-    // Ruler paint: one custom property drives the strip transform (no layout).
+    // Ruler paint: one custom property drives the strip transform (no layout), and the readout
+    // interpolates between the two surrounding stops.
     const paintRuler = () => {
-      ruler?.style.setProperty('--p', position().toFixed(4));
+      const p = position();
+      ruler?.style.setProperty('--p', p.toFixed(4));
+      if (readout) {
+        const lo = Math.floor(p);
+        const hi = Math.min(count - 1, lo + 1);
+        const t = p - lo;
+        const v = Number(stopValues[lo]) + (Number(stopValues[hi]) - Number(stopValues[lo])) * t;
+        readout.textContent = v.toFixed(2);
+      }
     };
 
     /**
@@ -812,13 +827,13 @@ const panels: Panel[] = PANELS.map((p) => {
     outline: 2px solid var(--ink);
     outline-offset: -2px;
   }
-  .ruler-label {
+  .ruler-num {
     position: absolute;
     top: 0.35rem;
     inset-inline: 0;
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
     color: var(--ink-dim);
   }
@@ -833,7 +848,7 @@ const panels: Panel[] = PANELS.map((p) => {
     border: 1px solid var(--ink-dim);
     box-sizing: border-box;
   }
-  .ruler-stop[data-focused] .ruler-label {
+  .ruler-stop[data-focused] .ruler-num {
     color: var(--c-fg);
   }
   .ruler-stop[data-focused] .ruler-dot {
@@ -861,6 +876,21 @@ const panels: Panel[] = PANELS.map((p) => {
     translate: -50% 0;
     border-inline: 0.3rem solid transparent;
     border-top: 0.4rem solid var(--needle);
+  }
+  /* Focus value readout: the distance in metres, centred under the ruler. */
+  .ruler-readout {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
+    text-align: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    pointer-events: none;
+  }
+  .ruler-readout [data-focus-value] {
+    color: var(--needle);
+    font-variant-numeric: tabular-nums;
   }
   /* Cursor chip: fine pointers only, never under reduced motion, hidden while a drawer is open. */
   .focus-chip {
