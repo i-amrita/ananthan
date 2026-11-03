@@ -109,6 +109,7 @@ function Shutter() {
             )}
           >
             <span
+              data-shutter-iris
               className={cn(
                 'absolute inset-0 transition-transform duration-[60ms] ease-(--ease-key) group-active:rotate-30',
                 'group-data-[state=open]:rotate-12 motion-reduce:transition-none motion-reduce:group-active:rotate-0 motion-reduce:group-data-[state=open]:rotate-0',

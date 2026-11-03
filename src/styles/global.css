@@ -162,8 +162,15 @@ html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
   [data-locale-ring] {
   opacity: 0;
 }
+/* The iris blades go as well, so the cap reads as one plain disc instead of a half-open
+   aperture waiting for a locale that is not there yet. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
+  [data-shutter]
+  [data-shutter-iris] {
+  opacity: 0;
+}
 /* A single slow breathe on the cap: at most one pulse per 1.4s, and static under reduced motion.
-   The iris blades are hidden rather than dimmed, so the cap reads as one plain disc. */
+   The cap keeps its size, so the breathe moves nothing. */
 @media (prefers-reduced-motion: no-preference) {
   html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] > span {
     animation: shutter-skeleton 1400ms var(--ease-key) infinite;
