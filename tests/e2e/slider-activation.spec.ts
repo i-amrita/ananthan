@@ -119,15 +119,13 @@ test('the live region announces the focused panel', async ({ page }) => {
 
 test('no numeric indicators are shown in the panels or on the ruler', async ({ page }) => {
   await ready(page, '/');
-  // The panel index ("01 / 04") and the ruler readout ("FOCUS 0.30 M") are gone.
-  await expect(page.locator('[data-focus-value]')).toHaveCount(0);
+  // The panel index ("01 / 04") is gone. The ruler keeps its distance ticks and the focus
+  // readout (round-2b correction) but no section names.
   await expect(page.locator('.focus-index')).toHaveCount(0);
-  await expect(page.locator('.ruler-num')).toHaveCount(0);
-  await expect(page.locator('.ruler-readout')).toHaveCount(0);
-  // The stop names stay, and they carry no numeric prefix.
-  const labels = await page.locator('.ruler-label').allTextContents();
-  expect(labels.map((l) => l.trim())).toEqual(['Intro', 'Research', 'Photography', 'Life']);
-  for (const l of labels) expect(l).not.toMatch(/\d/);
+  await expect(page.locator('.ruler-label')).toHaveCount(0);
+  const nums = await page.locator('.ruler-num').allTextContents();
+  expect(nums.map((n) => n.trim())).toEqual(['0.30', '0.50', '0.70', '1.00']);
+  await expect(page.locator('.ruler-readout')).toContainText('0.30');
 });
 
 test('tapping a ruler stop jumps to that panel', async ({ page }) => {
