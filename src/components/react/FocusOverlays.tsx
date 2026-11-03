@@ -150,7 +150,7 @@ function PhotographyDrawer({ data }: { data: OverlayData['photography'] }) {
   return (
     <div className="flex flex-col gap-5">
       <ReadMore overlay="photography" label={m.overlay_photography_page()} />
-      <ul className="columns-2 gap-3 sm:columns-3" data-photo-masonry>
+      <ul className="columns-2 gap-3" data-photo-masonry>
         {data.photos.map((p) => (
           <li
             key={p.id}
