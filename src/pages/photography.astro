@@ -3,8 +3,11 @@ import { PhotoLightbox, type PhotoItem } from '@/components/react/PhotoLightbox'
 import ProseLayout from '@/components/astro/ProseLayout.astro';
 import { getPhotos } from '@/lib/content';
 import { m } from '@/lib/i18n';
-import { SOCIALS } from '@/lib/site';
 
+/** The owner's Instagram, the URL the owner supplied in the steer. No other URL is invented. */
+const INSTAGRAM = 'https://www.instagram.com/filmi.nambi';
+
+// The page shows the full non-draft set; the landing drawer shows the `teaser` selection only.
 const photos: PhotoItem[] = (await getPhotos()).map((p) => {
   const item: PhotoItem = {
     id: p.id,
@@ -27,16 +30,35 @@ const photos: PhotoItem[] = (await getPhotos()).map((p) => {
   route="photography"
 >
   <p data-i18n="photography_intro">{m.photography_intro()}</p>
-  <PhotoLightbox photos={photos} client:visible />
-  <p class="text-xs text-muted-foreground" data-i18n="photography_placeholder">
-    {m.photography_placeholder()}
-  </p>
-  <a
-    href={SOCIALS.portfolio}
-    rel="noopener"
-    class="inline-flex min-h-11 w-fit items-center gap-2 rounded-key bg-brand px-4 py-2 text-sm text-brand-fg transition-[background-color,transform] duration-300 ease-(--ease-spring) hover:bg-brand-hover active:scale-95 motion-reduce:transition-colors motion-reduce:active:scale-100"
-    data-i18n="photography_cta"
-  >
-    {m.photography_cta()}
-  </a>
+  <div class="not-prose flex flex-col gap-6" style="--i:2">
+    <PhotoLightbox photos={photos} instagram={INSTAGRAM} client:visible />
+    <p class="text-xs text-muted-foreground" data-i18n="photography_placeholder_note">
+      {m.photography_placeholder_note()}
+    </p>
+    <section class="flex flex-col gap-3" aria-labelledby="photography-elsewhere">
+      <h2 id="photography-elsewhere" class="font-display text-2xl">
+        {m.photography_elsewhere_heading()}
+      </h2>
+      <p class="text-sm text-muted-foreground">{m.photography_elsewhere_body()}</p>
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href={INSTAGRAM}
+          rel="noopener noreferrer"
+          target="_blank"
+          data-photo-instagram
+          class="inline-flex min-h-11 w-fit items-center gap-2 rounded-key bg-brand px-4 text-sm text-brand-fg transition-[background-color,transform] duration-300 ease-(--ease-spring) hover:bg-brand-hover active:scale-95 motion-reduce:transition-colors motion-reduce:active:scale-100"
+        >
+          {m.overlay_photography_instagram()}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href="https://nambiar4.myportfolio.com"
+          rel="noopener"
+          class="inline-flex min-h-11 w-fit items-center gap-2 rounded-key border border-border px-4 text-sm transition-[background-color,transform,border-color] duration-300 ease-(--ease-spring) hover:border-brand active:scale-95 motion-reduce:transition-colors motion-reduce:active:scale-100"
+        >
+          {m.photography_cta()}
+        </a>
+      </div>
+    </section>
+  </div>
 </ProseLayout>

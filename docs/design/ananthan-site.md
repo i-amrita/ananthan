@@ -21,7 +21,7 @@ SSG, static output to Cloudflare Pages, mobile-first.
   is months of work).
 - Photography: 3-5 of his own photos on-site with lightbox, prominent CTA to
   nambiar4.myportfolio.com (his copyright lives there).
-- i18n: same 5 locales as amrita (en/ms/hi/de/ml) via Paraglide + intl-ai.
+- i18n: same 5 locales as amrita (en/ms/hi/es/ml) via Paraglide + intl-ai.
 - Codebase: clone the amrita-site scaffold currently sitting in chetta-site,
   strip what he doesn't need.
 

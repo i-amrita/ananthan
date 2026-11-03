@@ -43,7 +43,10 @@ export async function getPhotos(): Promise<PhotoEntry[]> {
 
 /** Figures for one route (`home`, `research`, `life`, `photography`). */
 export async function getFigures(route: string): Promise<FigureEntry[]> {
-  const all = await getCollection('figures', (f) => !f.data.draft && f.data.route === route);
+  const all = await getCollection(
+    'figures',
+    (f) => !f.data.draft && (f.data.route === route || f.data.route === 'all'),
+  );
   return all.toSorted((a, b) => a.data.order - b.data.order);
 }
 
@@ -147,7 +150,7 @@ export async function photographyMarkdown(): Promise<string> {
   const photos = await getPhotos();
   return [
     '# Photography',
-    'A few frames from the camera. The full portfolio, and the copyright for every photo here, lives at https://nambiar4.myportfolio.com.',
+    'A few frames from the camera. The full portfolio, and the copyright for every photo here, lives at https://nambiar4.myportfolio.com. More frames on Instagram at https://www.instagram.com/filmi.nambi.',
     section(
       'Frames',
       photos.map((p) => photoMarkdown(p)),

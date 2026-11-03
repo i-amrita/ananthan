@@ -8,6 +8,28 @@ test('the grid renders every photo', async ({ page }) => {
   expect(await page.locator('[data-photo-thumb]').count()).toBeGreaterThan(0);
 });
 
+test('each card renders the viewfinder corner marks', async ({ page }) => {
+  await page.goto('/photography');
+  const thumbs = page.locator('[data-photo-thumb]');
+  const count = await thumbs.count();
+  for (let i = 0; i < count; i++) {
+    const frame = thumbs.nth(i).locator('.photo-frame');
+    await expect(frame).toBeVisible();
+    await expect(frame.locator('.pf-c')).toHaveCount(4);
+  }
+});
+
+test('hovering a card raises the corner marks opacity', async ({ page }) => {
+  await page.goto('/photography');
+  const thumb = page.locator('[data-photo-thumb]').first();
+  const mark = thumb.locator('.pf-c').first();
+  const before = await mark.evaluate((el) => getComputedStyle(el).opacity);
+  await thumb.hover();
+  await page.waitForTimeout(400);
+  const after = await mark.evaluate((el) => getComputedStyle(el).opacity);
+  expect(Number(after)).toBeGreaterThan(Number(before));
+});
+
 test('clicking a thumbnail opens the dialog with that photo', async ({ page }) => {
   await page.goto('/photography');
   await page.locator('[data-photo-thumb]').first().click();

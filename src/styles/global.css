@@ -115,66 +115,384 @@
   }
 }
 
-/* ---------- Page transitions: cross-document aperture iris (no router, no JS) ---------- */
-/* The new page is revealed through an 8-blade iris: a clip-path polygon that opens from a small
-   aperture to full frame. Reduced motion falls back to the plain crossfade. */
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
+/* ---------- Sound gate: the landing holds the slider and the shutter until the sprite is decoded ---------- */
+/* Keyed on <html> so the state is correct before hydration and never flashes. `data-sound-armed`
+   is set by the pre-paint inline script, so with no JavaScript nothing is held and the slider
+   stays a plain scroll container with real links. `data-sound-muted` releases the hold without
+   waiting for the sprite: the site must work silently, and muted users never see a skeleton.
+   `data-sound-ready="failed"` releases it too: a missing sprite must not break the site. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) {
+  /* Slider: the track is a scroll container without JS; with JS it is held. `inert` also blocks
+     focus, so the keyboard cannot land in a control that does not work yet. */
+  [data-focus-track],
+  [data-focus-ruler] {
+    pointer-events: none;
+    user-select: none;
   }
-  header:has(> nav) {
+  /* Shutter: the island is `client:idle`, so the attribute guard keeps it unreachable before and
+     after hydration. */
+  [data-shutter] {
+    pointer-events: none;
+  }
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] {
+  cursor: progress;
+}
+
+/* Skeleton, minimal and token-based. The ruler drops its minor ticks and its needle: the geometry
+   of the strip and the labels does not move, so nothing shifts when the gate opens. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .focus-ruler {
+  --ink: var(--c-muted-fg);
+  --ink-dim: var(--c-muted-fg);
+  opacity: 0.55;
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .ruler-strip {
+  background:
+    linear-gradient(90deg, var(--c-muted-fg) 0 1px, transparent 1px) calc(50cqw - 0.5px) 2.75rem /
+      var(--step) 0.9rem repeat-x,
+    linear-gradient(var(--c-muted-fg), var(--c-muted-fg)) 0 2.75rem / 100% 1px no-repeat;
+}
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) .ruler-needle {
+  opacity: 0;
+}
+/* The shutter cap becomes a plain muted disc: same 44px, no iris, no locale code. The barrel keeps
+   its shape. The label sits on the barrel via aria-label, so hiding the ring keeps the a11y name. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
+  [data-shutter]
+  [data-locale-ring] {
+  opacity: 0;
+}
+/* The iris blades go as well, so the cap reads as one plain disc instead of a half-open
+   aperture waiting for a locale that is not there yet. */
+html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])
+  [data-shutter]
+  [data-shutter-iris] {
+  opacity: 0;
+}
+/* A single slow breathe on the cap: at most one pulse per 1.4s, and static under reduced motion.
+   The cap keeps its size, so the breathe moves nothing. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] > span {
+    animation: shutter-skeleton 1400ms var(--ease-key) infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: the skeleton is static. No breathe, no shimmer, no transition. */
+  html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted]) [data-shutter] > span {
+    animation: none !important;
+  }
+}
+@keyframes shutter-skeleton {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* The gate releases with the same transition as the rest of the chrome. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-sound-armed] .focus-ruler {
+    transition: opacity 300ms var(--ease-spring);
+  }
+  html[data-sound-armed] [data-shutter] > span {
+    transition: opacity 300ms var(--ease-spring);
+  }
+}
+
+/* ---------- Page transitions: cross-document view transition (no router, no JS) ---------- */
+/* One minimal transition for every navigation: the old page fades out, the new page fades in and
+   the content settles upward. The move is carried by the `page-main` layer, so the swap reads as
+   content arriving rather than a full-screen wipe. The nav chip and the shutter keep their own
+   layers and do not fade, so they persist instead of flashing through the crossfade. */
+@media (prefers-reduced-motion: no-preference) {
+  /* The opt-in itself is inline in `Base.astro` head: the rule must be parsed by the time the
+     cross-document navigation commits, which an external stylesheet cannot guarantee. */
+  header[data-site-nav] {
     view-transition-name: site-nav;
   }
-  ::view-transition-group(root) {
-    animation-duration: 480ms;
-    animation-timing-function: var(--ease-spring);
+  main {
+    view-transition-name: page-main;
   }
-  ::view-transition-old(root) {
-    animation: iris-out 260ms var(--ease-spring) both;
+  [data-shutter] {
+    view-transition-name: shutter;
   }
-  ::view-transition-new(root) {
-    animation: iris-in 480ms var(--ease-spring) both;
-  }
-  ::view-transition-group(site-nav) {
+  /* No group motion: the layers do not move or resize, only fade and settle. */
+  ::view-transition-group(*) {
     animation-duration: 0s;
   }
-}
-/* 8-blade aperture. Each frame interpolates the polygon vertices between a small regular
-   octagon and the full frame, which reads as blades opening. */
-@keyframes iris-in {
-  from {
-    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
+  ::view-transition-old(root) {
+    animation: vt-out 200ms var(--ease-spring) both;
   }
-  40% {
-    clip-path: polygon(38% 12%, 88% 38%, 62% 88%, 12% 62%, 38% 12%, 88% 38%, 62% 88%, 12% 62%);
+  ::view-transition-new(root) {
+    animation: vt-in 260ms var(--ease-spring) both;
+  }
+  ::view-transition-old(page-main) {
+    animation: vt-out 200ms var(--ease-spring) both;
+  }
+  /* The settle: the new content arrives 8px low and rises into place. */
+  ::view-transition-new(page-main) {
+    animation: vt-in-main 280ms var(--ease-spring) both;
+  }
+  /* The nav chip and the shutter are identical on both pages: keep them out of the crossfade so
+     they never flash, and never show the outgoing snapshot. */
+  ::view-transition-old(site-nav),
+  ::view-transition-old(shutter) {
+    display: none;
+  }
+  ::view-transition-new(site-nav),
+  ::view-transition-new(shutter) {
+    animation: none;
+  }
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-in-main {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* ---------- Overlay drawer (ActionOverlay): sheet below 640px, docked panel from 640px ---------- */
+/* The dock is a plain Radix dialog, which has no animations of its own: without site CSS the panel
+   and its scrim pop in and out instantly. vaul injects its own 500ms slide for the sheet, but the
+   root sets an inline `transition: transform` that overrides keyframes on the transform property
+   while it animates opacity, and vaul only marks itself `data-vaul-animate` from the second open.
+   Site CSS takes over both variants: the shared spring (340ms), a slide on the panel, a fade on the
+   scrim. Radix Presence keeps a closing panel mounted until the `animationend` of the animation
+   named on the node, so the exit keyframes below must keep the `animation-name` short form.
+   Transform/opacity only, so no layout property is touched mid-animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .overlay-panel {
+    animation-duration: 340ms;
+    animation-timing-function: var(--ease-spring);
+    /* `both` keeps the exit keyframes' final state until Radix unmounts the panel, so the sheet
+       does not snap back into place for a frame before it disappears. */
+    animation-fill-mode: both;
+  }
+  .overlay-panel-dock {
+    animation-name: dock-in;
+  }
+  .overlay-panel-dock[data-state='closed'] {
+    animation-name: dock-out;
+  }
+  .overlay-panel-sheet {
+    animation-name: sheet-in !important;
+  }
+  .overlay-panel-sheet[data-state='closed'] {
+    animation-name: sheet-out !important;
+  }
+  .overlay-scrim {
+    animation: overlay-scrim-in 340ms var(--ease-spring) both;
+  }
+  .overlay-scrim[data-state='closed'] {
+    animation-name: overlay-scrim-out;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: opacity only, short. The panel must still fade out on close, or the
+     unmount would be an abrupt pop. */
+  .overlay-panel {
+    animation: overlay-fade 120ms linear both !important;
+  }
+  .overlay-panel[data-state='closed'] {
+    animation-name: overlay-fade-out !important;
+  }
+  .overlay-scrim {
+    animation-duration: 120ms !important;
+  }
+}
+@keyframes dock-in {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+@keyframes dock-out {
+  to {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
   }
   to {
-    clip-path: polygon(
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%,
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%
-    );
+    opacity: 1;
   }
 }
-@keyframes iris-out {
+@keyframes overlay-fade-out {
   from {
-    clip-path: polygon(
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%,
-      -20% -20%,
-      120% -20%,
-      120% 120%,
-      -20% 120%
-    );
+    opacity: 1;
   }
   to {
-    clip-path: polygon(50% 42%, 58% 50%, 50% 58%, 42% 50%, 50% 42%, 58% 50%, 50% 58%, 42% 50%);
+    opacity: 0;
+  }
+}
+@keyframes overlay-scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes overlay-scrim-out {
+  to {
+    opacity: 0;
+  }
+}
+.overlay-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(28 16 18 / 0.6);
+}
+
+/* Nav chip links: collapsed by default once JS is ready, shown statically without JS.
+   The group grows leftwards (max-width) rather than flying out; visibility keeps collapsed links out of the tab order. */
+[data-nav-links] {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  padding: 2px;
+  margin: -2px;
+  transition:
+    max-width 500ms var(--ease-spring),
+    opacity 300ms var(--ease-spring),
+    visibility 0s linear 500ms;
+}
+html[data-nav-open] [data-nav-links],
+html:not([data-nav-ready]) [data-nav-links] {
+  max-width: 32rem;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-links] {
+    transition: none;
+  }
+}
+
+/* Home slider: lift the shutter above the focus ruler so it never covers a stop. */
+html:has([data-focus-ruler]) [data-shutter] {
+  bottom: calc(9.25rem + env(safe-area-inset-bottom, 0px));
+}
+/* PhotoFrame: minimal viewfinder corner marks over a photo. Reusable by the /photography grid and
+   the landing Photography drawer. Wrap the img in .photo-frame and add the four .pf-c marks. */
+.photo-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  --pf-leg: 16px;
+  --pf-inset: 11px;
+  --pf-width: 1.5px;
+}
+.photo-frame .pf-c {
+  position: absolute;
+  z-index: 1;
+  width: var(--pf-leg);
+  height: var(--pf-leg);
+  border: var(--pf-width) solid var(--c-ink);
+  opacity: 0.7;
+  transition:
+    opacity 300ms var(--ease-spring),
+    translate 300ms var(--ease-spring);
+  pointer-events: none;
+}
+.photo-frame .pf-tl {
+  top: var(--pf-inset);
+  left: var(--pf-inset);
+  border-right: 0;
+  border-bottom: 0;
+}
+.photo-frame .pf-tr {
+  top: var(--pf-inset);
+  right: var(--pf-inset);
+  border-left: 0;
+  border-bottom: 0;
+}
+.photo-frame .pf-bl {
+  bottom: var(--pf-inset);
+  left: var(--pf-inset);
+  border-right: 0;
+  border-top: 0;
+}
+.photo-frame .pf-br {
+  bottom: var(--pf-inset);
+  right: var(--pf-inset);
+  border-left: 0;
+  border-top: 0;
+}
+/* Content islands (the photo grid, search results) inside a prose wrapper must not inherit the
+   prose list markers. Unlayered, so it beats the utilities-layer descendant selectors. */
+.not-prose,
+.not-prose ul,
+.not-prose ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Placeholder cards are dark in both themes; dark ink marks vanish on them, so they take the
+   same bone tone as the placeholder art itself. Real photographs keep the ink marks. */
+.photo-frame:has(img[src^='/photos/frame-']) .pf-c {
+  border-color: #b0a89c;
+  opacity: 0.9;
+}
+:root[data-theme='dark'] .photo-frame .pf-c {
+  opacity: 0.9;
+}
+@media (hover: hover) {
+  .group:hover .photo-frame .pf-c,
+  button:focus-visible .photo-frame .pf-c,
+  a:focus-visible .photo-frame .pf-c {
+    opacity: 1;
+  }
+  .group:hover .photo-frame .pf-tl,
+  button:focus-visible .photo-frame .pf-tl {
+    translate: 2px 2px;
+  }
+  .group:hover .photo-frame .pf-tr,
+  button:focus-visible .photo-frame .pf-tr {
+    translate: -2px 2px;
+  }
+  .group:hover .photo-frame .pf-bl,
+  button:focus-visible .photo-frame .pf-bl {
+    translate: 2px -2px;
+  }
+  .group:hover .photo-frame .pf-br,
+  button:focus-visible .photo-frame .pf-br {
+    translate: -2px -2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-frame .pf-c,
+  .group:hover .photo-frame .pf-c,
+  button:focus-visible .photo-frame .pf-c,
+  a:focus-visible .photo-frame .pf-c {
+    transition: opacity 300ms var(--ease-spring);
+    translate: none;
   }
 }

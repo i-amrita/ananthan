@@ -19,7 +19,7 @@ paint: `?theme=` goes on `<html data-theme>`, and a saved `?locale=` is restored
 | `nav` | `parseAsStringLiteral(['open'])` | `open` | push | The 3-icon nav chip (P4). | Only value is `open`. Back collapses it. |
 | `panel` | `parseAsInteger` | integer 0..3 | replace | The focus slider inline script only. | The overlay island never writes it, so the slider position survives opening and closing a panel. Absent means the first panel. Out-of-range values clamp at the ends. |
 | `theme` | `parseAsStringLiteral(THEMES)` | `light`, `dark` | replace | The theme toggle. | Applied before paint by the inline script in `Base.astro`, which sets `<html data-theme>`. Absent means OS preference. |
-| `locale` | `parseAsStringLiteral(LOCALES)` | `en`, `ms`, `hi`, `de`, `ml` | replace | The locale switcher. | The choice is also saved to `localStorage.locale`. On a visit without `?locale=`, the head script in `Base.astro` restores it with `history.replaceState` before hydration; an explicit `?locale=` always wins. `en` clears the param. |
+| `locale` | `parseAsStringLiteral(LOCALES)` | `en`, `ms`, `hi`, `es`, `ml` | replace | The locale switcher. | The choice is also saved to `localStorage.locale`. On a visit without `?locale=`, the head script in `Base.astro` restores it with `history.replaceState` before hydration; an explicit `?locale=` always wins. `en` clears the param. |
 | `q` | `parseAsString` | any string | replace | The search input. | Search query. |
 | `mode` | `parseAsStringLiteral(['ai', 'keyword'])` | `ai`, `keyword` | replace | The AI / Keyword toggle on the search panel. | Absent means AI (hybrid when the model is warm). `keyword` never loads the model. |
 

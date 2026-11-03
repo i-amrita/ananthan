@@ -6,15 +6,15 @@ test('invalid locale falls back to english', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
 });
 
-test('/?locale=de sets html lang and translates the nav', async ({ page }) => {
-  await page.goto('/?locale=de');
-  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+test('/?locale=es sets html lang and translates the nav', async ({ page }) => {
+  await page.goto('/?locale=es&nav=open');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.locator('html')).toHaveAttribute('dir', 'ltr');
-  await expect(page.getByRole('link', { name: 'Forschung' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Investigación' })).toBeVisible();
 });
 
 test('/?locale=ml translates the nav and sets lang', async ({ page }) => {
-  await page.goto('/?locale=ml');
+  await page.goto('/?locale=ml&nav=open');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ml');
   await expect(page.getByRole('link', { name: 'ജീവിതം' })).toBeVisible();
 });
@@ -22,25 +22,47 @@ test('/?locale=ml translates the nav and sets lang', async ({ page }) => {
 test('/?locale=hi translates the research route headings', async ({ page }) => {
   await page.goto('/research?locale=hi');
   await expect(page.locator('html')).toHaveAttribute('lang', 'hi');
-  await expect(page.getByRole('heading', { name: 'प्रकाशन' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'प्रकाशनें' })).toBeVisible();
 });
 
 test('the locale switch keeps the other URL params', async ({ page }) => {
   await page.goto('/?theme=dark');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  await page.getByRole('button', { name: 'Choose language' }).click();
-  await page.getByRole('option', { name: 'Deutsch' }).click();
-  await expect(page).toHaveURL(/locale=de/);
+  await page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }).click();
+  await page.getByRole('option', { name: 'Español' }).click();
+  await expect(page).toHaveURL(/locale=es/);
   await expect(page).toHaveURL(/theme=dark/);
 });
 
-test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
-  await page.goto('/?locale=de');
+test('the nav chip shows the current code and opens the picker', async ({ page }) => {
+  await page.goto('/?locale=es');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
-  await expect.poll(() => page.evaluate(() => localStorage.getItem('locale'))).toBe('de');
+  const chip = page
+    .getByRole('navigation')
+    .getByRole('button', { name: /Elegir idioma|Choose language/ });
+  await expect(chip).toHaveAttribute('aria-label', 'ES Elegir idioma');
+  await expect(chip).toContainText('es');
+  await chip.click();
+  await expect(page.getByRole('listbox')).toBeVisible();
+  await expect(page.getByRole('option', { name: 'Español' })).toBeVisible();
+});
+
+test('the chip shows the code in the expanded nav too', async ({ page }) => {
+  await page.goto('/?locale=ms&nav=open');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  // The label carries the code prefix, so match on the structural hook rather than locale text.
+  const chip = page.getByRole('navigation').locator('[data-locale-chip]');
+  await expect(chip).toBeVisible(); // ms renders 'Pilih bahasa'
+  await expect(chip).toContainText('ms');
+});
+
+test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
+  await page.goto('/?locale=es&nav=open');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  await expect.poll(() => page.evaluate(() => localStorage.getItem('locale'))).toBe('es');
   await page.goto('/');
-  await expect(page).toHaveURL(/locale=de/);
-  await expect(page.locator('html')).toHaveAttribute('lang', 'de');
+  await expect(page).toHaveURL(/locale=es/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   // An explicit param wins over the stored choice.
   await page.goto('/?locale=ms');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ms');

@@ -4,8 +4,11 @@ import frauncesItalicUrl from '@fontsource/fraunces/files/fraunces-latin-400-ita
 import '@/styles/global.css';
 import Footer from '@/components/astro/Footer.astro';
 import Navbar from '@/components/astro/Navbar.astro';
-import { FocusOverlaysIsland } from '@/components/react/FocusOverlays';
+import SoundGate from '@/components/astro/SoundGate.astro';
+import { FocusOverlaysIsland, type OverlayData } from '@/components/react/FocusOverlays';
+import { ShutterButtonIsland } from '@/components/react/ShutterButton';
 import { StaticCopyIsland } from '@/components/react/StaticCopy';
+import { getOverlayData } from '@/lib/overlay-data';
 
 interface Props {
   title: string;
@@ -22,6 +25,8 @@ interface Props {
   canonical?: boolean;
   /** Route key, used to pick the per-route accent colour. */
   route?: 'home' | 'research' | 'life' | 'photography' | 'other';
+  /** Drawer content for the hero overlays. Defaults to the build-time projection. */
+  overlayData?: OverlayData;
 }
 const {
   title,
@@ -32,7 +37,10 @@ const {
   ogType = 'website',
   canonical: withCanonical = true,
   route = 'home',
+  overlayData,
 } = Astro.props;
+// The drawers project the same collections the pages use, so teaser and page cannot drift.
+const overlays = overlayData ?? (await getOverlayData());
 // Search engines cut descriptions near 160 chars; trim at a word boundary.
 const description =
   rawDescription.length <= 160 ? rawDescription : `${rawDescription.slice(0, 159).replace(/\s+\S*$/, '')}…`;
@@ -50,6 +58,27 @@ const ogUrl = new URL(ogImage, Astro.site);
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#f7f3ed" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1d1a1b" media="(prefers-color-scheme: dark)" />
+    {
+      // The cross-document view transition must be opted into from the document's own inline style.
+      // With the rule only in the external stylesheet, the new document has not parsed it yet when
+      // the navigation commits, and Chromium aborts the transition ("opt-in disabled").
+      // The animations themselves live in global.css; this block only declares the navigation.
+    }
+    <style is:inline>
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+      }
+    </style>
+    {
+      // Cross-document view transitions snapshot the new document at its first render. A streamed
+      // or slow parse can hit that first render mid-body, before <main> and the shutter exist, so
+      // their snapshots are never created and the per-layer animations silently do not run. The
+      // `blocking=render` link pins the first render to a marker at the very end of <body>, so the
+      // snapshot always carries every named layer. Without VT support this is inert.
+    }
+    <link rel="expect" href="#page-ready" blocking="render" />
     <slot name="head" />
     {
       // Hero name (Fraunces italic) and body (Jakarta) are first-paint text; preload to avoid late discovery.
@@ -80,21 +109,41 @@ const ogUrl = new URL(ogImage, Astro.site);
       // URL state first: ?theme=dark|light is applied before paint, no FOUC.
       const t = new URLSearchParams(location.search).get('theme');
       if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      // Nav chip before paint: `data-nav-ready` hides the no-JS static links, `?nav=open` seeds the expanded state.
+      document.documentElement.dataset.navReady = '';
+      if (new URLSearchParams(location.search).get('nav') === 'open') document.documentElement.dataset.navOpen = '';
       // i18n:start (locale before paint: html lang from ?locale=; all locales are LTR)
       const q = new URLSearchParams(location.search);
       // A locale chosen earlier is restored (replaceState, before islands hydrate) unless the URL already carries one.
       try {
         const saved = localStorage.getItem('locale');
-        if (!q.has('locale') && saved && ['ms', 'hi', 'de', 'ml'].includes(saved)) {
+        if (!q.has('locale') && saved && ['ms', 'hi', 'es', 'ml'].includes(saved)) {
           q.set('locale', saved);
           history.replaceState(history.state, '', location.pathname + '?' + q + location.hash);
         }
       } catch {}
       const l = q.get('locale');
-      if (l && ['ms', 'hi', 'de', 'ml'].includes(l)) document.documentElement.lang = l;
+      if (l && ['ms', 'hi', 'es', 'ml'].includes(l)) document.documentElement.lang = l;
       document.documentElement.dir = 'ltr';
       // i18n:end
+      // Sound gate: the document is "armed" as soon as JavaScript runs, so the CSS can hold the
+      // shutter and the focus slider until the sprite is decoded. The mute state is resolved
+      // here as well: `?mute=1` and the stored preference never wait for the sprite.
+      document.documentElement.dataset.soundArmed = '';
+      try {
+        if (q.get('mute') === '1' || localStorage.getItem('sound-muted') === '1') {
+          document.documentElement.dataset.soundMuted = '';
+        }
+      } catch {}
+      // Safety net: if the sound bundle never loads, the gate must still settle, otherwise the
+      // held controls would stay dead for the life of the page. The attribute is the gate's one
+      // source of truth, and the DOM gate watches it, so this releases the controls too.
+      setTimeout(() => {
+        const root = document.documentElement;
+        if (!root.hasAttribute('data-sound-ready')) root.dataset.soundReady = 'failed';
+      }, 7000);
     </script>
+    <SoundGate />
   </head>
   <body>
     <a
@@ -108,6 +157,9 @@ const ogUrl = new URL(ogImage, Astro.site);
     <slot name="footer"><Footer /></slot>
     <StaticCopyIsland client:idle />
     <!-- client:load, not client:idle: `?overlay=` is a deep link, so the panel must be open on the first paint after load, and the island reads the URL state. -->
-    <FocusOverlaysIsland client:load />
+    <FocusOverlaysIsland data={overlays} client:load />
+    <ShutterButtonIsland client:idle />
+    <!-- End-of-body render marker for the `rel=expect` link above. -->
+    <span id="page-ready" aria-hidden="true"></span>
   </body>
 </html>

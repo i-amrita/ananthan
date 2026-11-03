@@ -11,6 +11,9 @@
 
   --color-ink: var(--c-ink);
   --color-ink-soft: var(--c-ink-soft);
+  --color-pop-coral: var(--c-pop-coral);
+  --color-pop-teal: var(--c-pop-teal);
+  --color-pop-mustard: var(--c-pop-mustard);
 
   /* Per-route accents: research indigo, life terracotta, photography sepia. Home uses ink. */
   --color-accent-research: var(--c-accent-research);
@@ -46,6 +49,13 @@
   --color-brand-soft: var(--c-brand-soft);
   --color-brand-strong: var(--c-brand-strong);
   --color-brand-hover: var(--c-brand-strong);
+
+  /* Camera chassis: device colours, the same in light and dark. */
+  --color-chassis: #66625d;
+  --color-chassis-lo: #1f1d1b;
+  --shadow-key: 0 6px 14px -4px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.12) inset;
+  --shadow-key-down: 0 1px 2px rgb(0 0 0 / 0.5), 0 1px 0 rgb(255 255 255 / 0.08) inset;
+  --ease-key: cubic-bezier(0.4, 0, 0.2, 1);
 
   --radius-key: 6px;
   --radius-card: 14px;
@@ -91,6 +101,11 @@
   --c-accent-photography-soft: #eee3cf;
 
   --c-dot-grid: rgb(0 0 0 / 0.05);
+
+  /* Memphis pops for the background figure field only, never text or UI. */
+  --c-pop-coral: #d9694c;
+  --c-pop-teal: #2f8f8a;
+  --c-pop-mustard: #c9962b;
 
   /* Route accent, resolved by `data-route` on <html>. Defaults to ink. */
   --c-brand: var(--c-ink);
@@ -143,6 +158,11 @@
 
     --c-dot-grid: rgb(255 255 255 / 0.05);
 
+    /* Memphis pops for the background figure field only, never text or UI. */
+    --c-pop-coral: #e38468;
+    --c-pop-teal: #5bb5ae;
+    --c-pop-mustard: #dbb04e;
+
     --c-brand-soft: #34302a;
     --c-brand-strong: #ffffff;
   }
@@ -188,6 +208,11 @@
   --c-accent-photography-soft: #423523;
 
   --c-dot-grid: rgb(255 255 255 / 0.05);
+
+  /* Memphis pops for the background figure field only, never text or UI. */
+  --c-pop-coral: #e38468;
+  --c-pop-teal: #5bb5ae;
+  --c-pop-mustard: #dbb04e;
 
   --c-brand-soft: #34302a;
   --c-brand-strong: #ffffff;

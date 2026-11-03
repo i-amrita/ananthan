@@ -1,0 +1,10 @@
+motif: zigzag
+label: 'Zigzag'
+route: all
+weight: 0.8
+paths:
+  - 'M6,40 L22,10 L38,40 L54,10 L70,40 L86,10 L102,40'
+size: [110, 50]
+motion: drift
+tone: ink
+order: 11

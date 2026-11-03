@@ -58,4 +58,4 @@ These live in `nuqs` with `parseAsString`, `parseAsInteger`, `parseAsString.with
 
 ## i18n
 
-When Paraglide is wired, card title + description + tags are all message keys. Default `en.json` ships full content; `ms.json`/`hi.json`/`de.json`/`ml.json` are stubs that `intl-ai fill` populates later.
+When Paraglide is wired, card title + description + tags are all message keys. Default `en.json` ships full content; `ms.json`/`hi.json`/`es.json`/`ml.json` are stubs that `intl-ai fill` populates later.

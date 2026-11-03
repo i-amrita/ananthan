@@ -5,7 +5,7 @@ Conference-table page: scan to open the home page. Static, build-time SVG (uqr, 
 ```
         ( navbar pill )
 
-        Amrita Nambiar          <- Fraunces display h1
+        Ananthan Nambiar        <- Fraunces display h1
 
       +----------------+
       | ############## |        <- white card, always dark-on-white

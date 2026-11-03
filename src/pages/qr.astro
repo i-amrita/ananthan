@@ -1,0 +1,31 @@
+---
+import { renderSVG } from 'uqr';
+
+import Base from '@/layouts/Base.astro';
+import { m } from '@/lib/i18n';
+import { SITE_NAME, abs } from '@/lib/content';
+
+// Always the absolute home URL so the code works when scanned off-site.
+const target = abs('/');
+const svg = renderSVG(target, { ecc: 'H', border: 2, whiteColor: '#ffffff', blackColor: '#1c1012' })
+  .replace(/ width="[^"]*"| height="[^"]*"/g, '')
+  .replace('<svg ', '<svg class="block h-full w-full" shape-rendering="crispEdges" aria-hidden="true" focusable="false" ');
+---
+
+<Base title={`QR | ${SITE_NAME}`} description={m.qr_hint()} mdHref="/qr.md">
+  <main id="main" class="mx-auto flex max-w-2xl flex-col items-center gap-6 px-6 pt-24 pb-10 text-center sm:gap-10 sm:py-24">
+    <h1 class="rise font-display text-5xl sm:text-6xl" style="--i:0">{SITE_NAME}</h1>
+    <div
+      class="rise aspect-square w-[min(70vw,300px)] rounded-[28px] bg-white p-4 shadow-[0_24px_60px_-24px_rgb(28_16_18/0.35)] ring-1 ring-brand/20 sm:w-[360px] sm:p-5"
+      style="--i:1"
+      role="img"
+      aria-label={m.qr_aria()}
+      data-i18n-aria="qr_aria"
+      data-qr
+      data-qr-target={target}
+    >
+      <Fragment set:html={svg} />
+    </div>
+    <p class="rise text-sm text-muted-foreground" style="--i:2" data-i18n="qr_hint">{m.qr_hint()}</p>
+  </main>
+</Base>

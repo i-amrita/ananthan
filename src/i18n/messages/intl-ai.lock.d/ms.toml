@@ -1,15 +1,267 @@
 version = 1
 
-[entries.nav_home]
-value = "Laman utama"
-source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
+[entries.action_close]
+value = "Tutup"
+source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.nav_research]
+[entries.action_theme]
+value = "Tukar tema"
+source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.error_back_home]
+value = "Kembali ke laman utama"
+source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.error_not_found]
+value = "Halaman tidak dijumpai"
+source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.footer_license]
+value = "Sumber tersedia di bawah PolyForm Noncommercial 1.0.0"
+source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_enter]
+value = "Masuk"
+source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_hint]
+value = "Tatal, seret, atau gunakan kekunci anak panah untuk menukar fokus."
+source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_intro_body]
+value = "Saya membina model pembelajaran mesin yang boleh ditafsir untuk sistem biologi, dan saya sentiasa membawa kamera dalam beg saya."
+source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_intro_label]
+value = "Pengenalan"
+source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_life_body]
+value = "Apa yang saya buat ketika tidak di makmal: fotografi, tarian, mendayung, memasak dan aktivisme alam sekitar."
+source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_life_label]
+value = "Kehidupan"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_name]
+value = "Ananthan Nambiar"
+source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_next]
+value = "Panel seterusnya"
+source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_panels]
+value = "Panel fokus"
+source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_photography_body]
+value = "Beberapa bingkai daripada kamera. Portfolio penuh, dan hak cipta setiap foto, berada di tapak portfolio saya."
+source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_photography_label]
+value = "Fotografi"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_previous]
+value = "Panel sebelumnya"
+source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_research_body]
+value = "Penerbitan, syarahan dan kursus. Model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik."
+source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_research_label]
 value = "Penyelidikan"
 source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.hero_subtitle]
+value = "Pembelajaran mesin untuk biologi komputasi. Di luar makmal: fotografi filem, tarian, mendayung, memasak dan aktivisme alam sekitar."
+source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_bio]
+value = "Saya seorang ahli biologi komputasi di University of Washington, bekerja pada pembelajaran mesin untuk biologi komputasi. Kerja saya dibina di sekitar satu idea yang sentiasa muncul dalam kertas kerja, syarahan dan tesis saya: bahasa kehidupan."
+source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_bio_heading]
+value = "Biografi"
+source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_career]
+value = "Malaysia, kemudian Reed College, kemudian University of Illinois Urbana-Champaign, kemudian Mayo Clinic, kemudian University of Washington."
+source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_career_heading]
+value = "Kerjaya"
+source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_cooking]
+value = "Memasak"
+source_hash = "adc0752adbfda6b3ef82749db7442cd223b6747a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_cooking_body]
+value = "TODO(pemilik): satu baris tentang memasak: apa yang dimasak, dan untuk siapa."
+source_hash = "e6b4d8c487bbe0a535a1de24054603a45138fcb7"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_dance]
+value = "Tarian"
+source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_dance_body]
+value = "TODO(pemilik): satu baris tentang jenis tarian dan kekerapannya."
+source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_environment]
+value = "Aktivisme alam sekitar"
+source_hash = "e7e68b8a22930883f6263b11d6e6f8d1007e0e7f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_environment_body]
+value = "TODO(pemilik): satu baris tentang aktivisme alam sekitar: apa yang disumbangkan, dan di mana."
+source_hash = "031c51257414a9f6e08d6b9c3e6f0856e8f38a18"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_hobbies_heading]
+value = "Hobi"
+source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_intro]
+value = "Kehidupan di luar makmal."
+source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_photography]
+value = "Fotografi"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_photography_body]
+value = "Filem. Portfolio berada di nambiar4.myportfolio.com."
+source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_rowing]
+value = "Mendayung"
+source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.life_rowing_body]
+value = "TODO(pemilik): satu baris tentang mendayung: sculling atau sweep, di mana, dan berapa lama."
+source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.locale_switch_label]
+value = "Pilih bahasa"
+source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.nav_home]
+value = "Laman utama"
+source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -35,6 +287,13 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
+[entries.nav_research]
+value = "Penyelidikan"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
 [entries.nav_search]
 value = "Carian"
 source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
@@ -42,219 +301,100 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_name]
-value = "Ananthan Nambiar"
-source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
+[entries.photography_counter]
+value = "{index} daripada {total}"
+source_hash = "ef7e316e05fa6cd771be6c5b773559b84ae0b2f1"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_subtitle]
-value = "Pembelajaran mesin untuk biologi komputasi. Di luar makmal: fotografi filem, tarian, mendayung, memasak dan aktivisme alam sekitar."
-source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
+[entries.photography_cta]
+value = "Lihat portfolio penuh"
+source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_intro_label]
-value = "Pengenalan"
-source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
+[entries.photography_elsewhere_body]
+value = "Lebih banyak bingkai, kerja dalam pembikinan dan kenalan berada di Instagram."
+source_hash = "143b9ae168f1c9e5fff732152a9e18a672f59cdb"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:45:55Z"
+
+[entries.photography_elsewhere_heading]
+value = "Di tempat lain"
+source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:42:46Z"
+
+[entries.photography_intro]
+value = "Beberapa bingkai daripada kamera. Portfolio penuh, dan hak cipta setiap foto di halaman ini, berada di nambiar4.myportfolio.com."
+source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_research_label]
-value = "Penyelidikan"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+[entries.photography_lightbox_label]
+value = "Pemapar foto"
+source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_life_label]
-value = "Kehidupan"
-source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+[entries.photography_next]
+value = "Foto seterusnya"
+source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_photography_label]
-value = "Fotografi"
-source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+[entries.photography_open]
+value = "Buka"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_intro_body]
-value = "Saya membina model pembelajaran mesin yang boleh ditafsir untuk sistem biologi, dan saya sentiasa membawa kamera dalam beg saya."
-source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
+[entries.photography_placeholder]
+value = "Bingkai tempat. Foto peribadi menggantikannya."
+source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_research_body]
-value = "Penerbitan, syarahan dan kursus. Model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik."
-source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
+[entries.photography_placeholder_note]
+value = "Rangka yang ditandakan PLACEHOLDER sedang menunggu fail milik jurugambar sendiri; setiap bingkai lain di atas adalah miliknya."
+source_hash = "06104a7634327dc1e7b87985715fc9dfaf9ac471"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:43:48Z"
+
+[entries.photography_prev]
+value = "Foto sebelumnya"
+source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_life_body]
-value = "Apa yang saya buat ketika tidak di makmal: fotografi, tarian, mendayung, memasak dan aktivisme alam sekitar."
-source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
+[entries.research_course_kind_course]
+value = "Kursus"
+source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_photography_body]
-value = "Beberapa bingkai daripada kamera. Portfolio penuh, dan hak cipta setiap foto, berada di tapak portfolio saya."
-source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
+[entries.research_course_kind_tutorial]
+value = "Tutorial"
+source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.hero_hint]
-value = "Tatal, seret, atau gunakan kekunci anak panah untuk menukar fokus."
-source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.hero_next]
-value = "Panel seterusnya"
-source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.hero_previous]
-value = "Panel sebelumnya"
-source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.hero_panels]
-value = "Panel fokus"
-source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.hero_enter]
-value = "Masuk"
-source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_email]
-value = "Emel"
-source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_scholar]
-value = "Google Scholar"
-source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_orcid]
-value = "ORCID"
-source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_github]
-value = "GitHub"
-source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_instagram]
-value = "Instagram"
-source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_portfolio]
-value = "Portfolio fotografi"
-source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.socials_aria]
-value = "Pautan sosial"
-source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.action_theme]
-value = "Tukar tema"
-source_hash = "9b0eaf14d3bb4c83203cf1e1cfe0c6cd124e1c5f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.action_close]
-value = "Tutup"
-source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.locale_switch_label]
-value = "Pilih bahasa"
-source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.footer_license]
-value = "Sumber tersedia di bawah PolyForm Noncommercial 1.0.0"
-source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.error_not_found]
-value = "Halaman tidak dijumpai"
-source_hash = "bc3023b36063a7681db24681472b54fa11f0d4ec"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.error_back_home]
-value = "Kembali ke laman utama"
-source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.research_intro]
-value = "Penerbitan, syarahan dan kursus. Kerja ini tertumpu pada model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik."
-source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.research_publications]
-value = "Penerbitan"
-source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.research_talks]
-value = "Syarahan"
-source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
+[entries.research_course_kind_workshop]
+value = "Bengkel"
+source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -273,23 +413,9 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_read]
-value = "Buka"
-source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.research_kind_paper]
-value = "Kertas kerja"
-source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.research_kind_preprint]
-value = "Pracetak"
-source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
+[entries.research_intro]
+value = "Penerbitan, syarahan dan kursus. Kerja ini tertumpu pada model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik."
+source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -308,16 +434,30 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_talk_kind_talk]
-value = "Syarahan"
-source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+[entries.research_kind_paper]
+value = "Kertas kerja"
+source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_talk_kind_poster]
-value = "Poster"
-source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
+[entries.research_kind_preprint]
+value = "Pracetak"
+source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_publications]
+value = "Penerbitan"
+source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.research_read]
+value = "Buka"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -329,191 +469,23 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_course_kind_course]
-value = "Kursus"
-source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
+[entries.research_talk_kind_poster]
+value = "Poster"
+source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_course_kind_workshop]
-value = "Bengkel"
-source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
+[entries.research_talk_kind_talk]
+value = "Syarahan"
+source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.research_course_kind_tutorial]
-value = "Tutorial"
-source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_intro]
-value = "Kehidupan di luar makmal."
-source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_hobbies_heading]
-value = "Hobi"
-source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_photography]
-value = "Fotografi"
-source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_photography_body]
-value = "Filem. Portfolio berada di nambiar4.myportfolio.com."
-source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_dance]
-value = "Tarian"
-source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_dance_body]
-value = "TODO(pemilik): satu baris tentang jenis tarian dan kekerapannya."
-source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_rowing]
-value = "Mendayung"
-source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_rowing_body]
-value = "TODO(pemilik): satu baris tentang mendayung: sculling atau sweep, di mana, dan berapa lama."
-source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_cooking]
-value = "Memasak"
-source_hash = "adc0752adbfda6b3ef82749db7442cd223b6747a"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_cooking_body]
-value = "TODO(pemilik): satu baris tentang memasak: apa yang dimasak, dan untuk siapa."
-source_hash = "e6b4d8c487bbe0a535a1de24054603a45138fcb7"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_environment]
-value = "Aktivisme alam sekitar"
-source_hash = "e7e68b8a22930883f6263b11d6e6f8d1007e0e7f"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_environment_body]
-value = "TODO(pemilik): satu baris tentang aktivisme alam sekitar: apa yang disumbangkan, dan di mana."
-source_hash = "031c51257414a9f6e08d6b9c3e6f0856e8f38a18"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_bio_heading]
-value = "Biografi"
-source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_bio]
-value = "Saya seorang ahli biologi komputasi di University of Washington, bekerja pada pembelajaran mesin untuk biologi komputasi. Kerja saya dibina di sekitar satu idea yang sentiasa muncul dalam kertas kerja, syarahan dan tesis saya: bahasa kehidupan."
-source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_career_heading]
-value = "Kerjaya"
-source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.life_career]
-value = "Malaysia, kemudian Reed College, kemudian University of Illinois Urbana-Champaign, kemudian Mayo Clinic, kemudian University of Washington."
-source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_intro]
-value = "Beberapa bingkai daripada kamera. Portfolio penuh, dan hak cipta setiap foto di halaman ini, berada di nambiar4.myportfolio.com."
-source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_cta]
-value = "Lihat portfolio penuh"
-source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_placeholder]
-value = "Bingkai tempat. Foto peribadi menggantikannya."
-source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_open]
-value = "Buka"
-source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_lightbox_label]
-value = "Pemapar foto"
-source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_prev]
-value = "Foto sebelumnya"
-source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_next]
-value = "Foto seterusnya"
-source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.photography_counter]
-value = "{index} daripada {total}"
-source_hash = "ef7e316e05fa6cd771be6c5b773559b84ae0b2f1"
+[entries.research_talks]
+value = "Syarahan"
+source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -525,30 +497,30 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_placeholder]
-value = "Cari penerbitan, syarahan, halaman"
-source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
+[entries.search_empty]
+value = 'Tiada yang sepadan dengan "{query}". Cuba perkataan yang lebih sedikit atau berbeza.'
+source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_pill_ai]
-value = "Carian AI"
-source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
+[entries.search_found]
+value = "Ini yang saya jumpai"
+source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_pill_warming]
-value = "Carian AI (memuatkan model...)"
-source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+[entries.search_hint]
+value = "Taip sekurang-kurangnya 2 aksara untuk mencari."
+source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_pill_keyword]
-value = "Carian kata kunci"
-source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+[entries.search_loading]
+value = "Memuatkan model carian..."
+source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -567,27 +539,6 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_found]
-value = "Ini yang saya jumpai"
-source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.search_results]
-value = "{count} keputusan untuk {query}"
-source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
-[entries.search_empty]
-value = "Tiada yang sepadan dengan \"{query}\". Cuba perkataan yang lebih sedikit atau berbeza."
-source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
-origin = "human"
-reviewed = true
-updated_at = "2026-10-30T03:18:25Z"
-
 [entries.search_no_index]
 value = "Indeks carian dibina oleh pnpm build. Jalankannya, kemudian mulakan semula pnpm dev atau guna pnpm preview."
 source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
@@ -595,16 +546,37 @@ origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_hint]
-value = "Taip sekurang-kurangnya 2 aksara untuk mencari."
-source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
+[entries.search_pill_ai]
+value = "Carian AI"
+source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
 
-[entries.search_loading]
-value = "Memuatkan model carian..."
-source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
+[entries.search_pill_keyword]
+value = "Carian kata kunci"
+source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_pill_warming]
+value = "Carian AI (memuatkan model...)"
+source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_placeholder]
+value = "Cari penerbitan, syarahan, halaman"
+source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.search_results]
+value = "{count} keputusan untuk {query}"
+source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"
@@ -626,6 +598,55 @@ updated_at = "2026-10-30T03:18:25Z"
 [entries.search_type_talk]
 value = "Syarahan"
 source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_aria]
+value = "Pautan sosial"
+source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_email]
+value = "Emel"
+source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_github]
+value = "GitHub"
+source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_instagram]
+value = "Instagram"
+source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_orcid]
+value = "ORCID"
+source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_portfolio]
+value = "Portfolio fotografi"
+source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
+origin = "human"
+reviewed = true
+updated_at = "2026-10-30T03:18:25Z"
+
+[entries.socials_scholar]
+value = "Google Scholar"
+source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
 origin = "human"
 reviewed = true
 updated_at = "2026-10-30T03:18:25Z"

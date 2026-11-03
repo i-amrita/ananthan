@@ -16,7 +16,7 @@
 - `pnpm format:check` — `oxfmt --check .`
 - `pnpm test:e2e` — Playwright via `tests/playwright.config.ts`
 - `pnpm deploy` — `wrangler deploy` (after `pnpm build`)
-- `pnpm intl-ai:fill` — translate missing keys in `ms.json` / `hi.json` / `de.json` / `ml.json`
+- `pnpm intl-ai:fill` — translate missing keys in `ms.json` / `hi.json` / `es.json` / `ml.json`
 - `pnpm intl-ai:check` — CI gate for missing/stale translations
 
 ## Hard rules
@@ -65,6 +65,7 @@ docs/            # public, generic docs (mirrors .agents/docs/architecture.md, n
 - changing search → `.agents/docs/search.md`
 - touching agent-facing URLs → `.agents/docs/llms.md`
 - touching URL state binding → `.agents/docs/url-state.md`
+- touching sound → `.agents/docs/sound.md`
 - changing architecture → `.agents/docs/architecture.md` (and `docs/architecture.md`)
 - adding a figure → `src/content/figures/` (one YAML file, see the spec under `docs/design/`)
 - planning a non-trivial change → `.agents/plans/YYYY-MM-DD-<slug>.md`

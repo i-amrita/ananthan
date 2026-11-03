@@ -14,6 +14,6 @@ paths:
   - 'M52,100 L88,100'
   - 'M52,164 L88,164'
 size: [140, 260]
-position: { x: 10, y: 18 }
-delay: 0
+motion: drift
+tone: soft
 order: 0

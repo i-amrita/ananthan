@@ -2,8 +2,10 @@
 import FigureField from '@/components/astro/FigureField.astro';
 import FocusSlider from '@/components/astro/FocusSlider.astro';
 import Navbar from '@/components/astro/Navbar.astro';
+import { getResearchCounts } from '@/lib/panels';
 import Base from '@/layouts/Base.astro';
 
+const counts = await getResearchCounts();
 ---
 
 <Base
@@ -13,9 +15,31 @@ import Base from '@/layouts/Base.astro';
   route="home"
 >
   <Navbar slot="header" />
-  <main id="main" class="relative">
+  <main id="main" class="relative" data-research-counts={JSON.stringify(counts)}>
     <FocusSlider />
   </main>
 </Base>
 
-<FigureField route="home" depth={1} />
+  <FigureField route="home" depth={1} />
+
+<style>
+  /* Home is a viewport-height slider: the page must not scroll vertically. The header is fixed
+     over the track and the footer sits below the fold entirely (the track is 100dvh), so clip
+     the body overflow: no vertical scroll, no footer sliver at the viewport edge. */
+  :global(html:has([data-focus-track])),
+  :global(body:has([data-focus-track])) {
+    height: 100dvh;
+    overflow: clip;
+  }
+  /* The fixed navbar pill floats over the track: let the header stack above it so no
+     paper-coloured strip shows behind it. Panel content keeps clear via panel padding. */
+  :global([data-site-nav]:has(~ * [data-focus-track])) {
+    position: fixed;
+    inset-inline: 0;
+  }
+  /* The ink figures sit behind the panel content on the paper. They are part of the backdrop,
+     not of the content layer, so they never blur with the focus. */
+  :global([data-figure-field][data-route='home']) {
+    z-index: 0;
+  }
+</style>
