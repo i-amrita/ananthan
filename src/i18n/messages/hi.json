@@ -118,5 +118,7 @@
   "nav_menu": "मेनू",
   "footer_qr": "QR",
   "qr_hint": "मेरा पेज खोलने के लिए स्कैन करें",
-  "qr_aria": "annambiar.github.io का QR कोड"
+  "qr_aria": "annambiar.github.io का QR कोड",
+  "locale_next_label": "अगली भाषा",
+  "language_label": "भाषा"
 }

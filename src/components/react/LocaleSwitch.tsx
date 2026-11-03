@@ -34,21 +34,15 @@ export function useExclusiveOpen() {
 }
 
 /** Bare button, for use inside an existing `<Providers>` tree. `code` renders the current locale code for the navbar pill. */
-export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' | 'chip' }) {
+export function LocaleSwitchButton({ variant = 'icon' }: { variant?: 'icon' | 'code' }) {
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useExclusiveOpen();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {variant === 'chip' ? (
-          <button
-            type="button"
-            aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}
-            className={cn(PILL_ITEM, 'size-11')}
-          >
-            <Languages className="size-5" aria-hidden="true" />
-          </button>
-        ) : variant === 'code' ? (
+        {variant === 'code' ? (
+          // The chip is the only place the current locale is shown. It carries the code in
+          // both the collapsed and the expanded state, and opens the picker.
           <button
             type="button"
             aria-label={`${locale.toUpperCase()} ${m.locale_switch_label()}`}

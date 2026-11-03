@@ -118,5 +118,7 @@
   "nav_menu": "മെനു",
   "footer_qr": "QR",
   "qr_hint": "എന്റെ പേജ് തുറക്കാൻ സ്കാൻ ചെയ്യുക",
-  "qr_aria": "annambiar.github.io-ന്റെ QR കോഡ്"
+  "qr_aria": "annambiar.github.io-ന്റെ QR കോഡ്",
+  "locale_next_label": "അടുത്ത ഭാഷ",
+  "language_label": "ഭാഷ"
 }

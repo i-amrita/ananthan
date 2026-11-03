@@ -118,5 +118,7 @@
   "nav_menu": "Menu",
   "footer_qr": "QR",
   "qr_hint": "Imbas untuk buka halaman saya",
-  "qr_aria": "Kod QR untuk annambiar.github.io"
+  "qr_aria": "Kod QR untuk annambiar.github.io",
+  "locale_next_label": "Bahasa seterusnya",
+  "language_label": "Bahasa"
 }

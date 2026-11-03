@@ -34,6 +34,25 @@ test('the locale switch keeps the other URL params', async ({ page }) => {
   await expect(page).toHaveURL(/theme=dark/);
 });
 
+test('the nav chip shows the current code and opens the picker', async ({ page }) => {
+  await page.goto('/?locale=es');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
+  await expect(chip).toHaveAttribute('aria-label', 'ES Choose language');
+  await expect(chip).toContainText('es');
+  await chip.click();
+  await expect(page.getByRole('listbox')).toBeVisible();
+  await expect(page.getByRole('option', { name: 'Español' })).toBeVisible();
+});
+
+test('the chip shows the code in the expanded nav too', async ({ page }) => {
+  await page.goto('/?locale=ms&nav=open');
+  await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));
+  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
+  await expect(chip).toBeVisible();
+  await expect(chip).toContainText('ms');
+});
+
 test('a chosen locale is persisted and restored on the next visit', async ({ page }) => {
   await page.goto('/?locale=es&nav=open');
   await page.waitForFunction(() => !document.querySelector('astro-island[ssr]'));

@@ -188,11 +188,10 @@ test.describe('the shutter makes sound', () => {
     await expect.poll(() => calls(page), { timeout: 5000 }).toContain('shutter-release');
   });
 
-  test('the locale commit releases the shutter', async ({ page }) => {
+  test('the commit releases the shutter', async ({ page }) => {
     await page.locator('[data-shutter]').click();
-    await page.getByRole('option', { name: 'Español' }).click();
     await expect.poll(() => calls(page), { timeout: 5000 }).toContain('shutter-release');
-    await expect(page).toHaveURL(/locale=es/);
+    await expect(page).toHaveURL(/locale=ms/);
   });
 
   test('a muted site stays silent', async ({ page }) => {
@@ -219,6 +218,6 @@ test.describe('the shutter makes sound', () => {
     expect(starts).toBe(0);
     // The controls still work: a muted site is silent, not broken.
     await page.locator('[data-shutter]').click();
-    await expect(page.locator('[role="listbox"]')).toBeVisible();
+    await expect(page).toHaveURL(/locale=ms/);
   });
 });

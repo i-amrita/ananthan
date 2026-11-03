@@ -72,7 +72,7 @@ function Chip({ pathname }: { pathname: string }) {
   return (
     <>
       <div className="flex shrink-0 items-center">
-        <LocaleSwitchButton variant="chip" />
+        <LocaleSwitchButton variant="code" />
         <ThemeToggle />
         <button
           ref={expandRef}

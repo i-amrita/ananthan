@@ -1,6 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-/** The shutter button is a second locale control: fixed bottom-right, same `?locale=` value as the nav chip. */
+/**
+ * The shutter is a pure flip control: a tap advances to the next locale in the LOCALES list and
+ * wraps around. It shows no locale of its own — the code lives on the nav chip — and it opens no
+ * popover.
+ */
 
 test.use({ viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
 
@@ -18,50 +22,53 @@ test('the shutter sits bottom-right with a 44px+ target', async ({ page }) => {
   expect(box!.y + box!.height).toBeGreaterThan(812 - 24);
 });
 
-test('it opens the locale popover and reflects aria-expanded', async ({ page }) => {
-  await page.goto('/research');
-  await hydrated(page);
-  const shutter = page.locator('[data-shutter]');
-  await expect(shutter).toHaveAttribute('aria-expanded', 'false');
-  await shutter.click();
-  await expect(shutter).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByRole('option', { name: 'Español' })).toBeVisible();
-});
-
-test('picking a locale updates the URL and html lang', async ({ page }) => {
-  await page.goto('/research?theme=dark');
-  await hydrated(page);
-  await page.locator('[data-shutter]').click();
-  await page.getByRole('option', { name: 'Español' }).click();
-  await expect(page).toHaveURL(/locale=es/);
-  await expect(page).toHaveURL(/theme=dark/);
-  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-});
-
-test('the iris cap shows the locale code and follows the nav chip', async ({ page }) => {
-  await page.goto('/research');
-  await hydrated(page);
-  const shutter = page.locator('[data-shutter]');
-  await expect(shutter).toHaveAttribute('aria-label', /^EN /);
-  await expect(shutter.getByText('EN', { exact: true })).toBeVisible();
-  // The nav chip drives the same `?locale=` state, so the shutter code follows without its own popover.
-  await page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }).click();
-  await page.getByRole('option', { name: 'Español' }).click();
-  await expect(page).toHaveURL(/locale=es/);
-  await expect(shutter).toHaveAttribute('aria-label', /^ES /);
-  await expect(shutter.getByText('ES', { exact: true })).toBeVisible();
-});
-
-test('only one locale popover is open at a time', async ({ page }) => {
+test('a tap flips to the next locale with no popover', async ({ page }) => {
   await page.goto('/research');
   await hydrated(page);
   await page.locator('[data-shutter]').click();
-  await expect(page.getByRole('listbox')).toHaveCount(1);
-  // Keyboard open on the nav chip: no pointerdown, so only the shared event can close the shutter's popover.
-  await page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }).focus();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('[data-shutter]')).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.getByRole('listbox')).toHaveCount(1);
+  await expect(page).toHaveURL(/locale=ms/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ms');
+  // No popover, ever.
+  await expect(page.getByRole('listbox')).toHaveCount(0);
+});
+
+test('flips wrap around after the last locale', async ({ page }) => {
+  await page.goto('/research?locale=ml');
+  await hydrated(page);
+  await page.locator('[data-shutter]').click();
+  await expect(page).toHaveURL((url) => !url.searchParams.has('locale'));
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
+
+test('the shutter shows no locale code and names the action', async ({ page }) => {
+  await page.goto('/research');
+  await hydrated(page);
+  const shutter = page.locator('[data-shutter]');
+  await expect(shutter).toHaveAttribute('aria-label', 'Next language');
+  await expect(shutter).not.toHaveAttribute('aria-expanded');
+  await expect(shutter).not.toContainText('EN');
+  // The code lives on the nav chip instead.
+  await expect(
+    page.getByRole('navigation').getByRole('button', { name: 'EN Choose language' }),
+  ).toContainText('en');
+});
+
+test('the chip follows a shutter flip immediately', async ({ page }) => {
+  await page.goto('/research');
+  await hydrated(page);
+  const chip = page.getByRole('navigation').getByRole('button', { name: /Choose language/ });
+  await page.locator('[data-shutter]').click();
+  await expect(page).toHaveURL(/locale=ms/);
+  await expect(chip).toHaveAttribute('aria-label', 'MS Choose language');
+  await expect(chip).toContainText('ms');
+});
+
+test('the new language is announced politely after a flip', async ({ page }) => {
+  await page.goto('/research');
+  await hydrated(page);
+  await page.locator('[data-shutter]').click();
+  const live = page.locator('[aria-live="polite"]');
+  await expect(live).toContainText('Bahasa Melayu');
 });
 
 test('it is dimmed and inert while a panel is open', async ({ page }) => {

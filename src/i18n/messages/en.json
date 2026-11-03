@@ -118,5 +118,7 @@
   "search_type_talk": "Talk",
   "footer_qr": "QR",
   "qr_hint": "Scan to open my page",
-  "qr_aria": "QR code for annambiar.github.io"
+  "qr_aria": "QR code for annambiar.github.io",
+  "locale_next_label": "Next language",
+  "language_label": "Language"
 }

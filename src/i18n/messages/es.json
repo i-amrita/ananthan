@@ -118,5 +118,7 @@
   "overlay_research_empty": "Aún no hay nada aquí.",
   "overlay_life_hobbies_heading": "Aficiones",
   "overlay_life_bio_heading": "Biografía",
-  "overlay_life_career_heading": "Trayectoria"
+  "overlay_life_career_heading": "Trayectoria",
+  "locale_next_label": "Siguiente idioma",
+  "language_label": "Idioma"
 }
