@@ -18,9 +18,11 @@ separately.
 
 ## Sourcing: the owner's own Stable Audio recordings
 
-The slices are **sampled**, not synthesized. The owner bought five Stable Audio 3 tracks from
-Brioso (`quino@usebrioso.com`, orders 78834404 and c6142acc) and the sprite is built from trimmed
-windows of those FLAC masters.
+The slices are **sampled**, not synthesized. The owner bought Stable Audio 3 tracks from Brioso
+(`quino@usebrioso.com`, orders 78834404 and c6142acc) and the sprite is built from trimmed
+windows of those FLAC masters. As of 2026-11-02 the sprite uses two of them: `slider-1`
+(order c6142acc, track 1) for both slider slices, and the shutter masters for the shutter
+slices. `slider-0` and `slider-2` are unused.
 
 The licence (per track, `*-license.pdf`) grants a worldwide, perpetual, **commercial** licence to
 use, reproduce, distribute, publicly perform, synchronise, **modify** and create derivative works,
@@ -46,10 +48,14 @@ Consequences for this repo:
 
 | Slice | Length | Source window | Fires on |
 |---|---|---|---|
-| `slider-detent` | 60 ms | slider-0 `3.415-3.475s` | focus slider crossing a snap breakpoint |
-| `slider-settle` | 230 ms | slider-2 `3.37-3.60s` | slider snapping to its stop |
+| `slider-detent` | 60 ms | slider-1 `1.655-1.715s` | focus slider crossing a snap breakpoint |
+| `slider-settle` | 250 ms | slider-1 `3.435-3.685s` | slider snapping to its stop |
 | `shutter-fire` | 220 ms | shutter-1 `3.48-3.70s` | shutter button open / panel open |
 | `shutter-release` | 230 ms | shutter-0 `3.49-3.72s` | panel close (softer tail) |
+
+Both slider slices now come from **one** source clip, `slider-1` (order `c6142acc`, track 1). The
+earlier `slider-0` and `slider-2` masters are **no longer used** and are not referenced by the
+build script, the manifest or any caller.
 
 The owner dropped the `locale-commit`, `panel-open` and `panel-close` slices: the panels get motion
 only, no sound. Those names no longer exist in the manifest, the build script or any caller.
@@ -57,24 +63,27 @@ only, no sound. Those names no longer exist in the manifest, the build script or
 ### How the windows were chosen
 
 Every non-silent window of the five masters was profiled with `ffmpeg silencedetect -38dB d=0.08`
-(12 windows found), then `astats` (peak and RMS per 5/10/40 ms bin) and `aspectralstats`
-(centroid, flatness). The four chosen windows and the numbers behind them:
+(12 windows found across the set; slider-1 alone has five non-silent windows). Windows were
+re-profiled for this change with `astats` peak per 5 ms bin over slider-1. The four chosen
+windows and the numbers behind them:
 
 | Window | Peak | RMS | Centroid | Flatness | Read |
 |---|---|---|---|---|---|
-| slider-0 `3.415-3.475` | -8.7 dB | -33.5 dB | 8622 Hz | 0.120 | Only near-impulsive click in the slider set: silence at -53 dB, then a 40 ms burst peaking at -8.7 dB at 3.455 s, then -24 dB floor. Highest centroid of the slider candidates. |
-| slider-2 `3.37-3.60` | -7.5 dB | -27.7 dB | 8099 Hz | 0.039 | Two-stage landing (3.44 s and 3.51 s) with a soft 100 ms tail and no hard head click. Lowest flatness of the set = the most tonal body, which reads as "landing" rather than "click". |
+| slider-1 `1.655-1.715` | -14.1 dB | -32.9 dB | (impulsive) | (impulsive) | The only isolated transient in the whole slider-1 clip: a floor of about -60 dB, then a single ~12 ms click peaking at -18 dB (bin peak) at 1.675-1.685 s, then straight back to the floor. Cleanest possible detent: no drone, no swell, no tail. The window keeps a few ms of lead and tail so the 3 ms fades have room. |
+| slider-1 `3.435-3.685` | -13.2 dB | -32.3 dB | (broadband hit) | (broadband hit) | A harder impact at 3.440-3.465 s (bin peak -16 dB) followed by a decaying tail through 3.62 s and silence by 3.69 s. The tail is what makes it read as a landing, and it is clearly a different event shape from the detent click. |
 | shutter-1 `3.48-3.70` | -2.5 dB | -25.8 dB | 5182 Hz | 0.070 | Sharpest click of the whole set: mirror slap at 3.54 s (-5.5 dB), curtain close at 3.61 s (-2.5 dB). Lowest centroid = the dullest, most mechanical of the candidates. |
 | shutter-0 `3.49-3.72` | -5.9 dB | -25.4 dB | 5396 Hz | 0.154 | Softer second click, peak never above -5.9 dB and no -2.5 dB transient, so it reads as a release and not as a second fire. |
 
 Rejected, with the reason:
 
-- slider-0 `0.12-0.87`, `2.03-2.87`, `3.88-4.41`: long swells with a -20 dB floor and a rising
-  tail; too "whoosh" for a detent, and the onset is not a click.
-- slider-1 `3.37-4.38`: the loudest slider window but 1 s long and a continuous 1 kHz-ish drone
-  (centroid 6090 Hz, -24 dB floor) rather than a transient.
-- slider-2 `2.10-3.17`: 1 s long, -20 dB floor, no usable onset.
-- slider-2 `3.92-4.40`: peak only -19.1 dB, nothing to cut.
+- slider-1 `0.35-0.94` and `2.12-2.98`: long swells with a -25 dB floor and a rising tail; too
+  "whoosh" for a detent, and the onset is not a click.
+- slider-1 `3.37-4.38` as a whole: 1 s long and a continuous 1 kHz-ish drone (centroid 6090 Hz,
+  -24 dB floor) rather than a transient. Only its first 250 ms, the impact and its decaying tail,
+  is usable, and that is what `slider-settle` is.
+- slider-1 `2.95-3.03`: a loud isolated hit (-12 dB) but it sits at the end of the 2.12-2.98 swell
+  and has no tail, so it would read as a second detent rather than a landing.
+- slider-0 and slider-2: no longer used at all. Both slider slices come from slider-1.
 - shutter-0 `0.18-0.39` and `1.50-1.70`: a single soft click with a -23 dB tail, but no two-stage
   action, so the shutter would read as one tap rather than fire-and-release.
 - shutter-1 `1.48-1.77` and `2.14-2.46`: same shape as `3.50-3.80` but 2-3 dB quieter.
@@ -90,10 +99,14 @@ after the build:
 
 | Slice | RMS | Peak |
 |---|---|---|
-| `slider-detent` | -20.2 dBFS | -1.0 dBFS |
-| `slider-settle` | -20.1 dBFS | -1.0 dBFS |
-| `shutter-fire` | -21.3 dBFS | -1.0 dBFS |
-| `shutter-release` | -20.4 dBFS | -1.0 dBFS |
+| `slider-detent` | -19.7 dBFS | -1.0 dBFS |
+| `slider-settle` | -19.0 dBFS | -2.4 dBFS |
+| `shutter-fire` | -21.0 dBFS | -1.0 dBFS |
+| `shutter-release` | -20.1 dBFS | -1.5 dBFS |
+
+The detent plays on **every** stop crossing, so it is deliberately short (60 ms) and the source
+click inside it is 12 ms, which keeps it from being fatiguing. The slice is high-passed at 120 Hz
+like the others, so there is no sub-bass thump under the tick.
 
 ## Engine rules
 
