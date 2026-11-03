@@ -150,7 +150,7 @@ export async function photographyMarkdown(): Promise<string> {
   const photos = await getPhotos();
   return [
     '# Photography',
-    'A few frames from the camera. The full portfolio, and the copyright for every photo here, lives at https://nambiar4.myportfolio.com.',
+    'A few frames from the camera. The full portfolio, and the copyright for every photo here, lives at https://nambiar4.myportfolio.com. More frames on Instagram at https://www.instagram.com/filmi.nambi.',
     section(
       'Frames',
       photos.map((p) => photoMarkdown(p)),

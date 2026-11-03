@@ -110,6 +110,8 @@ const photos = defineCollection({
     /** Camera and film, when known. */
     camera: z.string().optional(),
     order: z.number().int().default(0),
+    /** Show in the landing drawer masonry, which shows the selected frames only. */
+    teaser: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
 });

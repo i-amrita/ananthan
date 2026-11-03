@@ -1,218 +1,8 @@
 version = 1
 
-[entries.nav_home]
-value = "Inicio"
-source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_research]
-value = "Investigación"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_life]
-value = "Vida"
-source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_photography]
-value = "Fotografía"
-source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_primary]
-value = "Principal"
-source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_search]
-value = "Buscar"
-source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_expand]
-value = "Mostrar los enlaces de navegación"
-source_hash = "853443739536d5ae9ef49707af7b7c5225954d01"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_collapse]
-value = "Ocultar los enlaces de navegación"
-source_hash = "cfa42c2c15c1764c8bebf581eb150fb3e216e2fb"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.nav_menu]
-value = "Menú"
-source_hash = "57f5f5efbc5990f5230aa95359042338b856707b"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_name]
-value = "Ananthan Nambiar"
-source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_subtitle]
-value = "Aprendizaje automático para la biología computacional. Fuera del laboratorio: fotografía analógica, danza, remo, cocina y activismo ambiental."
-source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_intro_label]
-value = "Presentación"
-source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_research_label]
-value = "Investigación"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_life_label]
-value = "Vida"
-source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_photography_label]
-value = "Fotografía"
-source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_intro_body]
-value = "Construyo modelos de aprendizaje automático interpretables para sistemas biológicos, y siempre llevo una cámara en la mochila."
-source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_research_body]
-value = "Publicaciones, charlas y cursos. Modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
-source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_life_body]
-value = "Lo que hago cuando no estoy en el laboratorio: fotografía, danza, remo, cocina y activismo ambiental."
-source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_photography_body]
-value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada fotografía, están en mi sitio de portafolio."
-source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_hint]
-value = "Desplázate, arrastra o usa las flechas del teclado para cambiar el foco."
-source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_next]
-value = "Panel siguiente"
-source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_previous]
-value = "Panel anterior"
-source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_panels]
-value = "Paneles de foco"
-source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.hero_enter]
-value = "Entrar"
-source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_email]
-value = "Correo electrónico"
-source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_scholar]
-value = "Google Scholar"
-source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_orcid]
-value = "ORCID"
-source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_github]
-value = "GitHub"
-source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_instagram]
-value = "Instagram"
-source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_portfolio]
-value = "Portafolio de fotografía"
-source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.socials_aria]
-value = "Enlaces sociales"
-source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+[entries.action_close]
+value = "Cerrar"
+source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -224,93 +14,9 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.action_close]
-value = "Cerrar"
-source_hash = "bbfa773e5a63a5ea58c9b6207e608ca0120e592a"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_close]
-value = "Cerrar el panel"
-source_hash = "fa0b7b3ac0f067447f742c4d92d265496e0a6fbd"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_research_title]
-value = "Investigación"
-source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_research_description]
-value = "Publicaciones, charlas y cursos. Modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
-source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_research_read_more]
-value = "Ver más"
-source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_life_title]
-value = "Vida"
-source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_life_description]
-value = "Lo que hago cuando no estoy en el laboratorio: fotografía, danza, remo, cocina y activismo ambiental."
-source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_life_read_more]
-value = "Ver más"
-source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_photography_title]
-value = "Fotografía"
-source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_photography_description]
-value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada fotografía, están en mi sitio de portafolio."
-source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.overlay_photography_read_more]
-value = "Ver más"
-source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.locale_switch_label]
-value = "Elegir idioma"
-source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.footer_license]
-value = "Código fuente disponible bajo PolyForm Noncommercial 1.0.0"
-source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
+[entries.error_back_home]
+value = "Volver al inicio"
+source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -322,177 +28,142 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.error_back_home]
-value = "Volver al inicio"
-source_hash = "34ac37f56e147bf65348041b11e13fc683dfb136"
+[entries.footer_license]
+value = "Código fuente disponible bajo PolyForm Noncommercial 1.0.0"
+source_hash = "a519d893b90b24134f97d8203e2e30470cc2b724"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_intro]
-value = "Publicaciones, charlas y cursos. El trabajo se centra en modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
-source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
+[entries.hero_enter]
+value = "Entrar"
+source_hash = "2b9eceb7a86a9f577ef80586c5c1d7fde9ff493d"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_publications]
-value = "Publicaciones"
-source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
+[entries.hero_hint]
+value = "Desplázate, arrastra o usa las flechas del teclado para cambiar el foco."
+source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_talks]
-value = "Charlas"
-source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
+[entries.hero_intro_body]
+value = "Construyo modelos de aprendizaje automático interpretables para sistemas biológicos, y siempre llevo una cámara en la mochila."
+source_hash = "d13eeada434785fb84b1fd86f6bdd285293215b6"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_courses]
-value = "Cursos"
-source_hash = "a16536d78dc34897436003938234d72482a1d526"
+[entries.hero_intro_label]
+value = "Presentación"
+source_hash = "b4e6a310890f62289340d7802703b8c2586c6d86"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_empty]
-value = "Todavía no hay nada aquí."
-source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
+[entries.hero_life_body]
+value = "Lo que hago cuando no estoy en el laboratorio: fotografía, danza, remo, cocina y activismo ambiental."
+source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_read]
-value = "Abrir"
-source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+[entries.hero_life_label]
+value = "Vida"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_kind_paper]
-value = "Artículo"
-source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
+[entries.hero_name]
+value = "Ananthan Nambiar"
+source_hash = "9f8c157309e47e8d792c08e24b0ce49fc7d5ec9e"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_kind_preprint]
-value = "Preprint"
-source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
+[entries.hero_next]
+value = "Panel siguiente"
+source_hash = "3de44883d2247779b5360f7548b8fe3ba2b954c6"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_kind_book]
-value = "Libro"
-source_hash = "f69f233005f15802770fd26fbf7ead52ec13d9e6"
+[entries.hero_panels]
+value = "Paneles de foco"
+source_hash = "a7f8d533ac47458d4687ee24430b96ea373e238c"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_kind_editorial]
-value = "Editorial"
-source_hash = "a58b1ef1f0bf8cc5474e1e5464f7098c37c9e16e"
+[entries.hero_photography_body]
+value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada fotografía, están en mi sitio de portafolio."
+source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.research_talk_kind_talk]
-value = "Charla"
-source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.research_talk_kind_poster]
-value = "Póster"
-source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.research_talk_kind_invited]
-value = "Invitada"
-source_hash = "53469df1c48ff6abdcf1b528fd8c8ac2baf05099"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.research_course_kind_course]
-value = "Curso"
-source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.research_course_kind_workshop]
-value = "Taller"
-source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.research_course_kind_tutorial]
-value = "Tutorial"
-source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.life_intro]
-value = "La vida fuera del laboratorio."
-source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.life_hobbies_heading]
-value = "Aficiones"
-source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.life_photography]
+[entries.hero_photography_label]
 value = "Fotografía"
 source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_photography_body]
-value = "Analógico. El portafolio está en nambiar4.myportfolio.com."
-source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
+[entries.hero_previous]
+value = "Panel anterior"
+source_hash = "f81b1cb94f80f1293ed1ff75332da623b8ed9ce6"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_dance]
-value = "Danza"
-source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
+[entries.hero_research_body]
+value = "Publicaciones, charlas y cursos. Modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
+source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_dance_body]
-value = "TODO(propietario): una línea sobre qué tipo de danza y con qué frecuencia."
-source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
+[entries.hero_research_label]
+value = "Investigación"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_rowing]
-value = "Remo"
-source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
+[entries.hero_subtitle]
+value = "Aprendizaje automático para la biología computacional. Fuera del laboratorio: fotografía analógica, danza, remo, cocina y activismo ambiental."
+source_hash = "d0c7b746cb2e89b6db343c289c4614b794bbb128"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_rowing_body]
-value = "TODO(propietario): una línea sobre el remo: batalla o paleo, dónde y durante cuánto tiempo."
-source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
+[entries.life_bio]
+value = "Soy biólogo computacional en la University of Washington y trabajo sobre aprendizaje automático para la biología computacional. Mi trabajo gira en torno a una idea que reaparece en mis artículos, mis charlas y mi tesis: el lenguaje de la vida."
+source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.life_bio_heading]
+value = "Biografía"
+source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.life_career]
+value = "Malasia, luego Reed College, luego la University of Illinois Urbana-Champaign, luego Mayo Clinic y finalmente la University of Washington."
+source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.life_career_heading]
+value = "Trayectoria"
+source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -511,6 +182,20 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
+[entries.life_dance]
+value = "Danza"
+source_hash = "1b9f359ce4804d04078f0dcb89978a1e6e3b597b"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.life_dance_body]
+value = "TODO(propietario): una línea sobre qué tipo de danza y con qué frecuencia."
+source_hash = "c9c2f0b8e74805e8e7e4760ff288680e1c0c8f3e"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
 [entries.life_environment]
 value = "Activismo ambiental"
 source_hash = "e7e68b8a22930883f6263b11d6e6f8d1007e0e7f"
@@ -525,79 +210,184 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_bio_heading]
-value = "Biografía"
-source_hash = "b31fc969b4889fb445fa3e7d99b845aa2f0d3497"
+[entries.life_hobbies_heading]
+value = "Aficiones"
+source_hash = "499906f6c93652c43ff747571f43ee3a69498063"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_bio]
-value = "Soy biólogo computacional en la University of Washington y trabajo sobre aprendizaje automático para la biología computacional. Mi trabajo gira en torno a una idea que reaparece en mis artículos, mis charlas y mi tesis: el lenguaje de la vida."
-source_hash = "0c1e86f57c9b9f8436fbdfec948ef2864d1ad0e0"
+[entries.life_intro]
+value = "La vida fuera del laboratorio."
+source_hash = "81c3e3d47891c44ed79cf6e7582fe5034378c04f"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_career_heading]
-value = "Trayectoria"
-source_hash = "348f0bfe0e619bbea99cfed42df482fefce7c86e"
+[entries.life_photography]
+value = "Fotografía"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.life_career]
-value = "Malasia, luego Reed College, luego la University of Illinois Urbana-Champaign, luego Mayo Clinic y finalmente la University of Washington."
-source_hash = "83e338f097d18c1802810ce43af8c4926539e94c"
+[entries.life_photography_body]
+value = "Analógico. El portafolio está en nambiar4.myportfolio.com."
+source_hash = "a3d1b99ea442730042372e8d61e29e9fdde91dab"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_intro]
-value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada foto de esta página, están en nambiar4.myportfolio.com."
-source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
+[entries.life_rowing]
+value = "Remo"
+source_hash = "918cf259ed9d543523745a7b438f1f95cb4113b8"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_cta]
-value = "Ver el portafolio completo"
-source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
+[entries.life_rowing_body]
+value = "TODO(propietario): una línea sobre el remo: batalla o paleo, dónde y durante cuánto tiempo."
+source_hash = "18a6db0d8c34b8f600f88396d43d561bfd21288e"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_placeholder]
-value = "Marco provisional. Sus propias fotografías sustituyen a esta."
-source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
+[entries.locale_switch_label]
+value = "Elegir idioma"
+source_hash = "94d0c90db55128b9fffb7beee8d09b83668d9b08"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_open]
-value = "Abrir"
-source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+[entries.nav_collapse]
+value = "Ocultar los enlaces de navegación"
+source_hash = "cfa42c2c15c1764c8bebf581eb150fb3e216e2fb"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_lightbox_label]
-value = "Visor de fotos"
-source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
+[entries.nav_expand]
+value = "Mostrar los enlaces de navegación"
+source_hash = "853443739536d5ae9ef49707af7b7c5225954d01"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_prev]
-value = "Foto anterior"
-source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
+[entries.nav_home]
+value = "Inicio"
+source_hash = "70f8bb9a8a5393ef080507a89e4b98d139000d65"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.photography_next]
-value = "Foto siguiente"
-source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
+[entries.nav_life]
+value = "Vida"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.nav_menu]
+value = "Menú"
+source_hash = "57f5f5efbc5990f5230aa95359042338b856707b"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.nav_photography]
+value = "Fotografía"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.nav_primary]
+value = "Principal"
+source_hash = "a9a96ec019494d5b8b041c1d2468061ae66e35d5"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.nav_research]
+value = "Investigación"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.nav_search]
+value = "Buscar"
+source_hash = "bce06414177f72ab70e6387b6af9f8ceef0d6049"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_close]
+value = "Cerrar el panel"
+source_hash = "fa0b7b3ac0f067447f742c4d92d265496e0a6fbd"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_life_description]
+value = "Lo que hago cuando no estoy en el laboratorio: fotografía, danza, remo, cocina y activismo ambiental."
+source_hash = "8a73bdc65ce6bdd4c1760ba313504d3d9228bea3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_life_read_more]
+value = "Ver más"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_life_title]
+value = "Vida"
+source_hash = "d438aa800a209736a5087381ac2b6c3684244e04"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_photography_description]
+value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada fotografía, están en mi sitio de portafolio."
+source_hash = "513a2ab9109a6dab2a1c321e167db0a52fd28378"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_photography_read_more]
+value = "Ver más"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_photography_title]
+value = "Fotografía"
+source_hash = "b987e3f155a21c976430d228badd3fcf156bbeb2"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_research_description]
+value = "Publicaciones, charlas y cursos. Modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
+source_hash = "4e3073e874f8d3d8a074e3f676a79e9ba23cb66a"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_research_read_more]
+value = "Ver más"
+source_hash = "8e80d18093d479e61ebf428a630165d5fa8fd7de"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.overlay_research_title]
+value = "Investigación"
+source_hash = "be601df25eea91eaaf0d5e80263930143af345be"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -609,6 +399,188 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
+[entries.photography_cta]
+value = "Ver el portafolio completo"
+source_hash = "3463fb70a0b523ddc137358a8112afd1b85ce8d5"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_elsewhere_body]
+value = "Más fotogramas, trabajo en curso y contacto viven en Instagram."
+source_hash = "143b9ae168f1c9e5fff732152a9e18a672f59cdb"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:45:55Z"
+
+[entries.photography_elsewhere_heading]
+value = "En otros lugares"
+source_hash = "ebac8c4d9a49145f83661ffc96fc103b390fa3cf"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:42:46Z"
+
+[entries.photography_intro]
+value = "Algunas fotos de la cámara. El portafolio completo, y los derechos de autor de cada foto de esta página, están en nambiar4.myportfolio.com."
+source_hash = "a0b09df55fb64be93015cb36ca5ec6ccfd345cde"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_lightbox_label]
+value = "Visor de fotos"
+source_hash = "ba776aad83fa0aed9c265cf6cab05daa73fb1c42"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_next]
+value = "Foto siguiente"
+source_hash = "fe668782010102b0ed8bc2019f60e62e7ad20ba3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_open]
+value = "Abrir"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_placeholder]
+value = "Marco provisional. Sus propias fotografías sustituyen a esta."
+source_hash = "2f274fa28aace56442f48a48eb388b53a93d23d3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.photography_placeholder_note]
+value = "Los fotogramas marcados PLACEHOLDER esperan los archivos del propio fotógrafo; todos los demás son suyos."
+source_hash = "06104a7634327dc1e7b87985715fc9dfaf9ac471"
+origin = "ai"
+reviewed = true
+updated_at = "2026-11-03T01:43:48Z"
+
+[entries.photography_prev]
+value = "Foto anterior"
+source_hash = "09972524c11ee431e10319b49d0997d40c42d388"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_course_kind_course]
+value = "Curso"
+source_hash = "d82b56cad90059583c1183e82edb8cf7d4ef4794"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_course_kind_tutorial]
+value = "Tutorial"
+source_hash = "2701a94c0eb55cbd958a87dff3e959673ff1bf53"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_course_kind_workshop]
+value = "Taller"
+source_hash = "13b8fe38a93b1e74be75932a7d667b18af065fa8"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_courses]
+value = "Cursos"
+source_hash = "a16536d78dc34897436003938234d72482a1d526"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_empty]
+value = "Todavía no hay nada aquí."
+source_hash = "ede1ba2f3e547b5548ae685913a9f1cf4909e530"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_intro]
+value = "Publicaciones, charlas y cursos. El trabajo se centra en modelos de lenguaje de proteínas, regulación génica e integración de datos multi-ómicos."
+source_hash = "8bbc4a124ff404d1a616fcf4eb3d575469a1455a"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_kind_book]
+value = "Libro"
+source_hash = "f69f233005f15802770fd26fbf7ead52ec13d9e6"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_kind_editorial]
+value = "Editorial"
+source_hash = "a58b1ef1f0bf8cc5474e1e5464f7098c37c9e16e"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_kind_paper]
+value = "Artículo"
+source_hash = "22d507f2ba74e43593de3ae3f550bf202c076adc"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_kind_preprint]
+value = "Preprint"
+source_hash = "79d61506a9bb11da9b49b3a2e289e64f10627f35"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_publications]
+value = "Publicaciones"
+source_hash = "0855684c1444ece44c79b3612a7f4cfac9ae6e2a"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_read]
+value = "Abrir"
+source_hash = "cf9b77061f7b3126b49d50a6fa68f7ca8c26b7a3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_talk_kind_invited]
+value = "Invitada"
+source_hash = "53469df1c48ff6abdcf1b528fd8c8ac2baf05099"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_talk_kind_poster]
+value = "Póster"
+source_hash = "a33539ca77a6c42fd7a1e50aef1516b3a87d7c85"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_talk_kind_talk]
+value = "Charla"
+source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.research_talks]
+value = "Charlas"
+source_hash = "15c674d7738210d0c5965059a30efc2059314bf7"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
 [entries.search_description]
 value = "Busca publicaciones, charlas y páginas."
 source_hash = "59fbebea55c698c4659f813880533e77a553f43e"
@@ -616,30 +588,30 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_placeholder]
-value = "Buscar publicaciones, charlas, páginas"
-source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
+[entries.search_empty]
+value = 'Nada coincide con "{query}". Prueba con menos palabras o con otras.'
+source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_pill_ai]
-value = "Búsqueda con IA"
-source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
+[entries.search_found]
+value = "Esto es lo que he encontrado"
+source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_pill_warming]
-value = "Búsqueda con IA (cargando el modelo...)"
-source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+[entries.search_hint]
+value = "Escribe al menos 2 caracteres para buscar."
+source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_pill_keyword]
-value = "Búsqueda por palabras clave"
-source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+[entries.search_loading]
+value = "Cargando el modelo de búsqueda..."
+source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -658,27 +630,6 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_found]
-value = "Esto es lo que he encontrado"
-source_hash = "2038c419e9f0f96d6de94b24b4e491f9a49e2879"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.search_results]
-value = "{count} resultados para {query}"
-source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
-[entries.search_empty]
-value = "Nada coincide con \"{query}\". Prueba con menos palabras o con otras."
-source_hash = "90f438512e112282a0a28ad114b3587dd6e51d10"
-origin = "human"
-reviewed = true
-updated_at = "2026-11-02T00:00:00Z"
-
 [entries.search_no_index]
 value = "El índice de búsqueda lo construye pnpm build. Ejecútalo y luego reinicia pnpm dev o usa pnpm preview."
 source_hash = "6549e6cfb9234c5525801946155621ca861252b7"
@@ -686,16 +637,37 @@ origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_hint]
-value = "Escribe al menos 2 caracteres para buscar."
-source_hash = "10e62907fe6e29ccd17f96e66bb77889069db327"
+[entries.search_pill_ai]
+value = "Búsqueda con IA"
+source_hash = "4721064b09cb588afefc0e9367f5b51c2b45a4dd"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
 
-[entries.search_loading]
-value = "Cargando el modelo de búsqueda..."
-source_hash = "32cb20bbca90bfc28d9a848b2825c43999488ccd"
+[entries.search_pill_keyword]
+value = "Búsqueda por palabras clave"
+source_hash = "bbb6e2a62b3b4716f9a699ba42940ccbd33647f3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.search_pill_warming]
+value = "Búsqueda con IA (cargando el modelo...)"
+source_hash = "befbaa089e8d2bf5f9a4940beff92eef047f9992"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.search_placeholder]
+value = "Buscar publicaciones, charlas, páginas"
+source_hash = "3fdf1998f28717b3781857b09634eaf446b4bcc3"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.search_results]
+value = "{count} resultados para {query}"
+source_hash = "9c5c4721152ae197bc41100217a63b0e3c111450"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"
@@ -717,6 +689,55 @@ updated_at = "2026-11-02T00:00:00Z"
 [entries.search_type_talk]
 value = "Charla"
 source_hash = "4e6a710d7f8571d8af578697436aef0e7bd40998"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_aria]
+value = "Enlaces sociales"
+source_hash = "52e0b0a389f8d4d06d08c35b0bf16e0394a83544"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_email]
+value = "Correo electrónico"
+source_hash = "84add5b2952787581cb9a8851eef63d1ec75d22b"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_github]
+value = "GitHub"
+source_hash = "5442e2b64fa09764b9f593867e59a97292c84059"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_instagram]
+value = "Instagram"
+source_hash = "5721bbef40b22bbdb2e6a062b096d9b48735c2ff"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_orcid]
+value = "ORCID"
+source_hash = "7fced9588f5d62939fcd50937b62cb844bfbb5e0"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_portfolio]
+value = "Portafolio de fotografía"
+source_hash = "fc5dd9b5ea38f9005839247d04a8569d2ab7b143"
+origin = "human"
+reviewed = true
+updated_at = "2026-11-02T00:00:00Z"
+
+[entries.socials_scholar]
+value = "Google Scholar"
+source_hash = "ad7572e1227a38317eae2ec91792aeefba65c06f"
 origin = "human"
 reviewed = true
 updated_at = "2026-11-02T00:00:00Z"

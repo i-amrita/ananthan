@@ -118,5 +118,8 @@
   "overlay_research_empty": "Aún no hay nada aquí.",
   "overlay_life_hobbies_heading": "Aficiones",
   "overlay_life_bio_heading": "Biografía",
-  "overlay_life_career_heading": "Trayectoria"
+  "overlay_life_career_heading": "Trayectoria",
+  "photography_elsewhere_heading": "En otros lugares",
+  "photography_placeholder_note": "Los fotogramas marcados PLACEHOLDER esperan los archivos del propio fotógrafo; todos los demás son suyos.",
+  "photography_elsewhere_body": "Más fotogramas, trabajo en curso y contacto viven en Instagram."
 }

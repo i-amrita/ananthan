@@ -459,6 +459,25 @@ html:has([data-focus-ruler]) [data-shutter] {
   border-left: 0;
   border-top: 0;
 }
+/* Content islands (the photo grid, search results) inside a prose wrapper must not inherit the
+   prose list markers. Unlayered, so it beats the utilities-layer descendant selectors. */
+.not-prose,
+.not-prose ul,
+.not-prose ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Placeholder cards are dark in both themes; dark ink marks vanish on them, so they take the
+   same bone tone as the placeholder art itself. Real photographs keep the ink marks. */
+.photo-frame:has(img[src^='/photos/frame-']) .pf-c {
+  border-color: #b0a89c;
+  opacity: 0.9;
+}
+:root[data-theme='dark'] .photo-frame .pf-c {
+  opacity: 0.9;
+}
 @media (hover: hover) {
   .group:hover .photo-frame .pf-c,
   button:focus-visible .photo-frame .pf-c,

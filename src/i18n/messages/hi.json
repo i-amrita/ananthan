@@ -118,5 +118,8 @@
   "nav_menu": "मेनू",
   "footer_qr": "QR",
   "qr_hint": "मेरा पेज खोलने के लिए स्कैन करें",
-  "qr_aria": "annambiar.github.io का QR कोड"
+  "qr_aria": "annambiar.github.io का QR कोड",
+  "photography_elsewhere_heading": "अन्यत्र",
+  "photography_placeholder_note": "PLACEHOLDER से चिह्नित फ़्रेम उसकी अपनी फ़ाइलों की प्रतीक्षा कर रहे हैं; ऊपर का हर दूसरा फ़्रेम उसका है।",
+  "photography_elsewhere_body": "अधिक तस्वीरें, चालू काम और संपर्क Instagram पर हैं।"
 }

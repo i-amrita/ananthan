@@ -24,7 +24,8 @@ export type UrlStateKey =
   | 'panel'
   | 'overlay'
   | 'scroll'
-  | 'nav';
+  | 'nav'
+  | 'photo';
 
 /**
  * `push` creates a history entry (back button restores the previous state).
@@ -40,6 +41,7 @@ export const historyFor: Record<UrlStateKey, 'push' | 'replace'> = {
   overlay: 'push',
   scroll: 'replace',
   nav: 'push',
+  photo: 'push',
 };
 
 /** nuqs parsers keyed by query param. Pass to `useQueryStates(urlStateParsers)`. */
@@ -56,6 +58,8 @@ export const urlStateParsers = {
   scroll: parseAsInteger.withOptions({ history: historyFor.scroll }),
   /** Expanded nav chip state. Only value is `open`. */
   nav: parseAsStringLiteral(['open'] as const).withOptions({ history: historyFor.nav }),
+  /** Open lightbox frame id on /photography. Push, so Back closes it. */
+  photo: parseAsString.withOptions({ history: historyFor.photo }),
 } as const satisfies Record<UrlStateKey, unknown>;
 
 /** Build a static, shareable URL for a state. `href('/', { panel: 2 })` -> `/?panel=2`. */
