@@ -109,7 +109,7 @@ function Shutter() {
         </span>
       </button>
       {/* Sighted feedback of the locale lives on the nav chip; this only speaks the change. */}
-      <p aria-live="polite" className="sr-only">
+      <p data-shutter-live aria-live="polite" className="sr-only">
         {m.language_label()}: {LOCALE_NAMES[locale]}
       </p>
     </>

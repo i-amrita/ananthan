@@ -53,7 +53,7 @@ test('the chip shows the code in the expanded nav too', async ({ page }) => {
   const chip = page
     .getByRole('navigation')
     .getByRole('button', { name: /Elegir idioma|Choose language/ });
-  await expect(chip).toBeVisible();
+  await expect(chip).toBeVisible(); // ms renders 'Pilih bahasa'
   await expect(chip).toContainText('ms');
 });
 

@@ -61,7 +61,7 @@ test('the chip follows a shutter flip immediately', async ({ page }) => {
     .getByRole('button', { name: /Elegir idioma|Choose language/ });
   await page.locator('[data-shutter]').click();
   await expect(page).toHaveURL(/locale=ms/);
-  await expect(chip).toHaveAttribute('aria-label', 'MS Elegir idioma');
+  await expect(chip).toHaveAttribute('aria-label', 'MS Pilih bahasa');
   await expect(chip).toContainText('ms');
 });
 
@@ -69,7 +69,7 @@ test('the new language is announced politely after a flip', async ({ page }) => 
   await page.goto('/research');
   await hydrated(page);
   await page.locator('[data-shutter]').click();
-  const live = page.locator('[aria-live="polite"]');
+  const live = page.locator('[data-shutter-live]');
   await expect(live).toContainText('Bahasa Melayu');
 });
 
