@@ -622,10 +622,10 @@ const panels: Panel[] = PANELS.map((p) => {
     scroll-snap-align: center;
     display: grid;
     /* Content sits in the free area between the fixed navbar and the fixed ruler, centred in it
-       (the reference hero centres vertically). Horizontal placement is editorial: left-aligned
-       copy, max-width capped, optically centred on small screens. */
+       (the reference hero centres vertically). Horizontal placement is centred too, matching the
+       reference hero at every size. */
     align-items: center;
-    justify-items: start;
+    justify-items: center;
     /* Top padding clears the fixed navbar pill; bottom clears the fixed ruler. */
     padding: 5.5rem 1.5rem 8rem;
     overflow: hidden;
@@ -643,27 +643,16 @@ const panels: Panel[] = PANELS.map((p) => {
     z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.75rem;
     max-width: 34rem;
-    text-align: left;
+    text-align: center;
     filter: blur(var(--focus-blur, 0px));
     opacity: calc(1 - var(--focus-dim, 0));
     will-change: filter, opacity;
   }
-  /* At 375 the panel is one narrow column: centre the block itself and its text, like the
-     reference hero. Above 640px the editorial left alignment returns. */
-  @media (max-width: 639.98px) {
-    .focus-panel {
-      justify-items: center;
-    }
-    .focus-content {
-      align-items: center;
-      text-align: center;
-    }
-    .focus-title {
-      text-wrap: balance;
-    }
+  .focus-title {
+    text-wrap: balance;
   }
   @media (prefers-reduced-motion: no-preference) {
     .focus-content {
