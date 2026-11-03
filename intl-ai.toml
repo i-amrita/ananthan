@@ -2,12 +2,13 @@ version = 1
 locale_dir = "src/i18n/messages"
 source = "en"
 targets = ["ms", "hi", "es", "ml"]
+batch_size = 20
 
-# OpenAI-compatible endpoint (OpenRouter). Model and key come from .env (AI_MODEL_ID, AI_API_KEY).
-# The .env AI_BASE_URL ends in /v1, which 404s on this host, so the working base is pinned here.
+# OpenAI-compatible endpoint. Base URL, model and key all come from .env (gitignored): AI_BASE_URL, AI_MODEL_ID, AI_API_KEY.
+# Run `set -a; source .env; set +a` before `fill`. See .env.example.
 [provider]
 kind = "http"
-base_url = "https://openrouter.ai/api/v1"
+base_url = "${env:AI_BASE_URL:-http://localhost:8317/v1}"
 model = "${env:AI_MODEL_ID:-unset}"
 api_key = "${env:AI_API_KEY:-unset}"
 
