@@ -20,7 +20,8 @@ export type PanelRoute = (typeof PANELS)[number]['route'];
 /** Panel index for a route key. */
 export const panelIndex = (route: PanelRoute) => PANELS.findIndex((p) => p.route === route);
 
-/** Focus-distance stops, text only. One per panel, in panel order. */
+/** Focus-distance stops, text only. One per panel, in panel order. The ruler shows these
+    numbers as its ticks; the section names live in the aria text only. */
 export const FOCUS_STOPS = ['0.30', '0.50', '0.70', '1.00'] as const;
 
 /** Drawer teaser: one research item as the drawer lists it. */

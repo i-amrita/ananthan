@@ -89,11 +89,6 @@
   "search_type_page": "पेज",
   "search_type_publication": "प्रकाशन",
   "search_type_talk": "व्याख्यान",
-  "hero_research_topics_heading": "विषय",
-  "hero_research_topic_language": "जीवन की भाषा: प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।",
-  "hero_research_topic_variants": "वेरिएंट प्रभाव की भविष्यवाणी और प्रोटीन अनुक्रम का कार्यात्मक एनोटेशन।",
-  "hero_research_topic_diversity": "डॉक्यूमेंट एम्बेडिंग से विविधता का मापन: उत्पाद विविधता और खुली-अंत तकनीकी नवाचार।",
-  "hero_research_topic_biology": "बेंच पर जीवविज्ञान: रोगजनक स्क्रीनिंग के लिए समूह परीक्षण और औद्योगिक यीस्ट का तनाव प्रतिक्रिया।",
   "hero_social_aria": "सोशल लिंक्स",
   "overlay_close": "पैनल बंद करें",
   "overlay_research_title": "अनुसंधान",
@@ -121,5 +116,8 @@
   "qr_aria": "annambiar.github.io का QR कोड",
   "photography_elsewhere_heading": "अन्यत्र",
   "photography_placeholder_note": "PLACEHOLDER से चिह्नित फ़्रेम उसकी अपनी फ़ाइलों की प्रतीक्षा कर रहे हैं; ऊपर का हर दूसरा फ़्रेम उसका है।",
-  "photography_elsewhere_body": "अधिक तस्वीरें, चालू काम और संपर्क Instagram पर हैं।"
+  "photography_elsewhere_body": "अधिक तस्वीरें, चालू काम और संपर्क Instagram पर हैं।",
+  "hero_cta_life": "जीवन खोलें",
+  "hero_cta_research": "शोध खोलें",
+  "hero_cta_photography": "फोटोग्राफ़ी खोलें"
 }

@@ -12,12 +12,9 @@
  */
 import { m } from '@/lib/i18n';
 import { FOCUS_STOPS, PANELS, type PanelRoute } from '@/lib/panels';
-import { SOCIALS } from '@/lib/site';
 import GraduationCap from '~icons/ph/graduation-cap-light';
 import IdentificationCard from '~icons/ph/identification-card-light';
-import GithubLogo from '~icons/ph/github-logo-light';
 import InstagramLogo from '~icons/ph/instagram-logo-light';
-import ImagesSquare from '~icons/ph/images-square-light';
 
 interface Panel {
   route: PanelRoute;
@@ -27,32 +24,27 @@ interface Panel {
   header: string;
   /** One-line tagline under the header. */
   tagline: string;
-  /** Short list of topics, only on the Research panel. */
-  topics?: { key: string; text: string }[];
   /** Drawer route opened by the CTA. Absent on the Intro panel: no CTA there. */
   cta?: { label: string; route: string };
 }
 
-/** Icon-only social links. Every URL is already in the repo (`src/lib/site.ts`), plus the
-    owner's Instagram. No invented handles. */
+/** Icon-only social links: exactly three, per the owner steer. The Scholar profile URL is the
+    one the owner gave (round-2 steer); ORCID and Instagram come from the repo config. No
+    GitHub, no email, no portfolio link here. */
 const SOCIAL_ICONS = [
-  { href: SOCIALS.scholar, label: m.socials_scholar(), Icon: GraduationCap },
-  { href: SOCIALS.orcid, label: m.socials_orcid(), Icon: IdentificationCard },
-  { href: SOCIALS.github, label: m.socials_github(), Icon: GithubLogo },
-  { href: SOCIALS.instagram, label: m.socials_instagram(), Icon: InstagramLogo },
-  { href: SOCIALS.portfolio, label: m.socials_portfolio(), Icon: ImagesSquare },
+  {
+    href: 'https://scholar.google.com/citations?user=cQZWTbMAAAAJ&hl=en&oi=ao',
+    label: m.socials_scholar(),
+    Icon: GraduationCap,
+  },
+  { href: 'https://orcid.org/0000-0002-9767-9456', label: m.socials_orcid(), Icon: IdentificationCard },
+  { href: 'https://instagram.com/filmi.nambi', label: m.socials_instagram(), Icon: InstagramLogo },
 ] as const;
 
 /** The panel copy, keyed by route. `PANELS` fixes the order: Intro, Research, Photography, Life. */
 const CONTENT: Record<
   PanelRoute,
-  {
-    label: string;
-    header: string;
-    tagline: string;
-    topics?: { key: string; text: string }[];
-    cta?: { label: string; route: string };
-  }
+  { label: string; header: string; tagline: string; cta?: { label: string; route: string } }
 > = {
   home: {
     label: m.hero_intro_label(),
@@ -63,41 +55,32 @@ const CONTENT: Record<
     label: m.hero_research_label(),
     header: m.hero_research_label(),
     tagline: m.hero_research_body(),
-    topics: [
-      { key: 'hero_research_topic_language', text: m.hero_research_topic_language() },
-      { key: 'hero_research_topic_variants', text: m.hero_research_topic_variants() },
-      { key: 'hero_research_topic_diversity', text: m.hero_research_topic_diversity() },
-      { key: 'hero_research_topic_biology', text: m.hero_research_topic_biology() },
-    ],
-    cta: { label: m.overlay_research_read_more(), route: 'research' },
+    cta: { label: m.hero_cta_research(), route: 'research' },
   },
   photography: {
     label: m.hero_photography_label(),
     header: m.hero_photography_label(),
     tagline: m.hero_photography_body(),
-    cta: { label: m.overlay_photography_read_more(), route: 'photography' },
+    cta: { label: m.hero_cta_photography(), route: 'photography' },
   },
   life: {
     label: m.hero_life_label(),
     header: m.hero_life_label(),
     tagline: m.hero_life_body(),
-    cta: { label: m.overlay_life_read_more(), route: 'life' },
+    cta: { label: m.hero_cta_life(), route: 'life' },
   },
 };
 
-const panels: Panel[] = PANELS.map((p) => panelFor(p.route));
-
-function panelFor(route: PanelRoute): Panel {
-  const c = CONTENT[route];
+const panels: Panel[] = PANELS.map((p) => {
+  const c = CONTENT[p.route];
   return {
-    route,
+    route: p.route,
     label: c.label,
     header: c.header,
     tagline: c.tagline,
-    ...(c.topics ? { topics: c.topics } : {}),
     ...(c.cta ? { cta: c.cta } : {}),
   };
-}
+});
 ---
 
 <section
@@ -118,25 +101,12 @@ function panelFor(route: PanelRoute): Panel {
         aria-roledescription="panel"
       >
         <div class="focus-content" data-focus-content>
-          <p class="focus-index font-mono text-xs tracking-widest text-muted-foreground uppercase">
-            {String(i + 1).padStart(2, '0')} / {String(panels.length).padStart(2, '0')}
-          </p>
           {i === 0 ? (
             <h1 class="focus-title font-display">{p.header}</h1>
           ) : (
             <h2 class="focus-title font-display">{p.header}</h2>
           )}
           <p class="focus-body">{p.tagline}</p>
-          {p.topics && (
-            <ul class="focus-topics">
-              {p.topics.map((t) => (
-                <li class="focus-topic">
-                  <span class="focus-topic-dot" aria-hidden="true" />
-                  <span data-i18n={t.key}>{t.text}</span>
-                </li>
-              ))}
-            </ul>
-          )}
           {i === 0 ? (
             <ul class="focus-socials" aria-label={m.hero_social_aria()}>
               {SOCIAL_ICONS.map(({ href, label, Icon }) => (
@@ -180,9 +150,6 @@ function panelFor(route: PanelRoute): Panel {
       {
         panels.map((p, i) => (
           <span class="ruler-stop" data-stop={i} data-label={p.label} style={`--i:${i};`}>
-            <span class="ruler-label font-mono">
-              {String(i + 1).padStart(2, '0')} {p.label}
-            </span>
             <span class="ruler-dot" />
             <span class="ruler-num font-mono">{FOCUS_STOPS[i]}</span>
           </span>
@@ -192,7 +159,7 @@ function panelFor(route: PanelRoute): Panel {
     <span class="ruler-needle" aria-hidden="true"></span>
   </div>
   <p class="ruler-readout font-mono" aria-hidden="true">
-    FOCUS <span data-focus-value>{FOCUS_STOPS[0]}</span> M
+    <span data-focus-value>{FOCUS_STOPS[0]}</span> m
   </p>
 </div>
 
@@ -224,7 +191,7 @@ function panelFor(route: PanelRoute): Panel {
     const chip = document.querySelector<HTMLElement>('[data-focus-chip]');
     const count = panels.length;
     // Focus distance per panel, text only. Mirrors the stops rendered in the markup.
-    const stopValues = [0.3, 0.5, 0.7, 1.0];
+    const stopValues = ['0.30', '0.50', '0.70', '1.00'];
     // Same literal as `OPEN_OVERLAY_EVENT` in FocusOverlays.tsx (the island is not imported here).
     const OPEN_OVERLAY_EVENT = 'ananthan:open-overlay';
     const TAP_MAX_MOVE = 6;
@@ -278,8 +245,8 @@ function panelFor(route: PanelRoute): Panel {
       return a && b ? b.offsetLeft - a.offsetLeft || 1 : 1;
     };
 
-    // Ruler paint: one custom property drives the strip transform (no layout), and the
-    // readout interpolates between the two surrounding stops.
+    // Ruler paint: one custom property drives the strip transform (no layout), and the readout
+    // interpolates between the two surrounding stops.
     const paintRuler = () => {
       const p = position();
       ruler?.style.setProperty('--p', p.toFixed(4));
@@ -287,7 +254,7 @@ function panelFor(route: PanelRoute): Panel {
         const lo = Math.floor(p);
         const hi = Math.min(count - 1, lo + 1);
         const t = p - lo;
-        const v = stopValues[lo]! + (stopValues[hi]! - stopValues[lo]!) * t;
+        const v = Number(stopValues[lo]) + (Number(stopValues[hi]) - Number(stopValues[lo])) * t;
         readout.textContent = v.toFixed(2);
       }
     };
@@ -654,10 +621,13 @@ function panelFor(route: PanelRoute): Panel {
     flex: 0 0 100%;
     scroll-snap-align: center;
     display: grid;
-    align-items: end;
+    /* Content sits in the free area between the fixed navbar and the fixed ruler, centred in it
+       (the reference hero centres vertically). Horizontal placement is editorial: left-aligned
+       copy, max-width capped, optically centred on small screens. */
+    align-items: center;
     justify-items: start;
-    /* Top padding clears the fixed navbar pill (48px header + pill height). */
-    padding: 7.5rem 1.5rem 11.75rem;
+    /* Top padding clears the fixed navbar pill; bottom clears the fixed ruler. */
+    padding: 5.5rem 1.5rem 8rem;
     overflow: hidden;
   }
   @media (hover: hover) and (pointer: fine) {
@@ -681,6 +651,20 @@ function panelFor(route: PanelRoute): Panel {
     opacity: calc(1 - var(--focus-dim, 0));
     will-change: filter, opacity;
   }
+  /* At 375 the panel is one narrow column: centre the block itself and its text, like the
+     reference hero. Above 640px the editorial left alignment returns. */
+  @media (max-width: 639.98px) {
+    .focus-panel {
+      justify-items: center;
+    }
+    .focus-content {
+      align-items: center;
+      text-align: center;
+    }
+    .focus-title {
+      text-wrap: balance;
+    }
+  }
   @media (prefers-reduced-motion: no-preference) {
     .focus-content {
       transition:
@@ -694,9 +678,6 @@ function panelFor(route: PanelRoute): Panel {
       opacity: 1 !important;
     }
   }
-  .focus-index {
-    color: var(--c-muted-fg);
-  }
   .focus-title {
     font-size: clamp(2.5rem, 8.5vw, 5.25rem);
     line-height: 1.04;
@@ -707,30 +688,6 @@ function panelFor(route: PanelRoute): Panel {
     color: var(--c-muted-fg);
     max-width: 30rem;
     text-wrap: balance;
-  }
-  /* Research topic list: a short, scannable list of what he works on. */
-  .focus-topics {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-top: 0.25rem;
-    max-width: 32rem;
-  }
-  .focus-topic {
-    display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    font-size: 0.9375rem;
-    line-height: 1.45;
-    color: var(--c-ink-soft);
-  }
-  .focus-topic-dot {
-    flex: none;
-    width: 0.35rem;
-    height: 0.35rem;
-    translate: 0 -0.15rem;
-    border-radius: 50%;
-    background: var(--c-brand);
   }
   /* Social links: icon-only, 44px targets, ink on paper. */
   .focus-socials {
@@ -831,7 +788,7 @@ function panelFor(route: PanelRoute): Panel {
     inset-inline: 0;
     bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 30;
-    height: 7.75rem;
+    height: 6.25rem;
     color: var(--ink);
     --p: 0;
   }
@@ -881,13 +838,13 @@ function panelFor(route: PanelRoute): Panel {
     outline: 2px solid var(--ink);
     outline-offset: -2px;
   }
-  .ruler-label {
+  .ruler-num {
     position: absolute;
     top: 0.35rem;
     inset-inline: 0;
     font-size: 0.6875rem;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
     color: var(--ink-dim);
   }
@@ -902,14 +859,6 @@ function panelFor(route: PanelRoute): Panel {
     border: 1px solid var(--ink-dim);
     box-sizing: border-box;
   }
-  .ruler-num {
-    position: absolute;
-    top: 3.9rem;
-    inset-inline: 0;
-    font-size: 0.8125rem;
-    color: var(--ink-dim);
-  }
-  .ruler-stop[data-focused] .ruler-label,
   .ruler-stop[data-focused] .ruler-num {
     color: var(--c-fg);
   }
@@ -939,6 +888,7 @@ function panelFor(route: PanelRoute): Panel {
     border-inline: 0.3rem solid transparent;
     border-top: 0.4rem solid var(--needle);
   }
+  /* Focus value readout: the distance in metres, centred under the ruler. */
   .ruler-readout {
     position: absolute;
     bottom: 0;
@@ -953,7 +903,6 @@ function panelFor(route: PanelRoute): Panel {
     color: var(--needle);
     font-variant-numeric: tabular-nums;
   }
-
   /* Cursor chip: fine pointers only, never under reduced motion, hidden while a drawer is open. */
   .focus-chip {
     display: none;

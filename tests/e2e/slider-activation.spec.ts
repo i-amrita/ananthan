@@ -105,25 +105,31 @@ test('tapping a social link never opens a drawer', async ({ page }) => {
   await expect(page).not.toHaveURL(/panel=/);
 });
 
-test('the live region announces the focused panel and the readout follows', async ({ page }) => {
+test('the live region announces the focused panel', async ({ page }) => {
   await ready(page, '/');
   const live = page.locator('[data-focus-live]');
-  const value = page.locator('[data-focus-value]');
   await expect(live).toHaveAttribute('aria-live', 'polite');
   await expect(live).toHaveText('Intro');
-  await expect(value).toHaveText('0.30');
   await page.locator('[data-focus-track]').focus();
   await page.keyboard.press('ArrowRight');
   await expect(live).toHaveText('Research');
-  await expect(value).toHaveText('0.50');
   await page.keyboard.press('End');
   await expect(live).toHaveText('Life');
-  await expect(value).toHaveText('1.00');
+});
+
+test('no numeric indicators are shown in the panels or on the ruler', async ({ page }) => {
+  await ready(page, '/');
+  // The panel index ("01 / 04") is gone. The ruler keeps its distance ticks and the focus
+  // readout (round-2b correction) but no section names.
+  await expect(page.locator('.focus-index')).toHaveCount(0);
+  await expect(page.locator('.ruler-label')).toHaveCount(0);
+  const nums = await page.locator('.ruler-num').allTextContents();
+  expect(nums.map((n) => n.trim())).toEqual(['0.30', '0.50', '0.70', '1.00']);
+  await expect(page.locator('.ruler-readout')).toContainText('0.30');
 });
 
 test('tapping a ruler stop jumps to that panel', async ({ page }) => {
   await ready(page, '/');
   await page.locator('[data-stop="2"]').click();
   await focused(page, 2);
-  await expect(page.locator('[data-focus-value]')).toHaveText('0.70');
 });

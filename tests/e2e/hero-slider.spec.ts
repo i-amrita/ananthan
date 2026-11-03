@@ -107,9 +107,13 @@ test('the intro panel has no CTA, the other three link into their route', async 
 test('the intro panel carries the social links as icon-only anchors', async ({ page }) => {
   await page.goto('/');
   const links = page.locator('[data-focus-panel]').first().locator('.focus-social');
-  await expect(links).toHaveCount(5);
+  await expect(links).toHaveCount(3);
   const hrefs = await links.evaluateAll((els) => els.map((e) => e.getAttribute('href')));
-  expect(hrefs.every((h) => h && h.startsWith('https://'))).toBe(true);
+  expect(hrefs).toEqual([
+    'https://scholar.google.com/citations?user=cQZWTbMAAAAJ&hl=en&oi=ao',
+    'https://orcid.org/0000-0002-9767-9456',
+    'https://instagram.com/filmi.nambi',
+  ]);
   // Icon-only: every link has an accessible name but no visible text.
   for (const name of await links.evaluateAll((els) =>
     els.map((e) => e.getAttribute('aria-label')),
@@ -124,7 +128,7 @@ test('the slider still exposes the links without JavaScript', async ({ browser }
   const page = await context.newPage();
   await page.goto('/');
   await expect(page.locator('[data-focus-panel] .focus-cta')).toHaveCount(PANEL_COUNT - 1);
-  await expect(page.locator('[data-focus-panel]').first().locator('.focus-social')).toHaveCount(5);
+  await expect(page.locator('[data-focus-panel]').first().locator('.focus-social')).toHaveCount(3);
   await context.close();
 });
 
@@ -164,4 +168,35 @@ test('the navbar, the ruler and the shutter stay outside the blurred layer', asy
     };
   });
   expect(outside).toEqual({ nav: false, ruler: false, shutter: false });
+});
+
+test('the ruler shows distance ticks and the focus readout, no section names', async ({ page }) => {
+  await page.goto('/');
+  // Round-2b correction: section names and stop numbers are dropped; the distance ticks,
+  // the needle and the live readout stay.
+  const nums = await page
+    .locator('[data-stop] .ruler-num')
+    .evaluateAll((els) => els.map((e) => e.textContent?.trim()));
+  expect(nums).toEqual(['0.30', '0.50', '0.70', '1.00']);
+  await expect(page.locator('.ruler-label')).toHaveCount(0);
+  await expect(page.locator('[data-focus-ruler] .ruler-readout')).toContainText('0.30');
+  // The needle is painted.
+  await expect(page.locator('.ruler-needle')).toBeVisible();
+  // Section names remain only in the aria/live text.
+  const labels = await page
+    .locator('[data-stop]')
+    .evaluateAll((els) => els.map((e) => e.getAttribute('data-label')));
+  expect(labels).toEqual(['Intro', 'Research', 'Photography', 'Life']);
+  await page.locator('[data-focus-track]').focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('[data-focus-live]')).toHaveText('Research');
+  // The readout tracks the focus distance.
+  await expect(page.locator('[data-focus-value]')).toHaveText('0.50');
+});
+
+test('the panels carry no visible panel index', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.focus-index')).toHaveCount(0);
+  const copy = await page.locator('[data-focus-panel]').allInnerTexts();
+  for (const text of copy) expect(text).not.toMatch(/\d\d\s*\/\s*0?4/);
 });

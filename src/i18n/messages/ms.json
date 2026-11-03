@@ -89,11 +89,6 @@
   "search_type_page": "Halaman",
   "search_type_publication": "Penerbitan",
   "search_type_talk": "Syarahan",
-  "hero_research_topics_heading": "Topik",
-  "hero_research_topic_language": "Bahasa kehidupan: model bahasa protein, pengawalseliaan gen dan integrasi data multi-omik.",
-  "hero_research_topic_variants": "Ramalan kesan varian dan anotasi fungsi urutan protein.",
-  "hero_research_topic_diversity": "Mengukur kepelbagaikan dengan pelekoran dokumen: kepelbagaikan produk dan població terbuka.",
-  "hero_research_topic_biology": "Biologi di makmal: ujian kumpulan untuk saringan patogen dan tindak balas stres yeast industri.",
   "hero_social_aria": "Pautan sosial",
   "overlay_close": "Tutup panel",
   "overlay_research_title": "Penyelidikan",
@@ -121,5 +116,8 @@
   "qr_aria": "Kod QR untuk annambiar.github.io",
   "photography_elsewhere_heading": "Di tempat lain",
   "photography_placeholder_note": "Rangka yang ditandakan PLACEHOLDER sedang menunggu fail milik jurugambar sendiri; setiap bingkai lain di atas adalah miliknya.",
-  "photography_elsewhere_body": "Lebih banyak bingkai, kerja dalam pembikinan dan kenalan berada di Instagram."
+  "photography_elsewhere_body": "Lebih banyak bingkai, kerja dalam pembikinan dan kenalan berada di Instagram.",
+  "hero_cta_life": "Buka kehidupan",
+  "hero_cta_research": "Buka penyelidikan",
+  "hero_cta_photography": "Buka fotografi"
 }

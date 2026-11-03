@@ -105,11 +105,6 @@
   "footer_qr": "QR",
   "qr_hint": "Escanea para abrir mi página",
   "qr_aria": "Código QR de annambiar.github.io",
-  "hero_research_topics_heading": "Temas",
-  "hero_research_topic_language": "El lenguaje de la vida: modelos de lenguaje de proteínas, regulación génica e integración de datos multiómicos.",
-  "hero_research_topic_variants": "Predicción del efecto de variantes y anotación funcional de secuencias de proteínas.",
-  "hero_research_topic_diversity": "Medir la diversidad con embeddings de documentos: diversidad de productos e innovación abierta.",
-  "hero_research_topic_biology": "Biología en el laboratorio: pruebas grupales para detectar patógenos y la respuesta al estrés de la levadura industrial.",
   "hero_social_aria": "Enlaces sociales",
   "overlay_photography_instagram": "Más fotogramas en Instagram",
   "overlay_photography_page": "Abrir la página de fotografía",
@@ -121,5 +116,8 @@
   "overlay_life_career_heading": "Trayectoria",
   "photography_elsewhere_heading": "En otros lugares",
   "photography_placeholder_note": "Los fotogramas marcados PLACEHOLDER esperan los archivos del propio fotógrafo; todos los demás son suyos.",
-  "photography_elsewhere_body": "Más fotogramas, trabajo en curso y contacto viven en Instagram."
+  "photography_elsewhere_body": "Más fotogramas, trabajo en curso y contacto viven en Instagram.",
+  "hero_cta_life": "Abrir vida",
+  "hero_cta_research": "Abrir investigación",
+  "hero_cta_photography": "Abrir fotografía"
 }

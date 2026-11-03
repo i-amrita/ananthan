@@ -110,5 +110,38 @@ for (const [width, height] of [
       });
       expect(hits).toBe(0);
     });
+
+    test('every panel keeps its figures out of the centred copy block', async ({ page }) => {
+      await page.goto('/');
+      // Walk all four stops: the keep-out zone is computed for the copy block wherever it
+      // sits (centred between the navbar and the ruler since the round-2 steer), so every
+      // panel, not just the first, must stay clear.
+      for (let stop = 0; stop < 4; stop++) {
+        await page.evaluate((n) => {
+          const track = document.querySelector<HTMLElement>('[data-focus-track]')!;
+          track.scrollTo({ left: track.clientWidth * n, behavior: 'instant' });
+        }, stop);
+        await page.waitForTimeout(700);
+        const hits = await page.evaluate(() => {
+          const copy = [
+            ...document.querySelectorAll<HTMLElement>(
+              '[data-focus-panel][data-focused] :is(h1, h2, p, a)',
+            ),
+          ]
+            .map((el) => el.getBoundingClientRect())
+            .filter((r) => r.width > 0 && r.height > 0);
+          const figs = [...document.querySelectorAll<HTMLElement>('[data-figure]')].filter(
+            (el) => el.getClientRects().length > 0,
+          );
+          return figs.filter((f) => {
+            const r = f.getBoundingClientRect();
+            return copy.some(
+              (c) => r.left < c.right && r.right > c.left && r.top < c.bottom && r.bottom > c.top,
+            );
+          }).length;
+        });
+        expect(hits, `panel ${stop} copy must be free of figures`).toBe(0);
+      }
+    });
   });
 }

@@ -47,8 +47,8 @@ const MOBILE: Preset = {
   gap: 8,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.115 }, // navbar pill
-    { x: 0, y: 0.42, w: 1, h: 0.36 }, // the lower-left copy block and socials
-    { x: 0, y: 0.8, w: 1, h: 0.2 }, // hint, ruler and dock
+    { x: 0, y: 0.28, w: 1, h: 0.38 }, // the centred copy block, socials and CTA
+    { x: 0, y: 0.78, w: 1, h: 0.22 }, // hint, ruler and dock
   ],
 };
 
@@ -59,7 +59,7 @@ const TABLET: Preset = {
   gap: 12,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.09 }, // navbar pill
-    { x: 0, y: 0.45, w: 0.78, h: 0.38 }, // the lower-left copy block and socials
+    { x: 0, y: 0.36, w: 1, h: 0.42 }, // the centred copy block, socials and CTA
     { x: 0, y: 0.86, w: 1, h: 0.14 }, // hint, ruler and dock
   ],
 };
@@ -71,7 +71,7 @@ const DESKTOP: Preset = {
   gap: 18,
   safe: [
     { x: 0, y: 0, w: 1, h: 0.13 }, // navbar pill
-    { x: 0, y: 0.3, w: 0.5, h: 0.5 }, // the lower-left copy block and socials
+    { x: 0.08, y: 0.26, w: 0.66, h: 0.52 }, // the left-aligned copy block, socials and CTA
     { x: 0, y: 0.84, w: 1, h: 0.16 }, // hint, ruler and dock
   ],
 };
