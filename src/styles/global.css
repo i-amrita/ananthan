@@ -395,20 +395,6 @@ html:not([data-nav-ready]) [data-nav-links] {
   }
 }
 
-/* Shutter popover blink: the popover closes to a point and reopens, like blades. */
-@keyframes shutter-blink {
-  0% {
-    clip-path: circle(150% at 100% 100%);
-  }
-  45%,
-  55% {
-    clip-path: circle(0% at 100% 100%);
-  }
-  100% {
-    clip-path: circle(150% at 100% 100%);
-  }
-}
-
 /* Home slider: lift the shutter above the focus ruler so it never covers a stop. */
 html:has([data-focus-ruler]) [data-shutter] {
   bottom: calc(9.25rem + env(safe-area-inset-bottom, 0px));

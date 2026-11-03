@@ -17,7 +17,7 @@
 | Item | Behavior | URL state |
 |---|---|---|
 | Links (Home, Research, Life, Photography) | real `<a>`, slide in to the left of the locale icon; the active route has `aria-current="page"` | none |
-| Locale icon | opens the locale popover (`LocaleSwitchButton`), unchanged behavior | `?locale=` |
+| Locale code | mono lowercase code (`en`); opens the locale popover (`LocaleSwitchButton variant="code"`, aria-label `<CODE> Choose language`); shows the code collapsed and expanded | `?locale=` |
 | Theme icon | toggles with the circular reveal, unchanged behavior | `?theme=` |
 | Expand `‹ ›` | toggles the links; `aria-expanded`, label `nav_expand` / `nav_collapse` | `?nav=open` (push) |
 
