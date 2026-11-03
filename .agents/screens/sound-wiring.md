@@ -23,8 +23,15 @@ panels get motion only).
 - One detent per stop crossing: the focused stop changes, so a drag from 01 to 02 ticks once, not
   once per frame. The first focus of a page load is the baseline and never ticks.
 - Rate limit: at most one detent every 60 ms, so a fast drag cannot machine-gun the tick.
-- The settle plays when the movement stops and the position rests on a stop (within 2% of a
-  whole stop). It plays once per stop reached, so scrubbing back and forth lands audibly.
+- The settle plays when the movement stops and the position rests on a stop (within 6% of a
+  whole stop, the gap a snap can leave). It plays once per stop reached, so scrubbing back and
+  forth lands audibly.
+- The settle is the landing of a detent and never sounds on its own, so the order is always
+  detent first, settle second. Resting on the baseline stop after arming is not a landing: the
+  arming is not a crossing, so nothing plays.
+- The baseline is the stop the page settled on, not the stop the control rests on when the user
+  grabs it. The browser applies the scroll delta before the wheel event reaches the script, so
+  a baseline taken at grab time would swallow the first wheel tick.
 - Never on load and never on a programmatic restore (`?panel=2`): the sound is armed by the first
   real gesture on the slider (pointer, key or wheel), and nothing before that counts.
 - The same code path serves the drag, the ruler drag, the wheel / scroll-snap, the arrow keys and
@@ -52,6 +59,16 @@ load ──fetch sprite──► decode once ──► data-sound-ready=""      
   stay silent. A failed sprite also releases the controls: the site works without sound.
 - The hold is CSS keyed on `<html>`, so it is correct before hydration and never flashes:
   `html[data-sound-armed]:not([data-sound-ready]):not([data-sound-muted])`.
+- The parts CSS cannot express (`inert`, `aria-disabled`) come from a DOM module
+  (`src/lib/sound/gate-dom.ts`) that reads the same `<html>` attribute. It is deliberately not
+  React: React drops an `inert` attribute it did not render, so a re-render would silently
+  re-enable a held control, and a flush that lags the attribute would strand it inert. The gate
+  owns the attributes; React only reads the state.
+- The drawer overlay marks the track it freezes (`data-overlay-held`), because the two features
+  share the `inert` attribute: the gate leaves the attribute alone while the overlay is the one
+  holding the track.
+- A safety net in the layout head flips the gate to `failed` after 7 s if the sound bundle never
+  ran, so the controls can never stay dead for the life of the page.
 - `data-sound-armed` is set by the pre-paint inline script, so the CSS only holds anything when
   JavaScript actually ran. Without JavaScript nothing is held and the track stays a plain scroll
   container with real links.
@@ -64,7 +81,8 @@ Minimal, token-based, no layout shift:
 
 - Ruler: the tick strip drops its minor ticks and the needle disappears, the labels dim to the
   muted token. The geometry does not move.
-- Shutter: the iris cap becomes a plain muted disc (same 44px). The barrel keeps its shape.
+- Shutter: the iris cap becomes a plain muted disc (same 44px): the blades and the locale ring
+  are hidden, so the cap reads as one blank disc. The barrel keeps its shape.
 
 The shutter skeleton breathes at most once per 1.4 s and only under
 `prefers-reduced-motion: no-preference`; under reduced motion it is a static disc.
@@ -88,7 +106,7 @@ The shutter skeleton breathes at most once per 1.4 s and only under
 ## Captures
 
 375x812 and 1280x800, light and dark: the loading state (sprite delayed) and the ready state.
-Files: `/tmp/ananthan-v3-wire/evidence/`.
+Files: `/tmp/ananthan-v3-wire2/evidence/`.
 
 ## e2e
 
@@ -98,8 +116,13 @@ Files: `/tmp/ananthan-v3-wire/evidence/`.
 - the ready state releases them
 - a failed sprite releases them
 - `?mute=1` releases them immediately, even while the sprite is still loading
-- the slider ticks (`slider-detent`) and settles (`slider-settle`) on a stop crossing
+- the held controls are out of the tab order
+- the slider ticks (`slider-detent`) and settles (`slider-settle`) on a stop crossing, over a
+  drag, a wheel, the keyboard and a tap on a ruler stop
+- the detent always comes before the settle
+- the load and the URL restore stay silent
 - the shutter fires (`shutter-fire`) on press and releases (`shutter-release`) on the commit
+- a muted site stays silent but still works
 
 The engine exposes the call log (`window.sound.calls()`), so the specs assert the requested slice
 without touching `AudioContext`.
