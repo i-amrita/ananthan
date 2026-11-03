@@ -170,7 +170,7 @@ const panels: Panel[] = PANELS.map((p) => {
     <span class="ruler-needle" aria-hidden="true"></span>
   </div>
   <p class="ruler-readout font-mono" aria-hidden="true">
-    <span data-focus-value>{FOCUS_STOPS[0]}</span> m
+    <span data-i18n="hero_focus_label">{m.hero_focus_label()}</span> <span data-focus-value>{FOCUS_STOPS[0]}</span> m
   </p>
 </div>
 
@@ -896,6 +896,7 @@ const panels: Panel[] = PANELS.map((p) => {
     text-align: center;
     font-size: 0.75rem;
     letter-spacing: 0.14em;
+    text-transform: uppercase;
     color: var(--ink);
     pointer-events: none;
   }

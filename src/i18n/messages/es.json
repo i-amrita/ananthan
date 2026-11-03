@@ -104,7 +104,7 @@
   "search_type_talk": "Charla",
   "footer_qr": "QR",
   "qr_hint": "Escanea para abrir mi página",
-  "qr_aria": "Código QR para annambiar.github.io",
+  "qr_aria": "Código QR para ananthan.nambiar.my",
   "hero_social_aria": "Enlaces sociales",
   "overlay_photography_instagram": "Más imágenes en Instagram",
   "overlay_photography_page": "Abrir la página de fotografía",
@@ -128,5 +128,6 @@
   "hero_research_topic_language": "El lenguaje de la vida: modelos de lenguaje de proteínas, regulación génica e integración de datos multiómicos.",
   "hero_research_topic_variants": "Predicción del efecto de variantes y anotación funcional de secuencias proteicas.",
   "hero_research_topic_diversity": "Medir la diversidad con embeddings de documentos: diversidad de productos e innovación abierta.",
-  "hero_research_topic_biology": "Biología en el laboratorio: pruebas grupales para detección de patógenos y la respuesta al estrés de levaduras industriales."
+  "hero_research_topic_biology": "Biología en el laboratorio: pruebas grupales para detección de patógenos y la respuesta al estrés de levaduras industriales.",
+  "hero_focus_label": "Enfoque"
 }

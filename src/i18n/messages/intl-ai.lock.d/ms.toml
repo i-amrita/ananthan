@@ -80,6 +80,14 @@ reviewed = false
 model = "zai-coding-plan/glm-4.5-air"
 updated_at = "2026-11-03T05:25:20Z"
 
+[entries.hero_focus_label]
+value = "Fokus"
+source_hash = "fe7f55b8bf68fd47d248a271d541e7e183621010"
+origin = "ai"
+reviewed = false
+model = "zai-coding-plan/glm-4.5-air"
+updated_at = "2026-11-03T05:38:35Z"
+
 [entries.hero_hint]
 value = "Tatal, seret atau gunakan kekunci anak panah untuk menukar fokus."
 source_hash = "9c1b6c66d980c8621ace2b4d543ec85855f4d7b4"
@@ -713,12 +721,12 @@ model = "zai-coding-plan/glm-4.5-air"
 updated_at = "2026-11-03T05:25:20Z"
 
 [entries.qr_aria]
-value = "Kod QR untuk annambiar.github.io"
-source_hash = "5af1e6e5ea26832918a06c3991ccf36a68b4af96"
+value = "Kod QR untuk ananthan.nambiar.my"
+source_hash = "31656b70e5214a4ed4efe02fdaba0378e1e1040c"
 origin = "ai"
 reviewed = false
 model = "zai-coding-plan/glm-4.5-air"
-updated_at = "2026-11-03T05:25:20Z"
+updated_at = "2026-11-03T05:45:23Z"
 
 [entries.qr_hint]
 value = "Imbas untuk membuka halaman saya"

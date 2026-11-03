@@ -115,7 +115,7 @@
   "nav_menu": "मेनू",
   "footer_qr": "QR",
   "qr_hint": "मेरा पेज खोलने के लिए स्कैन करें",
-  "qr_aria": "annambiar.github.io के लिए QR कोड",
+  "qr_aria": "ananthan.nambiar.my के लिए QR कोड",
   "photography_elsewhere_heading": "अन्यत्र",
   "photography_placeholder_note": "PLACEHOLDER चिह्नित फ़्रेम फोटोग्राफर की अपनी फ़ाइलों की प्रतीक्षा में हैं; ऊपर के बाकी सभी फ़्रेम उन्हीं के हैं।",
   "photography_elsewhere_body": "अधिक तस्वीरें, चल रहे काम और संपर्क Instagram पर उपलब्ध हैं।",
@@ -128,5 +128,6 @@
   "hero_research_topic_language": "जीवन की भाषा: प्रोटीन भाषा मॉडल, जीन विनियमन और मल्टी-ओमिक डेटा एकीकरण।",
   "hero_research_topic_variants": "प्रोटीन अनुक्रम का वेरिएंट प्रभाव भविष्यवाणी और कार्यात्मक एनोटेशन।",
   "hero_research_topic_diversity": "दस्तावेज़ एम्बेडिंग से विविधता मापना: उत्पाद विविधता और खुला नवाचार।",
-  "hero_research_topic_biology": "प्रयोगशाला में जीव विज्ञान: रोगज़नक जांच के लिए समूह परीक्षण और औद्योगिक यीस्ट की तनाव प्रतिक्रिया।"
+  "hero_research_topic_biology": "प्रयोगशाला में जीव विज्ञान: रोगज़नक जांच के लिए समूह परीक्षण और औद्योगिक यीस्ट की तनाव प्रतिक्रिया।",
+  "hero_focus_label": "फ़ोकस"
 }

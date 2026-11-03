@@ -115,7 +115,7 @@
   "nav_menu": "Menu",
   "footer_qr": "QR",
   "qr_hint": "Imbas untuk membuka halaman saya",
-  "qr_aria": "Kod QR untuk annambiar.github.io",
+  "qr_aria": "Kod QR untuk ananthan.nambiar.my",
   "photography_elsewhere_heading": "Di Tempat Lain",
   "photography_placeholder_note": "Bingkai bertanda PLACEHOLDER sedang menunggu fail milik jurugambar itu sendiri; setiap bingkai lain di atas adalah miliknya.",
   "photography_elsewhere_body": "Lebih banyak bingkai, kerja dalam proses dan hubungan berada di Instagram.",
@@ -128,5 +128,6 @@
   "hero_research_topic_language": "Bahasa kehidupan: model bahasa protein, regulasi gen dan integrasi data multi-omik.",
   "hero_research_topic_variants": "Ramalan kesan varian dan anotasi fungsi jujukan protein.",
   "hero_research_topic_diversity": "Mengukur kepelbagaian dengan embeddings dokumen: kepelbagaian produk dan inovasi terbuka.",
-  "hero_research_topic_biology": "Biologi di makmal: ujian kumpulan untuk saringan patogen dan tindak balas tekanan yeast industri."
+  "hero_research_topic_biology": "Biologi di makmal: ujian kumpulan untuk saringan patogen dan tindak balas tekanan yeast industri.",
+  "hero_focus_label": "Fokus"
 }
