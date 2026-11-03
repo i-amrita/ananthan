@@ -211,7 +211,7 @@ function LifeDrawer({ data }: { data: OverlayData['life'] }) {
               >
                 <dt className="font-display text-lg">{h.title}</dt>
                 <dd
-                  className={`text-sm leading-relaxed ${draft ? 'text-muted-foreground/80 italic' : 'text-muted-foreground'}`}
+                  className={`text-sm leading-relaxed ${draft ? 'text-muted-foreground italic' : 'text-muted-foreground'}`}
                 >
                   {draft && (
                     <span

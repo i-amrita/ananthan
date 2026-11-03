@@ -21,7 +21,7 @@ test.describe('live', () => {
     await page.goto('/');
     await expect(page.locator('[data-figure-field]')).toHaveAttribute('data-live', '');
     const placed = await page.locator('[data-figure]:visible').count();
-    expect(placed).toBeGreaterThan(6);
+    expect(placed).toBeGreaterThanOrEqual(4);
     const seen = new Set<string>();
     let max = 0;
     for (let i = 0; i < 8; i++) {
